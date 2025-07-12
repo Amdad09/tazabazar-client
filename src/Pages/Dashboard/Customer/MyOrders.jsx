@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
+import PayNowModal from '../../../Component/Modal/PayNowModal';
 
 const MyOrders = () => {
     const { user } = useAuth();
     const email = user?.email;
     const [orders, setOrders] = useState([]);
-
+    const [selectedOrder, setSelectedOrder] = useState(null);
     useEffect(() => {
         if (email) {
             fetch(`http://localhost:3000/my-orders?email=${email}`)
@@ -135,11 +136,9 @@ const MyOrders = () => {
                                                 </button>
                                             ) : (
                                                 <button
-                                                    className="bg-primary cursor-pointer text-secondary btn-xs hover:bg-green-500 rounded"
+                                                    className="px-2 py-1 font-medium bg-primary cursor-pointer text-secondary btn-xs rounded"
                                                     onClick={() =>
-                                                        alert(
-                                                            'Payment coming soon',
-                                                        )
+                                                        setSelectedOrder(order)
                                                     }
                                                 >
                                                     💳 Pay Now
@@ -151,6 +150,22 @@ const MyOrders = () => {
                             })}
                         </tbody>
                     </table>
+                    {selectedOrder && (
+                        <PayNowModal
+                            isOpen={!!selectedOrder}
+                            order={selectedOrder}
+                            onClose={() => setSelectedOrder(null)}
+                            onPaymentUpdate={(updatedOrderId) => {
+                                setOrders((prevOrders) =>
+                                    prevOrders.map((order) =>
+                                        order._id === updatedOrderId
+                                            ? { ...order, status: 'paid' }
+                                            : order,
+                                    ),
+                                );
+                            }}
+                        />
+                    )}
                 </div>
             )}
         </div>

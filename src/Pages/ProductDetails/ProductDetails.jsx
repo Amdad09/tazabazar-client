@@ -1,25 +1,80 @@
 import { useLoaderData } from 'react-router';
 import { FaStar, FaShoppingCart } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import BuyProductModal from '../../Component/Modal/BuyProductModal';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const ProductDetails = () => {
     const product = useLoaderData();
     const { user } = useAuth();
     const [isWatchlisted, setIsWatchlisted] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [reviews, setReviews] = useState([]);
+    const [comment, setComment] = useState('');
+    const [rating, setRating] = useState(5);
 
     const isVendorOrAdmin =
         user?.email === product?.seller?.email || user?.role === 'admin';
 
-    const handleAddToWatchlist = () => {
-        // Your watchlist logic here
-        setIsWatchlisted(true);
-    };
-
+    
     const handleBuy = () => {
         setOpenModal(true);
+    };
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:3000/reviews/${product._id}`)
+            .then((res) => setReviews(res.data));
+    }, [product._id]);
+
+    const isNormalUser = user?.role === 'user'; // not vendor or admin
+
+    const handleAddToWatchlist = async () => {
+        try {
+            const watch = {
+                userEmail: user.email,
+                productId: product._id,
+                addedAt: new Date(),
+            };
+            const res = await axios.post(
+                'http://localhost:3000/watchlist',
+                watch,
+            );
+            if (res.data.insertedId) {
+                setIsWatchlisted(true);
+                toast.success('✅ Added to Watchlist');
+            }
+        } catch (err) {
+            toast.error('❌ Failed to add to watchlist');
+        }
+    };
+
+
+    const handleReviewSubmit = async (e) => {
+        e.preventDefault();
+
+        const newReview = {
+            productId: product._id,
+            userEmail: user?.email,
+            userName: user?.displayName,
+            userImage: user?.photoURL,
+            rating,
+            comment,
+            createdAt: new Date().toISOString(),
+        };
+
+        const res = await axios.post(
+            'http://localhost:3000/reviews',
+            newReview,
+        );
+        if (res.data.insertedId) {
+            toast.success('Review added!');
+            setReviews([...reviews, newReview]);
+            setComment('');
+            setRating(5);
+        }
     };
 
     return (
@@ -82,13 +137,80 @@ const ProductDetails = () => {
             </div>
 
             {/* 💬 Reviews Placeholder */}
-            <div>
+            <div className="space-y-4">
                 <h4 className="font-semibold text-gray-800 mb-2">
                     💬 User Reviews
                 </h4>
-                <p className="text-gray-500 italic">
-                    No reviews yet. Be the first to review!
-                </p>
+
+                {/* Show Reviews */}
+                {reviews.length === 0 ? (
+                    <p className="text-gray-500 italic">
+                        No reviews yet. Be the first to review!
+                    </p>
+                ) : (
+                    reviews.map((r, i) => (
+                        <div key={i} className="bg-gray-100 p-3 rounded-lg">
+                            <div className="flex items-center space-x-3">
+                                <img
+                                    src={r.userImage}
+                                    className="w-8 h-8 rounded-full"
+                                    alt="user"
+                                />
+                                <div>
+                                    <p className="font-medium">{r.userName}</p>
+                                    <p className="text-sm text-gray-500">
+                                        {'⭐'.repeat(r.rating)} ({r.rating}/5)
+                                    </p>
+                                </div>
+                            </div>
+                            <p className="mt-2 text-gray-700">{r.comment}</p>
+                        </div>
+                    ))
+                )}
+
+                {/* Only users can review */}
+                {user && (
+                    <form
+                        onSubmit={handleReviewSubmit}
+                        className="mt-4 space-y-3"
+                    >
+                        <textarea
+                            required
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            placeholder="Write your review..."
+                            className="w-full p-2 border rounded"
+                        ></textarea>
+                        <div className="flex items-center gap-2">
+                            <label
+                                htmlFor="rating"
+                                className="text-sm font-bold"
+                            >
+                                Rating:
+                            </label>
+                            <select
+                                id="rating"
+                                value={rating}
+                                onChange={(e) =>
+                                    setRating(parseInt(e.target.value))
+                                }
+                                className="border border-info p-1 rounded"
+                            >
+                                {[5, 4, 3, 2, 1].map((r) => (
+                                    <option key={r} value={r}>
+                                        {r}
+                                    </option>
+                                ))}
+                            </select>
+                            <button
+                                type="submit"
+                                className="ml-auto btn-xs btn btn-info text-white"
+                            >
+                                Submit Review
+                            </button>
+                        </div>
+                    </form>
+                )}
             </div>
 
             {/* ⭐ Watchlist & Buy */}
