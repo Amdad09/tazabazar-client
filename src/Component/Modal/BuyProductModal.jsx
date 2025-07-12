@@ -51,7 +51,7 @@ const BuyProductModal = ({ isOpen, onClose, product }) => {
             },
             items: orderItems,
             totalPrice: totalCost,
-            // status: 'pending', 
+            status: 'pending', 
             createdAt: new Date(),
         };
 
@@ -130,7 +130,7 @@ const BuyProductModal = ({ isOpen, onClose, product }) => {
                         </button>
                     </div>
                     {/* stripe checkout form */}
-                    
+
                 </DialogPanel>
             </div>
         </Dialog>

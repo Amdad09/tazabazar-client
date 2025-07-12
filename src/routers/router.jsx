@@ -70,19 +70,11 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: (
-                    <PrivateRoute>
-                        <Statistics />
-                    </PrivateRoute>
-                ),
+                Component: Statistics,
             },
             {
                 path: 'add-market',
-                element: (
-                    <PrivateRoute>
-                        <AddBazar />
-                    </PrivateRoute>
-                ),
+                Component: AddBazar,
             },
             {
                 path: 'my-inventory',
@@ -110,11 +102,8 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'my-orders',
-                element: (
-                    <PrivateRoute>
-                        <MyOrders />
-                    </PrivateRoute>
-                ),
+                Component: MyOrders,
+                // loader: () => fetch(`${import.meta.env.VITE_API_URL}/my-orders`),
             },
             {
                 path: 'manage-orders',

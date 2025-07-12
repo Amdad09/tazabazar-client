@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useLoaderData, useNavigate } from 'react-router';
 
 const AllProducts = () => {
-    const products = useLoaderData(); // contains 6 market entries
+    const products = useLoaderData(); 
     const navigate = useNavigate();
 
     const handleDetailsClick = (productId) => {
