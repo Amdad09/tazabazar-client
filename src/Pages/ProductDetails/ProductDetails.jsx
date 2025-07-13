@@ -5,10 +5,13 @@ import useAuth from '../../hooks/useAuth';
 import BuyProductModal from '../../Component/Modal/BuyProductModal';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import useRole from '../../hooks/useRole';
 
 const ProductDetails = () => {
     const product = useLoaderData();
     const { user } = useAuth();
+    const [ role ] = useRole();
+    console.log(role);
     const [isWatchlisted, setIsWatchlisted] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [reviews, setReviews] = useState([]);
@@ -29,7 +32,7 @@ const ProductDetails = () => {
             .then((res) => setReviews(res.data));
     }, [product._id]);
 
-    const isNormalUser = user?.role === 'user'; // not vendor or admin
+    const isNormalUser = role === 'customer'; 
 
     const handleAddToWatchlist = async () => {
         try {
@@ -169,7 +172,7 @@ const ProductDetails = () => {
                 )}
 
                 {/* Only users can review */}
-                {user && (
+                {isNormalUser && (
                     <form
                         onSubmit={handleReviewSubmit}
                         className="mt-4 space-y-3"
@@ -204,7 +207,7 @@ const ProductDetails = () => {
                             </select>
                             <button
                                 type="submit"
-                                className="ml-auto btn-xs btn btn-info text-white"
+                                className="ml-auto btn-sm btn btn-info text-white"
                             >
                                 Submit Review
                             </button>
@@ -217,7 +220,7 @@ const ProductDetails = () => {
             <div className="flex flex-col md:flex-row gap-4">
                 <button
                     onClick={handleAddToWatchlist}
-                    disabled={isVendorOrAdmin || isWatchlisted}
+                    disabled={!isNormalUser}
                     className={`btn btn-outline flex-1 ${
                         isWatchlisted || isVendorOrAdmin
                             ? 'btn-disabled'

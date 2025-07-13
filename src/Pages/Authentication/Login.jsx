@@ -4,6 +4,7 @@ import SocialLogin from './SocialLogin';
 import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { saveUserInDb } from '../../assets/api/utils';
 
 const Login = () => {
     const { logInUser } = useAuth();
@@ -23,6 +24,14 @@ const Login = () => {
         logInUser(data.email, data.password)
             .then((result) => {
                 console.log(result.user);
+
+                 const userData = {
+                     name: result?.user?.displayName,
+                     email: result?.user?.email,
+                     photo: result?.user?.photoURL,
+                 };
+                saveUserInDb(userData);
+                
                 navigate(from, { replace: true });
                 toast.success('Login successfully!');
             })
@@ -30,7 +39,6 @@ const Login = () => {
                 console.log(error);
                 toast.error(error.message);
             })
-        
     };
 
     return (

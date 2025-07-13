@@ -6,7 +6,6 @@ import './Navbar.css'
 const Navbar = () => {
     const { user, logOut } = useAuth();
     console.log(user);
-
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -123,9 +122,10 @@ const Navbar = () => {
                             <img
                                 src={
                                     user?.photoURL ||
-                                    'https://i.ibb.co/2kR6Y00/default-user.png'
+                                    'https://i.ibb.co/6JqFhY4t/default-image.jpg'
                                 }
                                 alt="Profile"
+                                referrerPolicy="no-referrer"
                                 className="w-10 h-10 rounded-full border-2 border-primary shadow-md"
                             />
                         </div>

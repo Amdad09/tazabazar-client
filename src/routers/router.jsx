@@ -29,7 +29,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/market/:id',
-                element: <ProductDetails />,
+                element: (
+                    <PrivateRoute>
+                        <ProductDetails />
+                    </PrivateRoute>
+                ),
                 loader: ({ params }) =>
                     fetch(
                         `${import.meta.env.VITE_API_URL}/market/${params.id}`,
@@ -103,8 +107,8 @@ export const router = createBrowserRouter([
             {
                 path: 'my-orders',
                 Component: MyOrders,
-                // loader: () => fetch(`${import.meta.env.VITE_API_URL}/my-orders`),
             },
+
             {
                 path: 'manage-orders',
                 element: <ManageOrders />,

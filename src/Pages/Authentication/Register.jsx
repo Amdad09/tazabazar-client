@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router';
+import { saveUserInDb } from '../../assets/api/utils';
 import useAuth from '../../hooks/useAuth';
 import SocialLogin from './SocialLogin';
-import toast from 'react-hot-toast';
 
 const Register = () => {
     const { createUser, updateUser } = useAuth();
@@ -15,27 +16,34 @@ const Register = () => {
         register,
         handleSubmit,
         formState: { errors },
-        reset
+        reset,
     } = useForm();
     const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit = (data) => {
         console.log(data);
-        
+
         createUser(data.email, data.password)
             .then((result) => {
                 console.log(result.user);
+                const userData = {
+                    name: result?.user?.displayName,
+                    email: result?.user?.email,
+                    photo: result?.user?.photoURL,
+                };
+                saveUserInDb(userData);
+                
                 toast.success('Rgistration successfully!');
                 reset();
                 const profile = {
                     displayName: data.name,
-                    photoURL: data.photo
-                }
+                    photoURL: data.photo,
+                };
                 console.log(profile);
                 updateUser(profile)
                     .then(() => {
                         console.log('Profile updated');
-                        navigate(from, {replace: true});
+                        navigate(from, { replace: true });
                     })
                     .catch((error) => console.log(error));
             })
@@ -176,7 +184,6 @@ const Register = () => {
                 </button>
                 <SocialLogin />
             </form>
-            
         </div>
     );
 };
