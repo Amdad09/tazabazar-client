@@ -32,7 +32,7 @@ const Register = () => {
                     photo: result?.user?.photoURL,
                 };
                 saveUserInDb(userData);
-                
+
                 toast.success('Rgistration successfully!');
                 reset();
                 const profile = {
@@ -182,8 +182,8 @@ const Register = () => {
                 >
                     Create Account
                 </button>
-                <SocialLogin />
             </form>
+            <SocialLogin />
         </div>
     );
 };

@@ -1,4 +1,5 @@
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const PaymentForm = ({ amount, onPaymentSuccess }) => {
@@ -11,15 +12,17 @@ const PaymentForm = ({ amount, onPaymentSuccess }) => {
     // 1. Create paymentIntent from backend
     useEffect(() => {
         if (!amount) return;
-        fetch('http://localhost:3000/create-payment-intent', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ price: amount }),
-        })
-            .then((res) => res.json())
-            .then((data) => setClientSecret(data.clientSecret));
+
+        axios
+            .post(
+                `${import.meta.env.VITE_API_URL}/create-payment-intent`,
+                { price: amount },
+                { headers: { 'Content-Type': 'application/json' } },
+            )
+            .then((res) => setClientSecret(res.data.clientSecret))
+            .catch((err) => {
+                console.error('Error creating payment intent:', err);
+            });
     }, [amount]);
 
     const handleSubmit = async (e) => {

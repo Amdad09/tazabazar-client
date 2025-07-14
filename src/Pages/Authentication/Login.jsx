@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import SocialLogin from './SocialLogin';
-import { Link, useLocation, useNavigate } from 'react-router';
-import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { saveUserInDb } from '../../assets/api/utils';
+import useAuth from '../../hooks/useAuth';
+import SocialLogin from './SocialLogin';
 
 const Login = () => {
     const { logInUser } = useAuth();
@@ -25,20 +25,20 @@ const Login = () => {
             .then((result) => {
                 console.log(result.user);
 
-                 const userData = {
-                     name: result?.user?.displayName,
-                     email: result?.user?.email,
-                     photo: result?.user?.photoURL,
-                 };
+                const userData = {
+                    name: result?.user?.displayName,
+                    email: result?.user?.email,
+                    photo: result?.user?.photoURL,
+                };
                 saveUserInDb(userData);
-                
+
                 navigate(from, { replace: true });
                 toast.success('Login successfully!');
             })
             .catch((error) => {
                 console.log(error);
                 toast.error(error.message);
-            })
+            });
     };
 
     return (
@@ -104,8 +104,8 @@ const Login = () => {
                 >
                     Login
                 </button>
-                <SocialLogin />
             </form>
+            <SocialLogin />
         </div>
     );
 };
