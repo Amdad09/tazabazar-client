@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { saveUserInDb } from '../../assets/api/utils';
 import useAuth from '../../hooks/useAuth';
 import SocialLogin from './SocialLogin';
+import axios from 'axios';
 
 const Login = () => {
     const { logInUser } = useAuth();
@@ -20,18 +21,32 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit = (data) => {
-        console.log(data);
         logInUser(data.email, data.password)
-            .then((result) => {
-                console.log(result.user);
+            .then(async (result) => {
+                const user = result.user;
 
                 const userData = {
-                    name: result?.user?.displayName,
-                    email: result?.user?.email,
-                    photo: result?.user?.photoURL,
+                    name: user.displayName,
+                    email: user.email,
+                    photo: user.photoURL,
                 };
-                saveUserInDb(userData);
 
+                saveUserInDb(userData); 
+
+                // ✅ 1. Get JWT token from your backend
+                const res = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/jwt`,
+                    {
+                        email: user?.email,
+                    },
+                );
+
+                const token = res.data.token;
+
+                localStorage.setItem('access-token', token);
+                console.log(localStorage.getItem('access-token'));
+
+                
                 navigate(from, { replace: true });
                 toast.success('Login successfully!');
             })
@@ -40,6 +55,7 @@ const Login = () => {
                 toast.error(error.message);
             });
     };
+
 
     return (
         <div

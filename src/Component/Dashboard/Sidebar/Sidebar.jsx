@@ -11,7 +11,6 @@ import AdminMenu from './Menu/AdminMenu'
 import SellerMenu from './Menu/SellerMenu';
 import MenuItem from './Menu/MenuItem';
 import useRole from '../../../hooks/useRole'
-import Loading from '../../../shared/Loading'
 
 const Sidebar = () => {
   const { logOut, loading } = useAuth()

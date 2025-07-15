@@ -7,10 +7,9 @@ import useAuth from '../../hooks/useAuth';
 import SocialLogin from './SocialLogin';
 
 const Register = () => {
-    const { createUser, updateUser } = useAuth();
+    const { createUser, updateUser, setLoading } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const [terms, setTerms] = useState(false);
     const from = location?.state?.from?.pathname || '/';
     const {
         register,
@@ -21,37 +20,37 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit = (data) => {
-        console.log(data);
-
         createUser(data.email, data.password)
             .then((result) => {
-                console.log(result.user);
-                const userData = {
-                    name: result?.user?.displayName,
-                    email: result?.user?.email,
-                    photo: result?.user?.photoURL,
-                };
-                saveUserInDb(userData);
-
-                toast.success('Rgistration successfully!');
-                reset();
                 const profile = {
                     displayName: data.name,
                     photoURL: data.photo,
                 };
-                console.log(profile);
+
                 updateUser(profile)
                     .then(() => {
-                        console.log('Profile updated');
+                        const userData = {
+                            name: data.name, 
+                            email: data.email,
+                            photo: data.photo,
+                        };
+                        saveUserInDb(userData); 
+                        setLoading(false);
+                        toast.success('Registration successfully!');
+                        reset();
                         navigate(from, { replace: true });
                     })
-                    .catch((error) => console.log(error));
+                    .catch((error) => {
+                        console.log(error);
+                        toast.error('Profile update failed!');
+                    });
             })
             .catch((error) => {
                 console.log(error);
                 toast.error(error.message || 'Something is wrong!!');
             });
     };
+
 
     return (
         <div

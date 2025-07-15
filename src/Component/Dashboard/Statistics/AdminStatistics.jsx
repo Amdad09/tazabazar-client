@@ -1,7 +1,20 @@
 import { BsFillCartPlusFill, BsFillHouseDoorFill } from 'react-icons/bs';
 import { FaDollarSign, FaUserAlt } from 'react-icons/fa';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
+import Loading from '../../../shared/Loading';
 
 const AdminStatistics = () => {
+    const axiosSecure = useAxiosSecure();
+    const { data, isLoading } = useQuery({
+        queryKey: ['admin-stats'],
+        queryFn: async () => {
+            const { data } = await axiosSecure('/admin-stats');
+            return data;
+        },
+    });
+    console.log(data);
+    if (isLoading) return <Loading/>
     return (
         <div>
             <div className="mt-12">
@@ -19,7 +32,7 @@ const AdminStatistics = () => {
                                 Total Revenue
                             </p>
                             <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                $120
+                                {data?.totalRevenue}
                             </h4>
                         </div>
                     </div>
@@ -35,7 +48,7 @@ const AdminStatistics = () => {
                                 Total Orders
                             </p>
                             <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                120
+                                {data?.totalOrder}
                             </h4>
                         </div>
                     </div>
@@ -51,7 +64,7 @@ const AdminStatistics = () => {
                                 Total Markets
                             </p>
                             <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                120
+                                {data?.totalMarket}
                             </h4>
                         </div>
                     </div>
@@ -67,7 +80,7 @@ const AdminStatistics = () => {
                                 Total User
                             </p>
                             <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                10
+                               {data?.totalUser}
                             </h4>
                         </div>
                     </div>

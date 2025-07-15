@@ -5,17 +5,19 @@ import MainLayouts from '../layouts/MainLayouts';
 import AllProducts from '../Pages/AllProducts/AllProducts';
 import Login from '../Pages/Authentication/Login';
 import Register from '../Pages/Authentication/Register';
-import Home from '../Pages/Home/Home/Home';
-import Offers from '../Pages/Offers/Offers';
-import PrivateRoute from '../routes/PrivateRoute';
-import Statistics from '../Pages/Dashboard/Common/Statistics';
-import AddBazar from '../Pages/Dashboard/Seller/AddBazar';
-import MyInventory from '../Pages/Dashboard/Seller/MyInventory';
 import ManageUsers from '../Pages/Dashboard/Admin/ManageUsers';
 import Profile from '../Pages/Dashboard/Common/Profile';
-import ManageOrders from '../Pages/Dashboard/Seller/ManageOrders';
+import Statistics from '../Pages/Dashboard/Common/Statistics';
 import MyOrders from '../Pages/Dashboard/Customer/MyOrders';
+import AddBazar from '../Pages/Dashboard/Seller/AddBazar';
+import ManageOrders from '../Pages/Dashboard/Seller/ManageOrders';
+import MyInventory from '../Pages/Dashboard/Seller/MyInventory';
+import Home from '../Pages/Home/Home/Home';
+import Offers from '../Pages/Offers/Offers';
 import ProductDetails from '../Pages/ProductDetails/ProductDetails';
+import AdminRoute from '../routes/AdminRoute';
+import PrivateRoute from '../routes/PrivateRoute';
+import SellerRoute from '../routes/SellerRoute';
 
 export const router = createBrowserRouter([
     {
@@ -78,31 +80,32 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'add-market',
-                Component: AddBazar,
+                element: (
+                    <SellerRoute>
+                        <AddBazar />
+                    </SellerRoute>
+                ),
             },
+
             {
                 path: 'my-inventory',
                 element: (
-                    <PrivateRoute>
+                    <SellerRoute>
                         <MyInventory />
-                    </PrivateRoute>
+                    </SellerRoute>
                 ),
             },
             {
                 path: 'manage-users',
                 element: (
-                    <PrivateRoute>
+                    <AdminRoute>
                         <ManageUsers />
-                    </PrivateRoute>
+                    </AdminRoute>
                 ),
             },
             {
                 path: 'profile',
-                element: (
-                    <PrivateRoute>
-                        <Profile />
-                    </PrivateRoute>
-                ),
+                element: <Profile />,
             },
             {
                 path: 'my-orders',
@@ -111,7 +114,11 @@ export const router = createBrowserRouter([
 
             {
                 path: 'manage-orders',
-                element: <ManageOrders />,
+                element: (
+                    <SellerRoute>
+                        <ManageOrders />
+                    </SellerRoute>
+                ),
             },
         ],
     },
