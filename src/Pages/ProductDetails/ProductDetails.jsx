@@ -223,7 +223,9 @@ const ProductDetails = () => {
                             productId: product._id,
                             market: product.market,
                             date: product.date,
-                            image: product.image
+                            image: product.image,
+                            category: product.category,
+                            items: product.items,
                         };
                         addToWatchlist(watch);
                     }}
