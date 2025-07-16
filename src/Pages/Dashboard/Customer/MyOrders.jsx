@@ -114,7 +114,7 @@ const MyOrders = () => {
                                     {/* 📅 Created At */}
                                     <td className="px-4 py-3">
                                         {new Date(
-                                            order.createdAt,
+                                            order.date,
                                         ).toLocaleDateString()}
                                     </td>
 

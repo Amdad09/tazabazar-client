@@ -9,7 +9,7 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
 
@@ -25,7 +25,13 @@ const PriceTrends = () => {
             return res.data;
         },
     });
-    console.log(trackedItems);
+
+    // ✅ Set first product as default when loaded
+    useEffect(() => {
+        if (trackedItems.length > 0 && !selectedProduct) {
+            setSelectedProduct(trackedItems[0]); // প্রথম item auto select
+        }
+    }, [trackedItems, selectedProduct]);
 
     // ✅ Selected product's trend
     const { data: trendData = [], isLoading: loadingTrends } = useQuery({
@@ -62,30 +68,29 @@ const PriceTrends = () => {
                     </button>
                 ))}
             </div>
-            
-                {trendData.length > 0 ? (
-                    <ResponsiveContainer width="100%" height={400}>
-                        <LineChart data={trendData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Line
-                                type="monotone"
-                                dataKey="price"
-                                stroke="#8884d8"
-                                activeDot={{ r: 8 }}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
-                ) : selectedProduct ? (
-                    <p>No data available for {selectedProduct}</p>
-                ) : (
-                    <p>📌 Please select a product to view trends</p>
-                )}
-            </div>
-        
+
+            {trendData.length > 0 ? (
+                <ResponsiveContainer width="100%" height={400}>
+                    <LineChart data={trendData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line
+                            type="monotone"
+                            dataKey="price"
+                            stroke="#8884d8"
+                            activeDot={{ r: 8 }}
+                        />
+                    </LineChart>
+                </ResponsiveContainer>
+            ) : selectedProduct ? (
+                <p>No data available for {selectedProduct}</p>
+            ) : (
+                <p>📌 Please select a product to view trends</p>
+            )}
+        </div>
     );
 };
 

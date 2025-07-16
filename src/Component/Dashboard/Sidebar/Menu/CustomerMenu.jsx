@@ -30,7 +30,7 @@ const CustomerMenu = () => {
               address="price-trends"
           />
 
-          <div
+          {/* <div
               onClick={() => setIsOpen(true)}
               className="flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform text-gray-600  hover:bg-gray-300   hover:text-gray-700 cursor-pointer"
           >
@@ -39,7 +39,7 @@ const CustomerMenu = () => {
               <span className="mx-4 font-medium">Become A Seller</span>
           </div>
 
-          <BecomeSellerModal closeModal={closeModal} isOpen={isOpen} />
+          <BecomeSellerModal closeModal={closeModal} isOpen={isOpen} /> */}
       </>
   );
 }
