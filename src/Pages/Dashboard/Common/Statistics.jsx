@@ -2,7 +2,7 @@ import AdminStatistics from "../../../Component/Dashboard/Statistics/AdminStatis
 const Statistics = () => {
   return (
     <div>
-      <AdminStatistics />
+      <p>dashboard trends</p>
     </div>
   )
 }

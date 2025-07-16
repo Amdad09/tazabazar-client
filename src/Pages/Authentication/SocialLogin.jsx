@@ -1,29 +1,44 @@
 import { useLocation, useNavigate } from 'react-router';
 import { saveUserInDb } from '../../assets/api/utils';
 import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const SocialLogin = () => {
     const { socialLogin } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
     const from = location?.state?.from?.pathname || '/';
 
     const handleSocialLogin = () => {
         socialLogin()
-            .then((result) => {
-                console.log(result.user);
+            .then(async (result) => {
                 const userData = {
                     name: result?.user?.displayName,
                     email: result?.user?.email,
                     photo: result?.user?.photoURL,
                 };
-                saveUserInDb(userData);
+
+                // ✅ Save user in DB
+                await saveUserInDb(userData);
+
+                // ✅ Get JWT token
+                const res = await axiosSecure.post(
+                    `${import.meta.env.VITE_API_URL}/jwt`,
+                    { email: result?.user?.email },
+                );
+
+                // ✅ Store token
+                localStorage.setItem('access-token', res.data.token);
+
+                // ✅ Redirect
                 navigate(from, { replace: true });
             })
             .catch((error) => {
                 console.log(error);
             });
     };
+
     return (
         <div>
             <div className="divider">OR</div>

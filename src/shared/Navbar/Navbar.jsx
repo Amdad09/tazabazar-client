@@ -7,11 +7,15 @@ const Navbar = () => {
     const { user, logOut } = useAuth();
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logOut()
-            .then(() => navigate('/'))
-            .catch((err) => console.error(err));
-    };
+   const handleLogout = () => {
+       logOut() // Firebase logout
+           .then(() => {
+               localStorage.removeItem('access-token'); // 🔥 Token Clear
+               navigate('/');
+           })
+           .catch((err) => console.error(err));
+   };
+
 
     const links = (
         <>

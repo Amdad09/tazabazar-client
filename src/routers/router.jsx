@@ -18,6 +18,9 @@ import ProductDetails from '../Pages/ProductDetails/ProductDetails';
 import AdminRoute from '../routes/AdminRoute';
 import PrivateRoute from '../routes/PrivateRoute';
 import SellerRoute from '../routes/SellerRoute';
+import PriceTrends from '../Pages/Dashboard/Customer/PriceTrends';
+import WatchlistManager from '../Pages/Dashboard/Customer/WatchListManager';
+import AdminStatistics from '../Component/Dashboard/Statistics/AdminStatistics';
 
 export const router = createBrowserRouter([
     {
@@ -79,6 +82,10 @@ export const router = createBrowserRouter([
                 Component: Statistics,
             },
             {
+                path: 'statistic',
+                element: <AdminRoute><AdminStatistics/></AdminRoute>,
+            },
+            {
                 path: 'add-market',
                 element: (
                     <SellerRoute>
@@ -110,6 +117,14 @@ export const router = createBrowserRouter([
             {
                 path: 'my-orders',
                 Component: MyOrders,
+            },
+            {
+                path: 'watchlist',
+                element: <WatchlistManager />,
+            },
+            {
+                path: 'price-trends',
+                element: <PriceTrends />,
             },
 
             {

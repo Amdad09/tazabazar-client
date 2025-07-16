@@ -31,9 +31,9 @@ const Login = () => {
                     photo: user.photoURL,
                 };
 
-                saveUserInDb(userData); 
+                await saveUserInDb(userData); 
 
-                // ✅ 1. Get JWT token from your backend
+                
                 const res = await axios.post(
                     `${import.meta.env.VITE_API_URL}/jwt`,
                     {
@@ -42,7 +42,7 @@ const Login = () => {
                 );
 
                 const token = res.data.token;
-
+                console.log(token)
                 localStorage.setItem('access-token', token);
                 console.log(localStorage.getItem('access-token'));
 

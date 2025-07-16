@@ -6,12 +6,14 @@ import BuyProductModal from '../../Component/Modal/BuyProductModal';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import useRole from '../../hooks/useRole';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const ProductDetails = () => {
     const product = useLoaderData();
+    console.log(product);
     const { user } = useAuth();
-    const [ role ] = useRole();
-    console.log(role);
+    const [role] = useRole();
     const [isWatchlisted, setIsWatchlisted] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [reviews, setReviews] = useState([]);
@@ -19,42 +21,41 @@ const ProductDetails = () => {
     const [rating, setRating] = useState(5);
 
     const isVendorOrAdmin =
-        user?.email === product?.seller?.email || user?.role === 'admin';
+        user?.email === product?.seller?.email || role === 'admin';
+    const isNormalUser = role === 'customer';
+    const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
 
-    
-    const handleBuy = () => {
-        setOpenModal(true);
-    };
-
+    // ✅ Load Reviews
     useEffect(() => {
-        axios
+        axiosSecure
             .get(`http://localhost:3000/reviews/${product._id}`)
             .then((res) => setReviews(res.data));
-    }, [product._id]);
-
-    const isNormalUser = role === 'customer'; 
-
-    const handleAddToWatchlist = async () => {
-        try {
-            const watch = {
-                userEmail: user.email,
-                productId: product._id,
-                addedAt: new Date(),
-            };
-            const res = await axios.post(
-                'http://localhost:3000/watchlist',
-                watch,
-            );
-            if (res.data.insertedId) {
-                setIsWatchlisted(true);
-                toast.success('✅ Added to Watchlist');
-            }
-        } catch (err) {
-            toast.error('❌ Failed to add to watchlist');
-        }
-    };
+    }, [product._id, axiosSecure]);
 
 
+    // ✅ Watchlist Mutation
+   const { mutate: addToWatchlist } = useMutation({
+       mutationFn: async (watch) => {
+           const { data } = await axiosSecure.post('/watchlist', watch);
+           return data;
+       },
+       onSuccess: (data) => {
+           if (data.insertedId) {
+               toast.success('✅ Added to Watchlist');
+               queryClient.invalidateQueries(['watchlist', user.email]);
+               setIsWatchlisted(true);
+           } else {
+               toast.error('⚠️ Already in Watchlist or failed');
+           }
+       },
+       onError: () => {
+           toast.error('❌ Failed to add to watchlist');
+       },
+   });
+
+
+    // ✅ Review Submit
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
 
@@ -68,7 +69,7 @@ const ProductDetails = () => {
             createdAt: new Date().toISOString(),
         };
 
-        const res = await axios.post(
+        const res = await axiosSecure.post(
             'http://localhost:3000/reviews',
             newReview,
         );
@@ -139,13 +140,12 @@ const ProductDetails = () => {
                 </div>
             </div>
 
-            {/* 💬 Reviews Placeholder */}
+            {/* 💬 Reviews */}
             <div className="space-y-4">
                 <h4 className="font-semibold text-gray-800 mb-2">
                     💬 User Reviews
                 </h4>
 
-                {/* Show Reviews */}
                 {reviews.length === 0 ? (
                     <p className="text-gray-500 italic">
                         No reviews yet. Be the first to review!
@@ -171,8 +171,7 @@ const ProductDetails = () => {
                     ))
                 )}
 
-                {/* Only users can review */}
-                {isNormalUser && (
+                {role === 'customer' && (
                     <form
                         onSubmit={handleReviewSubmit}
                         className="mt-4 space-y-3"
@@ -219,12 +218,18 @@ const ProductDetails = () => {
             {/* ⭐ Watchlist & Buy */}
             <div className="flex flex-col md:flex-row gap-4">
                 <button
-                    onClick={handleAddToWatchlist}
-                    disabled={!isNormalUser}
+                    onClick={() => {
+                        const watch = {
+                            productId: product._id,
+                            market: product.market,
+                            date: product.date,
+                            image: product.image
+                        };
+                        addToWatchlist(watch);
+                    }}
+                    disabled={!isNormalUser || isWatchlisted || isVendorOrAdmin}
                     className={`btn btn-outline flex-1 ${
-                        isWatchlisted || isVendorOrAdmin
-                            ? 'btn-disabled'
-                            : 'btn-info'
+                        isWatchlisted ? 'btn-disabled' : 'btn-info'
                     }`}
                 >
                     <FaStar className="mr-2" />
@@ -233,16 +238,20 @@ const ProductDetails = () => {
                         : '⭐ Add to Watchlist'}
                 </button>
 
-                <button onClick={handleBuy} className="btn btn-success flex-1">
+                <button
+                    onClick={() => setOpenModal(true)}
+                    className="btn btn-success flex-1"
+                >
                     <FaShoppingCart className="mr-2" />
                     🛒 Buy Product
                 </button>
             </div>
+
             <BuyProductModal
                 isOpen={openModal}
                 onClose={() => setOpenModal(false)}
                 product={product}
-            ></BuyProductModal>
+            />
         </div>
     );
 };

@@ -5,10 +5,12 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { saveUserInDb } from '../../assets/api/utils';
 import useAuth from '../../hooks/useAuth';
 import SocialLogin from './SocialLogin';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Register = () => {
     const { createUser, updateUser, setLoading } = useAuth();
     const location = useLocation();
+    const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const from = location?.state?.from?.pathname || '/';
     const {
@@ -21,35 +23,42 @@ const Register = () => {
 
     const onSubmit = (data) => {
         createUser(data.email, data.password)
-            .then((result) => {
+            .then(async (result) => {
                 const profile = {
                     displayName: data.name,
                     photoURL: data.photo,
                 };
 
-                updateUser(profile)
-                    .then(() => {
-                        const userData = {
-                            name: data.name, 
-                            email: data.email,
-                            photo: data.photo,
-                        };
-                        saveUserInDb(userData); 
-                        setLoading(false);
-                        toast.success('Registration successfully!');
-                        reset();
-                        navigate(from, { replace: true });
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        toast.error('Profile update failed!');
-                    });
+                await updateUser(profile);
+
+                const userData = {
+                    name: data.name,
+                    email: data.email,
+                    photo: data.photo,
+                };
+
+                await saveUserInDb(userData);
+
+                // ✅ Get JWT Token after user is saved
+                const res = await axiosSecure.post('/jwt', {
+                    email: data.email,
+                });
+                const token = res.data.token;
+
+                // ✅ Save to localStorage
+                localStorage.setItem('access-token', token);
+
+                setLoading(false);
+                toast.success('Registration successful!');
+                reset();
+                navigate(from, { replace: true });
             })
             .catch((error) => {
-                console.log(error);
-                toast.error(error.message || 'Something is wrong!!');
+                console.error(error);
+                toast.error(error.message || 'Something went wrong!');
             });
     };
+
 
 
     return (

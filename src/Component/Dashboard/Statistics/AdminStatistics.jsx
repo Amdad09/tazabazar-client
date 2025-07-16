@@ -3,6 +3,8 @@ import { FaDollarSign, FaUserAlt } from 'react-icons/fa';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../shared/Loading';
+import OrderChart from '../../Chart/OrderChart';
+import { motion } from 'framer-motion';
 
 const AdminStatistics = () => {
     const axiosSecure = useAxiosSecure();
@@ -13,91 +15,110 @@ const AdminStatistics = () => {
             return data;
         },
     });
-    console.log(data);
-    if (isLoading) return <Loading/>
-    return (
-        <div>
-            <div className="mt-12">
-                {/* small cards */}
-                <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 flex-grow">
-                    {/* Sales Card */}
-                    <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-                        <div
-                            className={`bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-orange-600 to-orange-400 text-white shadow-orange-500/40`}
-                        >
-                            <FaDollarSign className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="p-4 text-right">
-                            <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Total Revenue
-                            </p>
-                            <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                {data?.totalRevenue}
-                            </h4>
-                        </div>
-                    </div>
-                    {/* Total Orders */}
-                    <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-                        <div
-                            className={`bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-blue-600 to-blue-400 text-white shadow-blue-500/40`}
-                        >
-                            <BsFillCartPlusFill className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="p-4 text-right">
-                            <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Total Orders
-                            </p>
-                            <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                {data?.totalOrder}
-                            </h4>
-                        </div>
-                    </div>
-                    {/* Total Markets */}
-                    <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-                        <div
-                            className={`bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-pink-600 to-pink-400 text-white shadow-pink-500/40`}
-                        >
-                            <BsFillHouseDoorFill className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="p-4 text-right">
-                            <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Total Markets
-                            </p>
-                            <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                {data?.totalMarket}
-                            </h4>
-                        </div>
-                    </div>
-                    {/* Users Card */}
-                    <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-                        <div
-                            className={`bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-green-600 to-green-400 text-white shadow-green-500/40`}
-                        >
-                            <FaUserAlt className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="p-4 text-right">
-                            <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Total User
-                            </p>
-                            <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                               {data?.totalUser}
-                            </h4>
-                        </div>
-                    </div>
-                </div>
 
-                <div className="mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
-                    {/*Sales Bar Chart */}
-                    <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden xl:col-span-2">
-                        {/* Chart goes here.. */}
-                    </div>
-                    {/* Calender */}
-                    <div className=" relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden">
-                        {/* Calender */}
-                    </div>
-                </div>
+    if (isLoading) return <Loading />;
+
+    const stats = [
+        {
+            icon: <FaDollarSign className="text-4xl text-primary" />,
+            title: 'Total Revenue',
+            value: `৳${data?.totalRevenue}`,
+        },
+        {
+            icon: <BsFillCartPlusFill className="text-4xl text-primary" />,
+            title: 'Total Orders',
+            value: data?.totalOrder,
+        },
+        {
+            icon: <BsFillHouseDoorFill className="text-4xl text-primary" />,
+            title: 'Total Markets',
+            value: data?.totalMarket,
+        },
+        {
+            icon: <FaUserAlt className="text-4xl text-primary" />,
+            title: 'Total Users',
+            value: data?.totalUser,
+        },
+    ];
+
+    return (
+        <section className="p-5 lg:p-10 space-y-12 ">
+            {/* Dashboard Stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {stats.map((item, index) => (
+                    <motion.div
+                        key={index}
+                        className="rounded-xl border border-gray-100 shadow-sm bg-green-300/20 p-6 hover:shadow-md transition-all"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                    >
+                        <div className="flex items-center justify-between">
+                            {item.icon}
+                            <div className="text-right">
+                                <h4 className="text-sm text-gray-500 font-medium">
+                                    {item.title}
+                                </h4>
+                                <p className="text-2xl font-semibold text-gray-800">
+                                    {item.value}
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
-        </div>
+
+            {/* Dashboard Charts & Updates */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <motion.div
+                    className="xl:col-span-2 bg-white rounded-xl shadow-md p-6"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4 }}
+                >
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-semibold text-gray-800">
+                            📊 Weekly Overview
+                        </h2>
+                        <span className="text-sm text-gray-500">
+                            Updated: {new Date().toLocaleDateString()}
+                        </span>
+                    </div>
+                    <OrderChart barChartData={data?.barChartData} />
+                </motion.div>
+                <motion.div
+                    className="bg-white rounded-xl shadow-md p-6"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                >
+                    <h2 className="text-lg font-semibold mb-3 text-gray-800">
+                        🧠 Market Insight
+                    </h2>
+                    <ul className="space-y-2 text-sm text-gray-600">
+                        <li>
+                            📈 Weekly growth:{' '}
+                            <span className="text-green-600 font-medium">
+                                +12%
+                            </span>
+                        </li>
+                        
+                        <li>
+                            👥 Active Users:{' '}
+                            <span className="text-blue-600 font-medium">
+                                {data?.totalUser || 0}
+                            </span>
+                        </li>
+                        <li>
+                            🕐 Last update:{' '}
+                            <span className="text-gray-500">
+                                {new Date().toLocaleTimeString()}
+                            </span>
+                        </li>
+                    </ul>
+                </motion.div>
+            </div>
+        </section>
     );
 };
 
