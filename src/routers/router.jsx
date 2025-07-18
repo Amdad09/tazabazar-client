@@ -20,7 +20,11 @@ import PrivateRoute from '../routes/PrivateRoute';
 import SellerRoute from '../routes/SellerRoute';
 import PriceTrends from '../Pages/Dashboard/Customer/PriceTrends';
 import WatchlistManager from '../Pages/Dashboard/Customer/WatchListManager';
-import AdminStatistics from '../Component/Dashboard/Statistics/AdminStatistics';
+import AllAdvertisements from '../Pages/Dashboard/Admin/AllAdvertisements';
+import AllProduct from '../Pages/Dashboard/Admin/AllProduct';
+import AllOrders from '../Pages/Dashboard/Admin/AllOrders';
+import MyProducts from '../Pages/Dashboard/Seller/MyProducts';
+import AddAdvertisement from '../Pages/Dashboard/Seller/AddAdvertisement';
 
 export const router = createBrowserRouter([
     {
@@ -82,10 +86,6 @@ export const router = createBrowserRouter([
                 Component: Statistics,
             },
             {
-                path: 'statistic',
-                element: <AdminRoute><AdminStatistics/></AdminRoute>,
-            },
-            {
                 path: 'add-market',
                 element: (
                     <SellerRoute>
@@ -111,6 +111,30 @@ export const router = createBrowserRouter([
                 ),
             },
             {
+                path: 'all-product',
+                element: (
+                    <AdminRoute>
+                        <AllProduct />
+                    </AdminRoute>
+                ),
+            },
+            {
+                path: 'all-advertisements',
+                element: (
+                    <AdminRoute>
+                        <AllAdvertisements />
+                    </AdminRoute>
+                ),
+            },
+            {
+                path: 'all-orders',
+                element: (
+                    <AdminRoute>
+                        <AllOrders />
+                    </AdminRoute>
+                ),
+            },
+            {
                 path: 'profile',
                 element: <Profile />,
             },
@@ -132,6 +156,22 @@ export const router = createBrowserRouter([
                 element: (
                     <SellerRoute>
                         <ManageOrders />
+                    </SellerRoute>
+                ),
+            },
+            {
+                path: 'my-products',
+                element: (
+                    <SellerRoute>
+                        <MyProducts />
+                    </SellerRoute>
+                ),
+            },
+            {
+                path: 'add-advertisement',
+                element: (
+                    <SellerRoute>
+                        <AddAdvertisement />
                     </SellerRoute>
                 ),
             },

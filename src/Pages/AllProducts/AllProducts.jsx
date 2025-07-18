@@ -35,11 +35,11 @@ const AllProducts = () => {
                             className="bg-white rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
                         >
                             {/* 🖼️ Image */}
-                          
+
                             <motion.img
                                 whileHover={{ scale: 0.9 }}
                                 whileTap={{ scale: 0.8 }}
-                                transition={{duration: 0.7}}
+                                transition={{ duration: 0.7 }}
                                 src={product.image}
                                 alt={product.market}
                                 className="w-full h-48 object-cover rounded-t-2xl"
@@ -54,36 +54,33 @@ const AllProducts = () => {
                                 </p>
 
                                 {/* 📋 Items */}
-                                <div>
-                                    <h4 className="text-gray-700 font-medium">
-                                        📋 Items & Prices:
+                                <div className="border-t pt-3 space-y-2">
+                                    <h4 className="text-lg font-semibold text-gray-700">
+                                        📋 Product Info
                                     </h4>
-                                    <ul className="text-sm text-gray-700 mt-1 space-y-1 list-disc list-inside">
-                                        {product.items
-                                            ?.slice(0, 3)
-                                            .map((item, idx) => {
-                                                const latestPrice =
-                                                    item.priceHistory?.[
-                                                        item.priceHistory
-                                                            .length - 1
-                                                    ];
-                                                return (
-                                                    <li key={idx}>
-                                                        {item.name} —{' '}
-                                                        <span className="font-medium">
-                                                            ৳
-                                                            {latestPrice?.price}
-                                                            /kg
-                                                        </span>
-                                                    </li>
-                                                );
-                                            })}
-                                    </ul>
-                                    {product.items?.length > 3 && (
-                                        <p className="text-xs text-gray-400 mt-1">
-                                            ...and more
-                                        </p>
-                                    )}
+                                    <div className="flex justify-between text-sm text-gray-600">
+                                        <span className="font-medium">
+                                            🧅 Name:
+                                        </span>
+                                        <span>{product.items?.name}</span>
+                                    </div>
+                                    <div className="flex justify-between text-sm text-gray-600">
+                                        <span className="font-medium">
+                                            💰 Price:
+                                        </span>
+                                        <span>
+                                            {product.items?.unitPrice} ৳
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between text-sm text-gray-600">
+                                        <span className="font-medium">
+                                            ⚖️ Quantity Type:
+                                        </span>
+                                        <span>
+                                            {product.items?.quantityType ||
+                                                'kg'}
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <button

@@ -4,37 +4,25 @@ import toast from 'react-hot-toast';
 import AddBazarForm from '../../../Component/Form/AddBazarForm';
 import { imageUpload } from '../../../assets/api/utils';
 import useAuth from '../../../hooks/useAuth';
+import AddMarketForm from '../../../Component/Form/AddMarketForm';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AddBazar = () => {
     const { user } = useAuth();
     const [isUploading, setIsUploading] = useState(false);
     const [uploadedImage, setUploadedImage] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(false);
+    const axiosSecure = useAxiosSecure();
 
     const handleFormSubmit = async (data, form) => {
         try {
             setIsUploading(true);
 
-            // Attach seller info here
-            const bazarData = {
-                ...data,
-                seller: {
-                    name: user?.displayName || 'Anonymous',
-                    email: user?.email || 'user@example.com',
-                    image: user?.photoURL || '',
-                },
-            };
-
-            const res = await axios.post(
-                `${import.meta.env.VITE_API_URL}/add-market`,
-                bazarData,
-            );
-
+           const res = await axiosSecure.post('/add-market', data);
             toast.success('✅ Bazar data added successfully!');
-
             // form.reset();
             setUploadedImage(null);
-            console.log(res.data);
+            // console.log(res.data);
         } catch (err) {
             console.error(err);
             toast.error('❌ Failed to submit Bazar data.');
@@ -43,10 +31,20 @@ const AddBazar = () => {
         }
     };
 
+    // for check 
+    // fetch('http://localhost:3000/jwt', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ email: user.email }),
+    // });
+
     const handleImageUpload = async (e) => {
         const image = e.target.files[0];
         try {
             const imageUrl = await imageUpload(image);
+            console.log(imageUrl);
             setUploadedImage(imageUrl);
             setImageUploadError(false);
         } catch (err) {
@@ -57,7 +55,14 @@ const AddBazar = () => {
 
     return (
         <div>
-            <AddBazarForm
+            {/* <AddBazarForm
+                handleFormSubmit={handleFormSubmit}
+                isUploading={isUploading}
+                uploadedImage={uploadedImage}
+                handleImageUpload={handleImageUpload}
+                imageUploadError={imageUploadError}
+            /> */}
+            <AddMarketForm
                 handleFormSubmit={handleFormSubmit}
                 isUploading={isUploading}
                 uploadedImage={uploadedImage}

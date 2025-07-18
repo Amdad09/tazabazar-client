@@ -1,18 +1,26 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const BuyProductModal = ({ isOpen, onClose, product }) => {
     const [quantities, setQuantities] = useState([]);
     const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
 
-    useEffect(() => {
-        if (product?.items?.length) {
-            setQuantities(product.items.map(() => 1));
-        }
-    }, [product]);
+    // Always ensure items is an array
+    const itemsArray = Array.isArray(product?.items)
+        ? product.items
+        : product?.items
+        ? [product.items]
+        : [];
+
+    // useEffect(() => {
+    //     if (itemsArray.length) {
+    //         setQuantities(itemsArray.map(() => 1));
+    //     }
+    // }, [product]);
 
     const handleQuantityChange = (index, value, maxQty) => {
         const newQuantities = [...quantities];
@@ -21,14 +29,14 @@ const BuyProductModal = ({ isOpen, onClose, product }) => {
         setQuantities(newQuantities);
     };
 
-    const totalCost = product.items?.reduce((acc, item, idx) => {
+    const totalCost = itemsArray.reduce((acc, item, idx) => {
         const latestPrice = item.priceHistory?.slice(-1)[0]?.price || 0;
         const qty = quantities[idx] || 1;
         return acc + latestPrice * qty;
     }, 0);
 
     const handleConfirm = async () => {
-        const orderItems = product.items.map((item, idx) => {
+        const orderItems = itemsArray.map((item, idx) => {
             const latestPrice = item.priceHistory?.slice(-1)[0]?.price || 0;
             const qty = quantities[idx] || 1;
             return {
@@ -51,21 +59,19 @@ const BuyProductModal = ({ isOpen, onClose, product }) => {
             },
             items: orderItems,
             totalPrice: totalCost,
-            status: 'pending', 
+            status: 'pending',
             createdAt: new Date(),
         };
 
-        try {
-            const { data } = await axios.post(
-                `${import.meta.env.VITE_API_URL}/orders`,
-                orderData,
-            );
-            toast.success('✅ Order placed successfully!');
-            onClose();
-        } catch (err) {
-            console.error(err);
-            toast.error('❌ Failed to place order.');
-        }
+       try {
+           await axiosSecure.post('/orders', orderData);
+           toast.success('✅ Order placed successfully!');
+           onClose();
+       } catch (err) {
+           console.error(err);
+           toast.error('❌ Failed to place order.');
+       }
+
     };
 
     return (
@@ -78,7 +84,7 @@ const BuyProductModal = ({ isOpen, onClose, product }) => {
                     </DialogTitle>
 
                     <div className="space-y-4">
-                        {product.items?.map((item, index) => {
+                        {itemsArray.map((item, index) => {
                             const latestPrice =
                                 item.priceHistory?.slice(-1)[0]?.price || 0;
                             const maxQty = parseInt(item.quantity || 1);
@@ -112,7 +118,10 @@ const BuyProductModal = ({ isOpen, onClose, product }) => {
                             );
                         })}
                     </div>
-                    <p><strong>Seller: </strong> {user?.displayName}</p>
+
+                    <p>
+                        <strong>Seller: </strong> {user?.displayName}
+                    </p>
 
                     <div className="text-lg font-semibold text-right text-lime-700">
                         💰 Total: ৳{totalCost}
@@ -129,8 +138,6 @@ const BuyProductModal = ({ isOpen, onClose, product }) => {
                             ✅ Confirm Purchase
                         </button>
                     </div>
-                    {/* stripe checkout form */}
-
                 </DialogPanel>
             </div>
         </Dialog>

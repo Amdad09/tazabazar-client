@@ -16,10 +16,8 @@ import Logo from '../../../shared/Logo/Logo';
 
 const Sidebar = () => {
     const { logOut } = useAuth();
-    const [role, isRoleLoading] = useRole();
+    const [role] = useRole();
     const [isOpen, setIsOpen] = useState(false);
-
-    if (isRoleLoading) return <Loading />;
 
     return (
         <>

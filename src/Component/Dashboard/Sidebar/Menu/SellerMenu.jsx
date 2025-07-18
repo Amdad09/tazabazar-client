@@ -12,8 +12,13 @@ const SellerMenu = () => {
 
             <MenuItem
                 icon={MdHomeWork}
-                label="My Inventory"
-                address="my-inventory"
+                label="My Products"
+                address="my-products"
+            />
+            <MenuItem
+                icon={MdHomeWork}
+                label="Advertisement"
+                address="advertisement"
             />
 
             <MenuItem

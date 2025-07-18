@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 import useRole from '../../hooks/useRole';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import PriceComparisonChart from './PriceComparisonChart';
 
 const ProductDetails = () => {
     const product = useLoaderData();
@@ -80,7 +82,7 @@ const ProductDetails = () => {
             setRating(5);
         }
     };
-
+    console.log(product.items);
     return (
         <div className="max-w-5xl mx-auto px-4 py-10 space-y-8">
             {/* 🏪 Market Name & Date */}
@@ -101,23 +103,60 @@ const ProductDetails = () => {
             </div>
 
             {/* 🥕 Items */}
-            <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    🥕 Item Prices
+            <div className="space-y-2">
+                <h3 className="text-lg font-bold text-lime-700">
+                    🥬 {product.items.name}
                 </h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                    {product.items?.map((item, idx) => (
-                        <li key={idx}>
-                            {item.name} —{' '}
-                            <span className="font-medium">
-                                ৳
-                                {item?.priceHistory?.slice(-1)[0]?.price ||
-                                    'N/A'}
-                                /kg
-                            </span>
-                        </li>
-                    ))}
-                </ul>
+                <p className="text-sm text-gray-600">
+                    📦 Description: {product.items.description}
+                </p>
+                <p className="text-sm text-gray-600">
+                    📏 Quantity: {product.items.quantity} kg
+                </p>
+                <p className="text-sm text-gray-600">
+                    💰 Item & Price:{' '}
+                    <span className="font-semibold text-black">
+                        {product.items.name} -৳{product.items.unitPrice} /kg
+                    </span>
+                </p>
+
+                {/* 📈 Price History */}
+                {/* <div className="bg-gray-50 p-4 rounded-xl border mt-5 border-gray-200 shadow-sm">
+                    <p className="font-semibold text-gray-800 text-base mb-3 flex items-center gap-2">
+                        <span className="text-lg">📊</span> Price History
+                    </p>
+
+                    <ResponsiveContainer
+                        className="pr-5"
+                        width="100%"
+                        height={300}
+                    >
+                        <LineChart
+                            data={product.items?.priceHistory?.map((entry) => ({
+                                ...entry,
+                                price: Number(entry.price), // Ensure it's number
+                            }))}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip
+                                formatter={(value) => [`৳${value}`, 'Price']}
+                            />
+                            <Legend />
+                            <Line
+                                type="monotone"
+                                dataKey="price"
+                                stroke="#10B981"
+                                strokeWidth={2}
+                                activeDot={{ r: 6 }}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div> */}
+
+                <PriceComparisonChart items={product.items} />
+                
             </div>
 
             {/* 👨‍🌾 Seller */}
@@ -125,17 +164,21 @@ const ProductDetails = () => {
                 <h4 className="font-medium text-gray-700 mb-1">
                     👨‍🌾 Submitted By:
                 </h4>
-                <div className="flex items-center space-x-4">
-                    <img
-                        src={product.seller?.image}
-                        alt="Vendor"
-                        className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                        <p className="font-semibold">{product.seller?.name}</p>
-                        <p className="text-sm text-gray-500">
-                            {product.seller?.email}
-                        </p>
+                <div className="">
+                    <div className="flex items-center space-x-4">
+                        <img
+                            src={product.seller?.photo}
+                            alt="Vendor"
+                            className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div>
+                            <p className="font-semibold">
+                                {product.seller?.name}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                                {product.seller?.email}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -243,6 +286,7 @@ const ProductDetails = () => {
                 <button
                     onClick={() => setOpenModal(true)}
                     className="btn btn-success flex-1"
+                    disabled={!isNormalUser || isWatchlisted || isVendorOrAdmin}
                 >
                     <FaShoppingCart className="mr-2" />
                     🛒 Buy Product

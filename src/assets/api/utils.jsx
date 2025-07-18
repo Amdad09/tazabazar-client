@@ -7,9 +7,11 @@ export const imageUpload = async imageData => {
       `https://api.imgbb.com/1/upload?key=${
           import.meta.env.VITE_IMGBB_API_KEY
       }`, imageFormData
-  );
+    );
+    console.log(import.meta.env.VITE_IMGBB_API_KEY);
   return data?.data?.display_url;
 }
+
 
 export const saveUserInDb = async (user) => {
     const { data } = await axios.post(
