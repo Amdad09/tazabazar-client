@@ -7,8 +7,17 @@ const AddMarketForm = ({
     uploadedImage,
     handleImageUpload,
     imageUploadError,
+    initialData = {},
+    onSubmit
 }) => {
     const { user } = useAuth();
+    const [itemName, setItemName] = useState(initialData?.items?.name || '');
+    const [unitPrice, setUnitPrice] = useState(
+        initialData?.items?.unitPrice || '',
+    );
+    const [market, setMarket] = useState(initialData?.market || '');
+    const [date, setDate] = useState(initialData?.date?.slice(0, 10) || '');
+    const [image, setImage] = useState(initialData?.image || '');
     const [product, setProduct] = useState(
         {
             name: '',
@@ -22,6 +31,21 @@ const AddMarketForm = ({
     const handleProductChange = (field, value) => {
         setProduct({ ...product, [field]: value });
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const updatedProduct = {
+            items: {
+                name: itemName,
+                unitPrice: unitPrice,
+            },
+            market,
+            date,
+            image,
+        };
+        onSubmit(updatedProduct);
+    };
+
 
 
     const handlePriceChange = (dayIndex, field, value) => {
@@ -71,7 +95,12 @@ const AddMarketForm = ({
             marketDescription,
             status: 'pending',
             image: uploadedImage,
-            items: product, // still in array for backend compatibility
+            items: product,
+            seller: {
+                name: user?.displayName,
+                email: user?.email,
+                photo: user?.photoURL,
+            },
         };
 
         handleFormSubmit(data, form);

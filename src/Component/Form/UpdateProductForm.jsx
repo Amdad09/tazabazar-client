@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axiosSecure from '../hooks/useAxiosSecure';
+import { useParams, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import AddProductForm from './AddProductForm'; // ধরলাম তুমি একটা reusable form কম্পোনেন্ট বানিয়েছো
+import AddMarketForm from './AddMarketForm';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const UpdateProductForm = () => {
-    const { id } = useParams();
     const [productData, setProductData] = useState(null);
-    const axios = axiosSecure();
+    const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
+    const { id } = useParams();
 
     useEffect(() => {
-        axios
-            .get(`/products/${id}`)
+        axiosSecure
+            .get(`/markets/${id}`)
             .then((res) => setProductData(res.data))
             .catch(() => toast.error('Failed to load product data'));
-    }, [id]);
+    }, [id, axiosSecure]);
 
     const handleUpdate = async (updatedData) => {
         try {
-            await axios.put(`/products/${id}`, updatedData);
+            await axiosSecure.put(`/products/${id}`, updatedData);
             toast.success('Product updated successfully');
             navigate('/my-products');
         } catch {
@@ -29,7 +29,7 @@ const UpdateProductForm = () => {
 
     if (!productData) return <p>Loading...</p>;
 
-    return <AddProductForm initialData={productData} onSubmit={handleUpdate} />;
+    return <AddMarketForm initialData={productData} onSubmit={handleUpdate} />;
 };
 
 export default UpdateProductForm;

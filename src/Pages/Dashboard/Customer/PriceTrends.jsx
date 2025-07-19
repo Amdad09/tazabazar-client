@@ -1,97 +1,88 @@
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import {
-    LineChart,
+    CartesianGrid,
+    Legend,
     Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
     XAxis,
     YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
 } from 'recharts';
-import { useEffect, useState } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import Loading from '../../../shared/Loading';
 
-const PriceTrends = () => {
+const TrackedPriceTrends = () => {
+    const [selectedItem, setSelectedItem] = useState(null);
+
     const axiosSecure = useAxiosSecure();
-    const [selectedProduct, setSelectedProduct] = useState(null);
-
-    // ✅ Tracked product names
-    const { data: trackedItems = [], isLoading: loadingTracked } = useQuery({
-        queryKey: ['tracked-items'],
+    const { data = [], isLoading } = useQuery({
+        queryKey: ['trackedItems'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/watchlist/tracked');
+            const res = await axiosSecure.get('/watchlist');
             return res.data;
         },
     });
+    console.log(data);
 
-    // ✅ Set first product as default when loaded
     useEffect(() => {
-        if (trackedItems.length > 0 && !selectedProduct) {
-            setSelectedProduct(trackedItems[0]); // প্রথম item auto select
+        if (data.length && !selectedItem) {
+            setSelectedItem(data[0]);
         }
-    }, [trackedItems, selectedProduct]);
+    }, [data]);
 
-    // ✅ Selected product's trend
-    const { data: trendData = [], isLoading: loadingTrends } = useQuery({
-        queryKey: ['price-trend', selectedProduct],
-        enabled: !!selectedProduct,
-        queryFn: async () => {
-            const res = await axiosSecure.get(
-                `/price-trends/${selectedProduct}`,
-            );
-            return res.data;
-        },
-    });
+    if (isLoading) return <p>Loading...</p>;
 
-    if (loadingTracked || (selectedProduct && loadingTrends)) {
-        return <Loading />;
-    }
+    console.log('Selected:', selectedItem?._id);
+    // console.log('Item:', item.items._id);
 
     return (
-        <div className="p-6 bg-white rounded ">
-            <h2 className="text-xl font-semibold mb-4">📈 Price Trends</h2>
-
-            <div className="flex flex-wrap gap-2 mb-12 lg:mb-32">
-                {trackedItems.map((item) => (
+        <div className=" my-12">
+            <div className="flex flex-wrap gap-2 mb-4">
+                {data.map((item, idx) => (
                     <button
-                        key={item}
-                        onClick={() => setSelectedProduct(item)}
-                        className={`btn btn-sm ${
-                            selectedProduct === item
-                                ? 'btn-primary text-secondary'
-                                : 'btn-outline border border-primary text-secondary'
+                        key={idx}
+                        onClick={() => setSelectedItem(item)}
+                        className={`px-4 py-2 rounded cursor-pointer ${
+                            selectedItem?._id === item._id
+                                ? 'bg-primary text-secondary'
+                                : 'bg-gray-200'
                         }`}
                     >
-                        {item}
+                        {item.items.name}
                     </button>
                 ))}
             </div>
-
-            {trendData.length > 0 ? (
-                <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={trendData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="date" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line
-                            type="monotone"
-                            dataKey="price"
-                            stroke="#8884d8"
-                            activeDot={{ r: 8 }}
-                        />
-                    </LineChart>
-                </ResponsiveContainer>
-            ) : selectedProduct ? (
-                <p>No data available for {selectedProduct}</p>
-            ) : (
-                <p>📌 Please select a product to view trends</p>
+            {selectedItem && (
+                <div className="bg-white p-4 shadow rounded">
+                    <h2 className="text-xl font-bold mb-5">
+                        {selectedItem.items.name}:{' '}
+                        <p className='mt-4'>
+                            <img
+                                className="w-40 h-40 ml-12"
+                                src={selectedItem.image}
+                                alt="Product image"
+                            />
+                        </p>
+                    </h2>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <LineChart data={selectedItem.items.priceHistory}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line
+                                type="monotone"
+                                dataKey="price"
+                                stroke="#8884d8"
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
             )}
         </div>
     );
 };
 
-export default PriceTrends;
+export default TrackedPriceTrends;

@@ -1,78 +1,57 @@
-import { useState } from 'react';
 import {
     BarChart,
     Bar,
     XAxis,
     YAxis,
-    CartesianGrid,
     Tooltip,
+    CartesianGrid,
     ResponsiveContainer,
+    Legend,
 } from 'recharts';
 
 const PriceComparisonChart = ({ item }) => {
-    const [previousDate, setPreviousDate] = useState('');
-
-    if (!item || !Array.isArray(item.priceHistory)) {
-        return <p>No price history available.</p>;
+    if (!item || !item.priceHistory || !Array.isArray(item.priceHistory)) {
+        return <p>No price data available.</p>;
     }
 
-    // 🔍 Unique dates for dropdown (except latest date)
-    const availableDates = item.priceHistory.map((p) => p.date).slice(0, -1);
-
-    // 📊 Get latest price
-    const latestPriceObj = item.priceHistory[item.priceHistory.length - 1];
-
-    // 🔙 Get selected previous date's price
-    const previousPriceObj = item.priceHistory.find(
-        (ph) => ph.date === previousDate,
-    );
-
-    // 🧠 Prepare data for chart
-    const chartData = [
-        {
-            name: 'Previous Price',
-            price: previousPriceObj ? Number(previousPriceObj.price) : 0,
-        },
-        {
-            name: 'Latest Price',
-            price: latestPriceObj ? Number(latestPriceObj.price) : 0,
-        },
-    ];
+    // Calculate daily price changes (compared to previous day)
+    const priceData = item.priceHistory.map((entry, index, arr) => {
+        const previousPrice = index > 0 ? arr[index - 1].price : null;
+        const change = previousPrice !== null ? entry.price - previousPrice : 0;
+        return {
+            date: entry.date,
+            price: entry.price,
+            change, // price difference
+        };
+    });
 
     return (
-        <div className="mt-8">
-            <h2 className="text-xl font-bold mb-2">📊 Price Comparison</h2>
+        <div className="w-full h-[400px]">
+            <h2 className="text-xl font-semibold text-center mb-4">
+                7-Day Price and Change Comparison
+            </h2>
 
-            {/* 🔽 Dropdown to select previous date */}
-            <select
-                className="border p-2 rounded mb-4"
-                value={previousDate}
-                onChange={(e) => setPreviousDate(e.target.value)}
-            >
-                <option value="">-- Select Previous Date --</option>
-                {availableDates.map((date, index) => (
-                    <option key={index} value={date}>
-                        {date}
-                    </option>
-                ))}
-            </select>
-
-            {/* 📈 Chart */}
-            {previousDate ? (
-                <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={chartData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Bar dataKey="price" fill="#8884d8" />
-                    </BarChart>
-                </ResponsiveContainer>
-            ) : (
-                <p className="text-gray-600">
-                    Please select a date to compare prices.
-                </p>
-            )}
+            <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                    data={priceData}
+                    margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip
+                        formatter={(value, name) => {
+                            if (name === 'change') {
+                                return [`৳${value}`, 'Price Change'];
+                            }
+                            return [`৳${value}`, 'Price'];
+                        }}
+                    />
+                    <Legend />
+                    <Bar dataKey="price" fill="#8884d8" name="Price (৳)" />
+                    <Bar dataKey="change" fill="#82ca9d" name="Change (৳)" />
+                </BarChart>
+            </ResponsiveContainer>
         </div>
     );
 };

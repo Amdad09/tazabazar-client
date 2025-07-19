@@ -1,10 +1,36 @@
+import axios from 'axios';
 import { motion } from 'framer-motion';
-import { useLoaderData, useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const AllProducts = () => {
-    const products = useLoaderData(); 
+    const [products, setProducts] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
+    const limit = 9;
+
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await axios.get(
+                    `${
+                        import.meta.env.VITE_API_URL
+                    }/markets/approved?page=${page}&limit=${limit}`,
+                );
+                setProducts(res.data.products);
+                setTotalCount(res.data.totalCount);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchProducts();
+    }, [page]);
+
+    const totalPages = Math.ceil(totalCount / limit);
+    console.log(totalPages);
     const handleDetailsClick = (productId) => {
         navigate(`/market/${productId}`);
     };
@@ -20,7 +46,8 @@ const AllProducts = () => {
                     updated with the latest rates for your favorite groceries.
                 </p>
             </div>
-            {products?.length === 0 ? (
+
+            {products.length === 0 ? (
                 <p className="text-center text-gray-500 text-lg">
                     No market data found.
                 </p>
@@ -34,8 +61,6 @@ const AllProducts = () => {
                             transition={{ duration: 0.4 }}
                             className="bg-white rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
                         >
-                            {/* 🖼️ Image */}
-
                             <motion.img
                                 whileHover={{ scale: 0.9 }}
                                 whileTap={{ scale: 0.8 }}
@@ -53,7 +78,6 @@ const AllProducts = () => {
                                     📅 {product.date}
                                 </p>
 
-                                {/* 📋 Items */}
                                 <div className="border-t pt-3 space-y-2">
                                     <h4 className="text-lg font-semibold text-gray-700">
                                         📋 Product Info
@@ -62,14 +86,18 @@ const AllProducts = () => {
                                         <span className="font-medium">
                                             🧅 Name:
                                         </span>
-                                        <span>{product.items?.name}</span>
+                                        <span>
+                                            {product.items?.[0]?.name || 'N/A'}
+                                        </span>
                                     </div>
                                     <div className="flex justify-between text-sm text-gray-600">
                                         <span className="font-medium">
                                             💰 Price:
                                         </span>
                                         <span>
-                                            {product.items?.unitPrice} ৳
+                                            {product.items?.[0]?.unitPrice ||
+                                                'N/A'}{' '}
+                                            ৳
                                         </span>
                                     </div>
                                     <div className="flex justify-between text-sm text-gray-600">
@@ -77,7 +105,7 @@ const AllProducts = () => {
                                             ⚖️ Quantity Type:
                                         </span>
                                         <span>
-                                            {product.items?.quantityType ||
+                                            {product.items?.[0]?.quantityType ||
                                                 'kg'}
                                         </span>
                                     </div>
@@ -93,6 +121,25 @@ const AllProducts = () => {
                                 </button>
                             </div>
                         </motion.div>
+                    ))}
+                </div>
+            )}
+
+            {/* 🔢 Pagination Buttons */}
+            {totalPages > 1 && (
+                <div className="flex justify-center mt-10 space-x-2">
+                    {[...Array(totalPages).keys()].map((num) => (
+                        <button
+                            key={num + 1}
+                            onClick={() => setPage(num + 1)}
+                            className={`px-4 py-2 rounded-full ${
+                                page === num + 1
+                                    ? 'bg-primary text-white'
+                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            }`}
+                        >
+                            {num + 1}
+                        </button>
                     ))}
                 </div>
             )}

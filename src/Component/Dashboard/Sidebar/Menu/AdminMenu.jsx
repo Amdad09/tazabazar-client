@@ -7,6 +7,8 @@ const AdminMenu = () => {
       <>
           <MenuItem icon={BsGraphUp} label="Statistics" address="/dashboard" />
           <MenuItem icon={FaUserCog} label="All Orders" address="all-orders" />
+          <MenuItem icon={FaUserCog} label="All Products" address="all-products" />
+          
           <MenuItem
               icon={FaUserCog}
               label="All Advertisement"
@@ -14,7 +16,7 @@ const AdminMenu = () => {
           />
           <MenuItem
               icon={FaUserCog}
-              label="Manage Users"
+              label="All Users"
               address="manage-users"
           />
       </>

@@ -1,22 +1,28 @@
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
+import { useState } from 'react';
 
 const AllOrders = () => {
     const axiosSecure = useAxiosSecure();
+    const [page, setPage] = useState(1);
+    const limit = 10;
 
-    const {
-        data: orders = [],
-        isLoading,
-    } = useQuery({
-        queryKey: ['all-orders'],
+    const { data, isLoading } = useQuery({
+        queryKey: ['orders', page],
         queryFn: async () => {
-            const res = await axiosSecure.get('/orders');
+            const res = await axiosSecure.get(
+                `/orders?page=${page}&limit=${limit}`,
+            );
             return res.data;
         },
     });
-    if (isLoading) return <Loading />
-    
+
+    if (isLoading) return <Loading />;
+
+    const orders = data.orders || [];
+    const totalPages = Math.ceil(data.totalOrders / limit);
+
     return (
         <div className="p-4">
             <h2 className="text-2xl font-bold mb-4">All Orders</h2>
@@ -30,22 +36,17 @@ const AllOrders = () => {
                             <th>Amount</th>
                             <th>Status</th>
                             <th>Market</th>
-                            <th>seller</th>
+                            <th>Seller</th>
                             <th>Date & Time</th>
                         </tr>
                     </thead>
                     <tbody>
                         {orders.map((order, i) => (
                             <tr key={order._id} className="hover:bg-gray-50">
-                                <td>{i + 1}</td>
+                                <td>{(page - 1) * limit + i + 1}</td>
                                 <td>{order.customer?.name || 'N/A'}</td>
                                 <td>
-                                    {/* <ul className="list-disc ml-4">
-                                        {order.items?.map((item, index) => )}
-                                    </ul> */}
-                                    {order.items
-                                        .map((product) => product.name)
-                                        .join(', ')}
+                                    {order.items.map((p) => p.name).join(', ')}
                                 </td>
                                 <td>৳{order.totalPrice}</td>
                                 <td>{order.status}</td>
@@ -55,11 +56,9 @@ const AllOrders = () => {
                                     </p>
                                 </td>
                                 <td>
-                                    <div>
-                                        <p className="text-sm font-medium">
-                                            {order.seller?.name}
-                                        </p>
-                                    </div>
+                                    <p className="text-sm font-medium">
+                                        {order.seller?.name}
+                                    </p>
                                 </td>
                                 <td>
                                     <p className="text-xs text-gray-500">
@@ -72,6 +71,23 @@ const AllOrders = () => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Pagination buttons */}
+            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40  rounded px-4 py-4 flex gap-2">
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setPage(i + 1)}
+                        className={`btn btn-sm transition-transform duration-300 ${
+                            page === i + 1
+                                ? 'bg-primary text-secondary scale-110'
+                                : 'bg-gray-200 text-black hover:scale-105'
+                        }`}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
             </div>
         </div>
     );

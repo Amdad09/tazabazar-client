@@ -103,7 +103,7 @@ const MyOrders = () => {
                                     <td className="px-4 py-3">
                                         <div className="flex items-center gap-2">
                                             <img
-                                                src={order.seller?.image}
+                                                src={order?.seller?.photo}
                                                 alt="seller"
                                                 className="w-8 h-8 rounded-full"
                                             />
@@ -142,12 +142,12 @@ const MyOrders = () => {
                                             </button>
                                         ) : (
                                             <button
-                                                className="px-2 py-1 font-medium bg-primary text-secondary btn-xs rounded"
+                                                className="px-3 cursor-pointer py-1  bg-primary text-xs rounded"
                                                 onClick={() =>
                                                     setSelectedOrder(order)
                                                 }
                                             >
-                                                💳 Pay Now
+                                                Pay Now
                                             </button>
                                         )}
                                     </td>
@@ -162,7 +162,7 @@ const MyOrders = () => {
                             order={selectedOrder}
                             onClose={() => setSelectedOrder(null)}
                             onPaymentUpdate={(updatedOrderId) => {
-                                refetch(); // Refetch after payment
+                                refetch(); 
                             }}
                         />
                     )}

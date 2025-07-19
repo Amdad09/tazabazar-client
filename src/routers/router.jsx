@@ -5,7 +5,6 @@ import MainLayouts from '../layouts/MainLayouts';
 import AllProducts from '../Pages/AllProducts/AllProducts';
 import Login from '../Pages/Authentication/Login';
 import Register from '../Pages/Authentication/Register';
-import ManageUsers from '../Pages/Dashboard/Admin/ManageUsers';
 import Profile from '../Pages/Dashboard/Common/Profile';
 import Statistics from '../Pages/Dashboard/Common/Statistics';
 import MyOrders from '../Pages/Dashboard/Customer/MyOrders';
@@ -21,10 +20,13 @@ import SellerRoute from '../routes/SellerRoute';
 import PriceTrends from '../Pages/Dashboard/Customer/PriceTrends';
 import WatchlistManager from '../Pages/Dashboard/Customer/WatchListManager';
 import AllAdvertisements from '../Pages/Dashboard/Admin/AllAdvertisements';
-import AllProduct from '../Pages/Dashboard/Admin/AllProduct';
 import AllOrders from '../Pages/Dashboard/Admin/AllOrders';
 import MyProducts from '../Pages/Dashboard/Seller/MyProducts';
 import AddAdvertisement from '../Pages/Dashboard/Seller/AddAdvertisement';
+import UpdateProductForm from '../Component/Form/UpdateProductForm';
+import AdminAllProduct from '../Pages/Dashboard/Admin/AdminAllProduct';
+import AllUsers from '../Pages/Dashboard/Admin/AllUsers';
+
 
 export const router = createBrowserRouter([
     {
@@ -34,7 +36,12 @@ export const router = createBrowserRouter([
             {
                 path: '/',
                 Component: Home,
-                loader: () => fetch(`${import.meta.env.VITE_API_URL}/markets`),
+                loader: () =>
+                    fetch(
+                        `${
+                            import.meta.env.VITE_API_URL
+                        }/markets/approved/limit`,
+                    ),
             },
             {
                 path: '/market/:id',
@@ -51,7 +58,8 @@ export const router = createBrowserRouter([
             {
                 path: '/allProducts',
                 Component: AllProducts,
-                loader: () => fetch(`${import.meta.env.VITE_API_URL}/markets`),
+                // loader: () =>
+                //     fetch(`${import.meta.env.VITE_API_URL}/markets/approved`),
             },
             {
                 path: '/offers',
@@ -93,6 +101,14 @@ export const router = createBrowserRouter([
                     </SellerRoute>
                 ),
             },
+            {
+                path: 'add-market/:id',
+                element: (
+                    <SellerRoute>
+                        <UpdateProductForm />
+                    </SellerRoute>
+                ),
+            },
 
             {
                 path: 'my-inventory',
@@ -106,18 +122,11 @@ export const router = createBrowserRouter([
                 path: 'manage-users',
                 element: (
                     <AdminRoute>
-                        <ManageUsers />
+                        <AllUsers />
                     </AdminRoute>
                 ),
             },
-            {
-                path: 'all-product',
-                element: (
-                    <AdminRoute>
-                        <AllProduct />
-                    </AdminRoute>
-                ),
-            },
+
             {
                 path: 'all-advertisements',
                 element: (
@@ -134,6 +143,15 @@ export const router = createBrowserRouter([
                     </AdminRoute>
                 ),
             },
+            {
+                path: 'all-products',
+                element: (
+                    <AdminRoute>
+                        <AdminAllProduct />
+                    </AdminRoute>
+                ),
+            },
+
             {
                 path: 'profile',
                 element: <Profile />,

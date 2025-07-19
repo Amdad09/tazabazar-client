@@ -37,6 +37,7 @@ const WatchlistManager = () => {
             <table className="w-full text-sm">
                 <thead>
                     <tr className="text-left border-b">
+                        <th className="p-2"></th>
                         <th className="p-2">Product</th>
                         <th className="p-2">Market</th>
                         <th className="p-2">Date</th>
@@ -51,9 +52,10 @@ const WatchlistManager = () => {
                             className="border-b border-b-gray-300 hover:bg-gray-50"
                         >
                             <td className="p-2 font-medium">
-                                {item.items
-                                    .map((product) => product.name)
-                                    .join(', ')}
+                                <img className='w-10 h-10 rounded' src={item.image} alt="Product" />
+                            </td>
+                            <td className="p-2 font-medium">
+                                {item.items.name}
                             </td>
                             <td className="p-2">{item.market}</td>
                             <td className="p-2">{item.date}</td>

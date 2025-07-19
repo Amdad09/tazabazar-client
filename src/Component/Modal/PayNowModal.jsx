@@ -3,8 +3,10 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import StripeProvider from '../../context/StripeProvider';
 import PaymentForm from '../Form/PaymentForm ';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const PayNowModal = ({ isOpen, onClose, order, onPaymentUpdate }) => {
+    const axiosSecure = useAxiosSecure();
     if (!isOpen) return null;
 
     // Payment success হলে order.status update
@@ -29,6 +31,24 @@ const PayNowModal = ({ isOpen, onClose, order, onPaymentUpdate }) => {
             onClose(); // modal close করো
         }
     };
+
+    // payment success হলে:
+    // const handlePaymentSuccess = async () => {
+    //     try {
+    //         const res = await axiosSecure.post('/orders', order);
+    //         if (res.data.insertedId) {
+    //             toast.success('✅ Order placed & paid successfully!');
+    //             onClose(); // modal বন্ধ করো
+    //         } else {
+    //             toast.error('❌ Order saving failed after payment!');
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //         toast.error('❌ Error saving order after payment!');
+    //     } finally {
+    //         onClose(); // modal close করো
+    //     }
+    // };
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">

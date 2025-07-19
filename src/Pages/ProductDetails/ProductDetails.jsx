@@ -8,8 +8,8 @@ import toast from 'react-hot-toast';
 import useRole from '../../hooks/useRole';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import PriceComparisonChart from './PriceComparisonChart';
+import PayNowModal from '../../Component/Modal/PayNowModal';
 
 const ProductDetails = () => {
     const product = useLoaderData();
@@ -17,10 +17,17 @@ const ProductDetails = () => {
     const { user } = useAuth();
     const [role] = useRole();
     const [isWatchlisted, setIsWatchlisted] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+
     const [openModal, setOpenModal] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState(5);
+    
+    const updatePrice = product.items.priceHistory;
+    const priceLength = updatePrice.length - 1;
+    console.log(updatePrice.length, Number(updatePrice[priceLength].price))
+    const price = Number(updatePrice[priceLength].price);
 
     const isVendorOrAdmin =
         user?.email === product?.seller?.email || role === 'admin';
@@ -31,7 +38,7 @@ const ProductDetails = () => {
     // ✅ Load Reviews
     useEffect(() => {
         axiosSecure
-            .get(`http://localhost:3000/reviews/${product._id}`)
+            .get(`reviews/${product._id}`)
             .then((res) => setReviews(res.data));
     }, [product._id, axiosSecure]);
 
@@ -48,7 +55,7 @@ const ProductDetails = () => {
                queryClient.invalidateQueries(['watchlist', user.email]);
                setIsWatchlisted(true);
            } else {
-               toast.error('⚠️ Already in Watchlist or failed');
+               toast.error('⚠️ Already in Watchlist');
            }
        },
        onError: () => {
@@ -82,9 +89,16 @@ const ProductDetails = () => {
             setRating(5);
         }
     };
-    console.log(product.items);
+    // console.log(product.items.priceHistory);
     return (
         <div className="max-w-5xl mx-auto px-4 py-10 space-y-8">
+            <div className='text-center'>
+                {product.status === 'rejected' && product.feedback && (
+                    <p className="text-red-600 mt-2 font-medium">
+                        ⚠️ Rejection Feedback: {product.feedback}
+                    </p>
+                )}
+            </div>
             {/* 🏪 Market Name & Date */}
             <div className="text-center space-y-2">
                 <h2 className="text-3xl font-bold text-lime-600">
@@ -116,7 +130,7 @@ const ProductDetails = () => {
                 <p className="text-sm text-gray-600">
                     💰 Item & Price:{' '}
                     <span className="font-semibold text-black">
-                        {product.items.name} -৳{product.items.unitPrice} /kg
+                        {product.items.name} -৳{price} /kg
                     </span>
                 </p>
 
@@ -154,9 +168,9 @@ const ProductDetails = () => {
                         </LineChart>
                     </ResponsiveContainer>
                 </div> */}
-
-                <PriceComparisonChart items={product.items} />
-                
+                <div className="my-5 pb-12">
+                    <PriceComparisonChart item={product.items} />
+                </div>
             </div>
 
             {/* 👨‍🌾 Seller */}
@@ -286,7 +300,7 @@ const ProductDetails = () => {
                 <button
                     onClick={() => setOpenModal(true)}
                     className="btn btn-success flex-1"
-                    disabled={!isNormalUser || isWatchlisted || isVendorOrAdmin}
+                    disabled={!isNormalUser || isVendorOrAdmin}
                 >
                     <FaShoppingCart className="mr-2" />
                     🛒 Buy Product
@@ -297,7 +311,19 @@ const ProductDetails = () => {
                 isOpen={openModal}
                 onClose={() => setOpenModal(false)}
                 product={product}
+                setSelectedOrder={setSelectedOrder}
             />
+
+            {selectedOrder && (
+                <PayNowModal
+                    isOpen={!!selectedOrder}
+                    order={selectedOrder}
+                    onClose={() => setSelectedOrder(null)}
+                    onPaymentUpdate={() => {
+                        // optionally refetch data if needed
+                    }}
+                />
+            )}
         </div>
     );
 };

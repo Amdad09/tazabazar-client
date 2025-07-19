@@ -1,14 +1,16 @@
 import { useState } from "react";
 import UpdateUserRoleModal from "../../Modal/UpdateUserRoleModal";
 
-const UserDataRow = ({ user }) => {
-  const { email, role, status, photo } = user;
+const UserDataRow = ({ user, index }) => {
+  const { name, email, role, status } = user;
   const [isOpen, setIsOpen] = useState(false);
   return (
     <tr>
-      
           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              <img className="w-10 h-10 rounded-full border border-primary" src={photo} alt="" />
+             {index + 1}
+          </td>
+          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+             {name}
           </td>
           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
               <p className="text-gray-900 whitespace-no-wrap">{email}</p>
