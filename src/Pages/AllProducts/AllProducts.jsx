@@ -28,6 +28,13 @@ const AllProducts = () => {
 
         fetchProducts();
     }, [page]);
+    
+    const price = products.map(product => {
+        const updatePrice = product?.items?.priceHistory;
+        const priceLength = updatePrice.length - 1;
+        return Number(updatePrice[priceLength].price);
+    })
+    console.log(price);
 
     const totalPages = Math.ceil(totalCount / limit);
     console.log(totalPages);
@@ -53,7 +60,7 @@ const AllProducts = () => {
                 </p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {products.map((product) => (
+                    {products.map((product, index) => (
                         <motion.div
                             key={product._id}
                             initial={{ opacity: 0, y: 20 }}
@@ -87,7 +94,7 @@ const AllProducts = () => {
                                             🧅 Name:
                                         </span>
                                         <span>
-                                            {product.items?.[0]?.name || 'N/A'}
+                                            {product.items?.name || 'N/A'}
                                         </span>
                                     </div>
                                     <div className="flex justify-between text-sm text-gray-600">
@@ -95,7 +102,7 @@ const AllProducts = () => {
                                             💰 Price:
                                         </span>
                                         <span>
-                                            {product.items?.[0]?.unitPrice ||
+                                            {price[index] ||
                                                 'N/A'}{' '}
                                             ৳
                                         </span>

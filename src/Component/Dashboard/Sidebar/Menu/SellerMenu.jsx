@@ -17,15 +17,20 @@ const SellerMenu = () => {
             />
             <MenuItem
                 icon={MdHomeWork}
-                label="Advertisement"
-                address="advertisement"
+                label="Add Advertisement"
+                address="add-advertisement"
+            />
+            <MenuItem
+                icon={MdHomeWork}
+                label="My Advertisement"
+                address="my-advertisement"
             />
 
-            <MenuItem
+            {/* <MenuItem
                 icon={MdOutlineManageHistory}
                 label="Manage Orders"
                 address="manage-orders"
-            />
+            /> */}
         </>
     );
 };

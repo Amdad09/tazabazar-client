@@ -1,5 +1,5 @@
 import { FaSignOutAlt } from 'react-icons/fa';
-import { NavLink, useNavigate } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import Logo from '../Logo/Logo';
 import './Navbar.css'
@@ -119,18 +119,21 @@ const Navbar = () => {
                             Dashboard
                         </NavLink>
                         <div
-                            className="tooltip tooltip-left"
+                            className="tooltip tooltip-left cursor-pointer"
                             data-tip={user?.displayName || 'User'}
                         >
-                            <img
-                                src={
-                                    user?.photoURL ||
-                                    'https://i.ibb.co/6JqFhY4t/default-image.jpg'
-                                }
-                                alt="Profile"
-                                referrerPolicy="no-referrer"
-                                className="w-10 h-10 rounded-full border-2 border-primary shadow-md"
-                            />
+                            <Link to="/dashboard/profile">
+                                {' '}
+                                <img
+                                    src={
+                                        user?.photoURL ||
+                                        'https://i.ibb.co/6JqFhY4t/default-image.jpg'
+                                    }
+                                    alt="Profile"
+                                    referrerPolicy="no-referrer"
+                                    className="w-10 h-10 rounded-full border-2 border-primary shadow-md"
+                                />
+                            </Link>
                         </div>
                         <button
                             onClick={handleLogout}

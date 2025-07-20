@@ -10,7 +10,6 @@ export const axiosSecure = axios.create({
 
 
 
-
 const useAxiosSecure = () => {
     const navigate = useNavigate();
     const { logOut } = useAuth();
@@ -19,7 +18,6 @@ const useAxiosSecure = () => {
 
         const reqInterceptor =  axiosSecure.interceptors.request.use((config) => {
             const token = localStorage.getItem('access-token');
-            console.log('Sending token:', token);
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
             }

@@ -1,71 +1,71 @@
+import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
 import Swal from 'sweetalert2';
-import usePagination from '../../../hooks/usePagination';
+import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router';
 
 const MyProducts = () => {
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    // const { data: products = [], isLoading } = useQuery({
-    //     queryKey: ['my-products'],
-    //     queryFn: async () => {
-    //         const res = await axiosSecure.get('/my-products');
-    //         return res.data;
-    //     },
-    // });
+    const [page, setPage] = useState(1);
+    const limit = 8;
 
-    const {
-        data: products,
-        page,
-        setPage,
-        totalPages,
-        isLoading,
-    } = usePagination('/my-products', 'my-products', 8);
+    // React Query v5 এর queryFn async function
+    const fetchProducts = async ({ queryKey }) => {
+        const [_key, currentPage] = queryKey;
+        const res = await axiosSecure.get(
+            `/my-products?page=${currentPage}&limit=${limit}`,
+        );
+        return res.data;
+    };
 
-    console.log(totalPages)
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['my-products', page],
+        queryFn: fetchProducts,
+        keepPreviousData: true,
+    });
 
-    console.log(products)
+    const products = data?.products || [];
+    const totalPages = data?.totalPages || 1;
+
     const deleteMutation = useMutation({
-        mutationFn: async (id) => {
-            return await axiosSecure.delete(`/markets/${id}`);
-        },
+        mutationFn: async (id) => axiosSecure.delete(`/markets/${id}`),
         onSuccess: () => {
             toast.success('Product deleted successfully');
-            queryClient.invalidateQueries(['my-products']);
+            queryClient.invalidateQueries({ queryKey: ['my-products'] });
         },
         onError: () => {
             toast.error('Failed to delete product');
         },
     });
 
-   const handleDelete = (id) => {
-       Swal.fire({
-           title: 'Are you sure?',
-           text: "You won't be able to revert this!",
-           icon: 'warning',
-           showCancelButton: true,
-           confirmButtonColor: '#d33',
-           cancelButtonColor: '#3085d6',
-           confirmButtonText: 'Yes, delete it!',
-       }).then((result) => {
-           if (result.isConfirmed) {
-               deleteMutation.mutate(id); 
-           }
-       });
-   };
-
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMutation.mutate(id);
+            }
+        });
+    };
 
     const handleUpdate = (id) => {
         navigate(`/dashboard/add-market/${id}`);
-        console.log(id)
     };
 
     if (isLoading) return <Loading />;
+
+    if (error) return <p className="text-red-500">Error loading products</p>;
 
     return (
         <div className="p-6 bg-white shadow rounded-lg">
@@ -87,7 +87,7 @@ const MyProducts = () => {
                             <th className="px-4 py-3 text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className=" divide-gray-100">
+                    <tbody className="divide-gray-100">
                         {products.length === 0 ? (
                             <tr>
                                 <td
@@ -133,7 +133,7 @@ const MyProducts = () => {
                                                 title={
                                                     product.status ===
                                                         'rejected' &&
-                                                    'If you want to see reject feedback,then you click on the view details button'
+                                                    'If you want to see reject feedback, then click on the view details button'
                                                 }
                                                 className={`inline-block text-xs px-2 py-1 rounded-full font-semibold ${
                                                     product.status === 'pending'
@@ -154,13 +154,12 @@ const MyProducts = () => {
                                                 </button>
                                             </Link>
                                         </td>
-
-                                        <td className="px-4 py-3 text-center flex gap-2 space-x-2">
+                                        <td className="">
                                             <button
                                                 onClick={() =>
                                                     handleUpdate(product._id)
                                                 }
-                                                className="px-3 py-1 text-xs rounded text-primary border cursor-pointer border-blue-200 hover:bg-blue-50 transition"
+                                                className="px-3 py-1 mr-3 text-xs rounded text-primary border cursor-pointer border-blue-200 hover:bg-blue-50 transition"
                                                 title="Edit Product"
                                             >
                                                 ✏️ Edit
@@ -169,7 +168,7 @@ const MyProducts = () => {
                                                 onClick={() =>
                                                     handleDelete(product._id)
                                                 }
-                                                className="px-3 py-1 text-xs rounded cursor-pointer  text-red-600 border border-red-200 hover:bg-red-50 transition"
+                                                className="px-3 py-1 text-xs rounded cursor-pointer text-red-600 border border-red-200 hover:bg-red-50 transition"
                                                 title="Delete Product"
                                             >
                                                 🗑️ Delete
@@ -181,18 +180,18 @@ const MyProducts = () => {
                         )}
                     </tbody>
                 </table>
-
-                {/* Pagination UI */}
             </div>
+
+            {/* Pagination */}
             {totalPages > 1 && (
-                <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40  rounded px-4 py-4 flex gap-2">
+                <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40 rounded px-4 py-4 flex gap-2">
                     {[...Array(totalPages).keys()].map((i) => (
                         <button
                             key={i}
                             onClick={() => setPage(i + 1)}
                             className={`px-3 py-1 border rounded ${
                                 page === i + 1
-                                    ? 'bg-blue-600 text-white'
+                                    ? 'bg-primary text-secondary'
                                     : 'bg-gray-100 hover:bg-gray-200'
                             }`}
                         >

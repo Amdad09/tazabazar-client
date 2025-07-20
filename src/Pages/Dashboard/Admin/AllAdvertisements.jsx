@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AllAdvertisements = () => {
@@ -19,15 +20,29 @@ const AllAdvertisements = () => {
                         ad._id === id ? { ...ad, status: newStatus } : ad,
                     ),
                 );
+            })
+            .catch((error) => {
+                console.error('Status update failed:', error);
             });
+
     };
 
     const handleDelete = (id) => {
-        if (confirm('Are you sure to delete this ad?')) {
-            axiosSecure.delete(`/advertisements/${id}`).then(() => {
-                setAds(ads.filter((ad) => ad._id !== id));
-            });
-        }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/advertisements/${id}`).then(() => {
+                    setAds(ads.filter((ad) => ad._id !== id));
+                });
+            }
+        });
     };
 
     return (
@@ -48,18 +63,21 @@ const AllAdvertisements = () => {
                         {ads.map((ad, index) => (
                             <tr key={ad._id}>
                                 <td>{index + 1}</td>
-                                <td>{ad.title}</td>
+                                <td>{ad.adTitle}</td>
                                 <td>{ad.status}</td>
                                 <td>{ad.vendorName}</td>
                                 <td>
-                                    <button
-                                        onClick={() =>
-                                            toggleStatus(ad._id, ad.status)
-                                        }
-                                        className="btn btn-sm btn-info mr-2"
-                                    >
-                                        Toggle Status
-                                    </button>
+                                    {ad.status === 'pending' && (
+                                        <button
+                                            onClick={() =>
+                                                toggleStatus(ad._id, ad.status)
+                                            }
+                                            className="btn btn-sm btn-success mr-2"
+                                        >
+                                            Approve
+                                        </button>
+                                    )}
+
                                     <button
                                         onClick={() => handleDelete(ad._id)}
                                         className="btn btn-sm btn-error"

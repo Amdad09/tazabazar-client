@@ -12,16 +12,16 @@ const UpdateProductForm = () => {
 
     useEffect(() => {
         axiosSecure
-            .get(`/markets/${id}`)
+            .get(`/market/${id}`)
             .then((res) => setProductData(res.data))
             .catch(() => toast.error('Failed to load product data'));
     }, [id, axiosSecure]);
 
     const handleUpdate = async (updatedData) => {
         try {
-            await axiosSecure.put(`/products/${id}`, updatedData);
+            await axiosSecure.put(`/market/${id}`, updatedData);
             toast.success('Product updated successfully');
-            navigate('/my-products');
+            navigate('/dashboard/my-products');
         } catch {
             toast.error('Failed to update product');
         }
@@ -29,7 +29,13 @@ const UpdateProductForm = () => {
 
     if (!productData) return <p>Loading...</p>;
 
-    return <AddMarketForm initialData={productData} onSubmit={handleUpdate} />;
+    return (
+        <AddMarketForm
+            initialData={productData}
+            isEditMode
+            onSubmit={handleUpdate}
+        />
+    );
 };
 
 export default UpdateProductForm;

@@ -16,7 +16,7 @@ const MyOrders = () => {
         refetch,
     } = useQuery({
         queryKey: ['my-orders', user?.email],
-        enabled: !!user?.email, // Only run when email is available
+        enabled: !!user?.email, 
         queryFn: async () => {
             const res = await axiosSecure.get(`/my-orders?email=${user.email}`);
             return res.data;

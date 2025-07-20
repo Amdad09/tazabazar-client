@@ -2,12 +2,18 @@ import { motion } from 'framer-motion';
 import { useLoaderData, useNavigate } from 'react-router';
 
 const ProductSection = () => {
-    const products = useLoaderData(); // contains 6 market entries
+    const products = useLoaderData(); 
     const navigate = useNavigate();
 
     const handleDetailsClick = (productId) => {
         navigate(`/market/${productId}`);
     };
+
+    const price = products.map((product) => {
+        const updatePrice = product?.items?.priceHistory;
+        const priceLength = updatePrice.length - 1;
+        return Number(updatePrice[priceLength].price);
+    });
 
     return (
         <div className="max-w-screen-xl mx-auto px-4 py-10">
@@ -21,7 +27,7 @@ const ProductSection = () => {
                 </p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {products.map((product) => (
+                    {products.map((product, index) => (
                         <motion.div
                             key={product._id}
                             initial={{ opacity: 0, y: 20 }}
@@ -63,7 +69,7 @@ const ProductSection = () => {
                                             💰 Price:
                                         </span>
                                         <span>
-                                            {product.items?.unitPrice} ৳
+                                            {price[index]} ৳
                                         </span>
                                     </div>
                                     <div className="flex justify-between text-sm text-gray-600">
