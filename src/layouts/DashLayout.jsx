@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router'; // Correct router import
 import Sidebar from '../Component/Dashboard/Sidebar/Sidebar';
 
-const DashboardLayout = () => {
+const DashLayout = () => {
     return (
         <div className="drawer lg:drawer-open">
             {/* ✅ Drawer Toggle Checkbox */}
@@ -41,11 +41,11 @@ const DashboardLayout = () => {
 
             {/* ✅ Sidebar Drawer */}
             <div className="drawer-side">
-                <label htmlFor="my-drawer-2" className="drawer-overDashboardLayout"></label>
+                <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                 <Sidebar />
             </div>
         </div>
     );
 };
 
-export default DashboardLayout;
+export default DashLayout;

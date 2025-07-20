@@ -22,7 +22,7 @@ const Sidebar = () => {
     return (
         <>
             {/* ✅ Mobile Top Bar */}
-            <div className="md:hidden flex justify-between items-center bg-white shadow px-4 py-3 sticky top-0 z-50">
+            <div className="hidden justify-between items-center bg-white shadow px-4 py-3 sticky top-0 z-50">
                 <Link to="/">
                     <img src={logo} alt="Logo" className="h-10" />
                 </Link>

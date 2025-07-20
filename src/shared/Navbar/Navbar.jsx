@@ -1,16 +1,18 @@
 import { FaSignOutAlt } from 'react-icons/fa';
-import { Link, NavLink, useNavigate } from 'react-router';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import Logo from '../Logo/Logo';
 import './Navbar.css'
 const Navbar = () => {
     const { user, logOut } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const currentPath = location.pathname;
 
    const handleLogout = () => {
        logOut() // Firebase logout
            .then(() => {
-               localStorage.removeItem('access-token'); // 🔥 Token Clear
+               localStorage.removeItem('access-token'); 
                navigate('/');
            })
            .catch((err) => console.error(err));
@@ -85,7 +87,7 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <button className="normal-case text-xl">
+                <button className="normal-case hidden md:block text-xl">
                     <Logo />
                 </button>
             </div>
@@ -110,7 +112,7 @@ const Navbar = () => {
                         </NavLink>
                     </>
                 )}
-                {user && (
+                {user && currentPath !== '/dashboard' && (
                     <>
                         <NavLink
                             to="/dashboard"
@@ -137,7 +139,7 @@ const Navbar = () => {
                         </div>
                         <button
                             onClick={handleLogout}
-                            className="btn btn-sm btn-error text-white"
+                            className="btn btn-sm hidden lg:block btn-error text-white"
                         >
                             <FaSignOutAlt className="mr-1" /> Logout
                         </button>
