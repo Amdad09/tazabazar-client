@@ -126,9 +126,9 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
 
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg mt-6">
-            <h2 className="text-2xl font-bold mb-4 text-center">
-                📢 Add Advertisement
+        <div className="max-w-2xl mx-auto p-2 md:p-4 lg:p-6 bg-white rounded-xl mt-6">
+            <h2 className="text-2xl font-bold text-center py-6 text-primary">
+                {isUpdate ? '📢 Update Advertisement' : '📢 Add Advertisement'}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">

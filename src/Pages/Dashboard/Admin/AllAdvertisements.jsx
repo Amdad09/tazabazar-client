@@ -49,7 +49,7 @@ const AllAdvertisements = () => {
         <div className="p-4">
             <h2 className="text-2xl font-bold mb-4">All Advertisements</h2>
             <div className="overflow-x-auto">
-                <table className="table w-full border">
+                <table className="table w-full">
                     <thead className="bg-gray-100">
                         <tr>
                             <th>#</th>
@@ -67,23 +67,28 @@ const AllAdvertisements = () => {
                                 <td>{ad.status}</td>
                                 <td>{ad.vendorName}</td>
                                 <td>
-                                    {ad.status === 'pending' && (
-                                        <button
-                                            onClick={() =>
-                                                toggleStatus(ad._id, ad.status)
-                                            }
-                                            className="btn btn-sm btn-success mr-2"
-                                        >
-                                            Approve
-                                        </button>
-                                    )}
+                                    <div className="flex gap-3">
+                                        {ad.status === 'pending' && (
+                                            <button
+                                                onClick={() =>
+                                                    toggleStatus(
+                                                        ad._id,
+                                                        ad.status,
+                                                    )
+                                                }
+                                                className="btn btn-xs md:btn-sm btn-success mr-2"
+                                            >
+                                                Approve
+                                            </button>
+                                        )}
 
-                                    <button
-                                        onClick={() => handleDelete(ad._id)}
-                                        className="btn btn-sm btn-error"
-                                    >
-                                        Delete
-                                    </button>
+                                        <button
+                                            onClick={() => handleDelete(ad._id)}
+                                            className="btn btn-xs md:btn-sm btn-error"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

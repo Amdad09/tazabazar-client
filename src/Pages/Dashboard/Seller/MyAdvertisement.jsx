@@ -12,7 +12,6 @@ const MyAdvertisements = () => {
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-    const limit = 8;
 
   const {
       data: ads = [],
@@ -73,7 +72,7 @@ const MyAdvertisements = () => {
     console.log(ads)
     return (
         <div className="max-w-6xl mx-auto p-6  rounded">
-            <h2 className="text-2xl font-bold mb-6 text-lime-600">
+            <h2 className="text-2xl text-center font-semibold md:font-bold mb-6 text-primary">
                 📢 My Advertisements
             </h2>
 
@@ -83,90 +82,92 @@ const MyAdvertisements = () => {
                 </p>
             ) : (
                 <>
-                    <table className="min-w-full text-left  rounded">
-                        <thead className="">
-                            <tr>
-                                <th className="px-4 py-2 border-b">Product</th>
-                                <th className="px-4 py-2 border-b">Market</th>
-                                <th className="px-4 py-2 border-b">Ad Date</th>
-                                <th className="px-4 py-2 border-b">Details</th>
-                                <th className="px-4 py-2 border-b">Status</th>
-                                {/* <th className="px-4 py-2 border-b">
-                                    Created At
-                                </th> */}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {ads.map((ad) => (
-                                <tr
-                                    key={ad._id}
-                                    className="border-b hover:bg-gray-50 cursor-pointer"
-                                    title={`Advertisement status: ${ad.status}`}
-                                >
-                                    <td className="px-4 py-2 font-medium">
-                                        {ad.productName || 'N/A'}
-                                    </td>
-                                    <td className="px-4 py-2">
-                                        {ad.productMarket || 'N/A'}
-                                    </td>
-                                    <td className="px-4 py-2">
-                                        {ad.adTitle || 'N/A'}
-                                    </td>
-                                    <td className="px-4 py-2">
-                                        <Link
-                                            to={`/market/${ad.productId}`}
-                                            className="px-2 py-1 ml-3 rounded btn bg-gray-400 btn-xs text-xs font-semibold "
-                                        >
-                                            {' '}
-                                            View Details
-                                        </Link>
-                                    </td>
-                                    {/* <td className="px-4 py-2">
-                                        {new Date(
-                                            ad.advertisementDate,
-                                        ).toLocaleDateString()}
-                                    </td> */}
-
-                                    <td className="px-4 py-2">
-                                        <span
-                                            className={`px-2 py-1 mr-3 rounded text-xs font-semibold ${
-                                                ad.status === 'approved'
-                                                    ? 'bg-green-200 text-green-800'
-                                                    : ad.status === 'rejected'
-                                                    ? 'bg-red-200 text-red-800'
-                                                    : 'bg-yellow-200 text-yellow-800'
-                                            }`}
-                                        >
-                                            {ad.status}
-                                        </span>
-                                        <button
-                                            onClick={() =>
-                                                handleUpdate(ad._id)
-                                            }
-                                            className="px-3 py-1 mr-3 text-xs rounded text-primary border cursor-pointer border-blue-200 hover:bg-blue-50 transition"
-                                            title="Edit Product"
-                                        >
-                                            ✏️ Edit
-                                        </button>
-                                        <button
-                                            onClick={() =>
-                                                handleDelete(ad._id)
-                                            }
-                                            className="px-3 py-1 text-xs rounded cursor-pointer text-red-600 border border-red-200 hover:bg-red-50 transition"
-                                            title="Delete Product"
-                                        >
-                                            🗑️ Delete
-                                        </button>
-                                    </td>
-                                    {/* <td className="px-4 py-2">
-                                        {new Date(
-                                            ad.createdAt,
-                                        ).toLocaleString()}
-                                    </td> */}
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full text-left rounded text-sm sm:text-base">
+                            <thead>
+                                <tr>
+                                    <th className="px-4 py-2 border-b">
+                                        Product
+                                    </th>
+                                    <th className="px-4 py-2 border-b">
+                                        Market
+                                    </th>
+                                    <th className="px-4 py-2 border-b">
+                                        Ad Date
+                                    </th>
+                                    <th className="px-4 py-2 border-b">
+                                        Details
+                                    </th>
+                                    <th className="px-4 py-2 border-b">
+                                        Status
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {ads.map((ad) => (
+                                    <tr
+                                        key={ad._id}
+                                        className="border-b hover:bg-gray-50 cursor-pointer"
+                                    >
+                                        <td className="px-4 py-2 font-medium">
+                                            {ad.productName || 'N/A'}
+                                        </td>
+                                        <td className="px-4 py-2">
+                                            {ad.productMarket || 'N/A'}
+                                        </td>
+                                        <td className="px-4 py-2">
+                                            {ad.adTitle || 'N/A'}
+                                        </td>
+                                        <td className="px-4 py-2">
+                                            <Link
+                                                to={`/market/${ad.productId}`}
+                                                className="btn btn-sm bg-gray-400 text-black text-xs rounded"
+                                            >
+                                                View Details
+                                            </Link>
+                                        </td>
+
+                                        <td className="px-4 py-2">
+                                            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 gap-1">
+                                                <span
+                                                    className={`px-2 py-1 rounded text-xs font-semibold text-center ${
+                                                        ad.status === 'approved'
+                                                            ? 'bg-green-200 text-green-800'
+                                                            : ad.status ===
+                                                              'rejected'
+                                                            ? 'bg-red-200 text-red-800'
+                                                            : 'bg-yellow-200 text-yellow-800'
+                                                    }`}
+                                                >
+                                                    {ad.status}
+                                                </span>
+
+                                                <button
+                                                    onClick={() =>
+                                                        handleUpdate(ad._id)
+                                                    }
+                                                    className="px-3 py-1 text-xs rounded text-primary border border-blue-200 hover:bg-blue-50 transition"
+                                                    title="Edit Product"
+                                                >
+                                                    ✏️ Edit
+                                                </button>
+
+                                                <button
+                                                    onClick={() =>
+                                                        handleDelete(ad._id)
+                                                    }
+                                                    className="px-3 py-1 text-xs rounded text-red-600 border border-red-200 hover:bg-red-50 transition"
+                                                    title="Delete Product"
+                                                >
+                                                    🗑️ Delete
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
 
                     {/* Pagination */}
                     {/* {totalPages > 1 && (

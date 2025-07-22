@@ -141,7 +141,9 @@ const Navbar = () => {
                             onClick={handleLogout}
                             className="btn btn-sm hidden lg:block btn-error text-white"
                         >
-                            <FaSignOutAlt className="mr-1" /> Logout
+                            <div className="flex items-center">
+                                <FaSignOutAlt className="mr-1" /> Logout
+                            </div>
                         </button>
                     </>
                 )}

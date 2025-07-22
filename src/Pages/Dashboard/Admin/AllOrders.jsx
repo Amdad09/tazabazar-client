@@ -24,7 +24,7 @@ const AllOrders = () => {
     const totalPages = Math.ceil(data.totalOrders / limit);
 
     return (
-        <div className="p-4">
+        <div className="p-4 relative">
             <h2 className="text-2xl font-bold mb-4">All Orders</h2>
             <div className="overflow-x-auto">
                 <table className="table w-full border border-green-100">
@@ -74,7 +74,7 @@ const AllOrders = () => {
             </div>
 
             {/* Pagination buttons */}
-            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40  rounded px-4 py-4 flex gap-2">
+            <div className="absolute left-1/2 transform -translate-x-1/2 z-40 rounded px-4 py-4 flex gap-2">
                 {Array.from({ length: totalPages }, (_, i) => (
                     <button
                         key={i}

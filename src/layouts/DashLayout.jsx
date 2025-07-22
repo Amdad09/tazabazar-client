@@ -1,6 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router'; // Correct router import
 import Sidebar from '../Component/Dashboard/Sidebar/Sidebar';
+import Logo from '../shared/Logo/Logo';
+import Footer from '../shared/Footer/Footer';
 
 const DashLayout = () => {
     return (
@@ -10,7 +12,7 @@ const DashLayout = () => {
 
             <div className="drawer-content flex flex-col">
                 {/* ✅ Mobile Top Navbar */}
-                <div className="w-full navbar bg-base-200 lg:hidden">
+                <div className="w-full fixed top-0 z-30 navbar bg-base-200 lg:hidden">
                     <label
                         htmlFor="my-drawer-2"
                         className="btn btn-square btn-ghost"
@@ -30,12 +32,17 @@ const DashLayout = () => {
                             />
                         </svg>
                     </label>
-                    <span className="ml-2 font-bold text-lg">Dashboard</span>
+                    {/* <span className="ml-2 font-bold text-lg">Dashboard</span> */}
+                    <Logo />
                 </div>
 
                 {/* ✅ Main Page Content */}
-                <div className="p-4">
-                    <Outlet />
+                <div>
+                    <div className="p-1 mb-12 pt-16 lg:pt-3">
+                        <Outlet />
+                    </div>
+                    
+                    <Footer />
                 </div>
             </div>
 

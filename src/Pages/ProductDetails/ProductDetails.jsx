@@ -168,7 +168,7 @@ const ProductDetails = () => {
                         </LineChart>
                     </ResponsiveContainer>
                 </div> */}
-                <div className="my-5 pb-12">
+                <div className="my-5 py-12">
                     <PriceComparisonChart item={product.items} />
                 </div>
             </div>

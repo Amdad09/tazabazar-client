@@ -41,7 +41,7 @@ const UserDataRow = ({ user, index }) => {
                       aria-hidden="true"
                       className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
                   ></span>
-                  <span className="relative">Update Role</span>
+                  <span className="relative text-xs md:text-[12px]">Update Role</span>
               </span>
               <UpdateUserRoleModal
                   isOpen={isOpen}

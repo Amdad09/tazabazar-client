@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <div className="bg-gray-100 text-gray-800">
             {/* Top Footer */}
-            <footer className="footer sm:footer-horizontal text-base-content p-10">
+            <footer className="footer grid grid-cols-2 md:grid-cols-3 text-base-content p-10">
                 <nav>
                     <h6 className="footer-title text-gray-900">Services</h6>
                     <a className="link link-hover">Branding</a>

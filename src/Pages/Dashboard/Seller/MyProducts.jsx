@@ -1,10 +1,10 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
-import Swal from 'sweetalert2';
-import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router';
 
 const MyProducts = () => {
     const axiosSecure = useAxiosSecure();
@@ -28,9 +28,9 @@ const MyProducts = () => {
         queryFn: fetchProducts,
         keepPreviousData: true,
     });
-
+    const totalCount = data?.totalCount || 0;
+    const totalPages = Math.ceil(totalCount / limit);
     const products = data?.products || [];
-    const totalPages = data?.totalPages || 1;
 
     const deleteMutation = useMutation({
         mutationFn: async (id) => axiosSecure.delete(`/markets/${id}`),
@@ -68,11 +68,10 @@ const MyProducts = () => {
     if (error) return <p className="text-red-500">Error loading products</p>;
 
     return (
-        <div className="p-6 bg-white shadow rounded-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+        <div className="p-2 md:p-4 lg:p-6 bg-white shadow rounded-lg">
+            <h2 className="text-2xl font-bold text-center py-6 text-primary">
                 📦 My Products
             </h2>
-
             <div className="overflow-x-auto">
                 <table className="min-w-full text-sm text-left text-gray-700">
                     <thead className="bg-gray-100 text-xs font-semibold uppercase tracking-wider border-b border-gray-200">
@@ -180,26 +179,41 @@ const MyProducts = () => {
                         )}
                     </tbody>
                 </table>
-            </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-                <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40 rounded px-4 py-4 flex gap-2">
-                    {[...Array(totalPages).keys()].map((i) => (
+                {totalPages > 1 && (
+                    <div className="mt-6 flex justify-center items-center gap-2 flex-wrap">
                         <button
-                            key={i}
-                            onClick={() => setPage(i + 1)}
-                            className={`px-3 py-1 border rounded ${
-                                page === i + 1
-                                    ? 'bg-primary text-secondary'
-                                    : 'bg-gray-100 hover:bg-gray-200'
-                            }`}
+                            className="btn btn-sm"
+                            disabled={page === 1}
+                            onClick={() => setPage((prev) => prev - 1)}
                         >
-                            {i + 1}
+                            Prev
                         </button>
-                    ))}
-                </div>
-            )}
+
+                        {Array.from({ length: totalPages }, (_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setPage(idx + 1)}
+                                className={`btn btn-sm ${
+                                    page === idx + 1
+                                        ? 'btn-primary'
+                                        : 'btn-outline'
+                                }`}
+                            >
+                                {idx + 1}
+                            </button>
+                        ))}
+
+                        <button
+                            className="btn btn-sm"
+                            disabled={page === totalPages}
+                            onClick={() => setPage((prev) => prev + 1)}
+                        >
+                            Next
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

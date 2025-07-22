@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router';
+import { Link } from 'react-router'; 
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
 import useAuth from '../../../hooks/useAuth';
@@ -16,9 +16,8 @@ const WatchlistManager = () => {
             const res = await axiosSecure.get('/watchlist');
             return res.data;
         },
-        enabled: !!user?.email, 
+        enabled: !!user?.email,
     });
-    console.log(watchlist)
 
     const removeMutation = useMutation({
         mutationFn: async (id) => await axiosSecure.delete(`/watchlist/${id}`),
@@ -32,56 +31,63 @@ const WatchlistManager = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <div className="p-6 bg-white rounded ">
-            <h2 className="text-xl font-semibold mb-4">🛠️ Manage Watchlist</h2>
-            <table className="w-full text-sm">
-                <thead>
-                    <tr className="text-left border-b">
-                        <th className="p-2"></th>
-                        <th className="p-2">Product</th>
-                        <th className="p-2">Market</th>
-                        <th className="p-2">Date</th>
-                        {/* <th className="p-2">Details</th> */}
-                        <th className="p-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {watchlist.map((item) => (
-                        <tr
-                            key={item._id}
-                            className="border-b border-b-gray-300 hover:bg-gray-50"
-                        >
-                            <td className="p-2 font-medium">
-                                <img className='w-10 h-10 rounded' src={item.image} alt="Product" />
-                            </td>
-                            <td className="p-2 font-medium">
-                                {item.items.name}
-                            </td>
-                            <td className="p-2">{item.market}</td>
-                            <td className="p-2">{item.date}</td>
-                            {/* <td>
-                                <Link to={`/market/${item._id}`}>View more</Link>
-                            </td> */}
-                            <td className="p-2 space-x-2">
-                                <Link
-                                    to="/allProducts"
-                                    className="px-2 py-1 bg-primary text-secondary rounded text-xs"
-                                >
-                                    ➕ Add More
-                                </Link>
-                                <button
-                                    onClick={() =>
-                                        removeMutation.mutate(item._id)
-                                    }
-                                    className="px-2 py-1 cursor-pointer bg-red-500 text-white rounded text-xs"
-                                >
-                                    ❌ Remove
-                                </button>
-                            </td>
+        <div className="container mx-auto px-4 sm:px-8">
+            <h2 className="text-2xl font-bold text-center py-12 text-primary">
+                🛠️ Manage Watchlist
+            </h2>
+
+            <div className="overflow-x-auto">
+                <table className="min-w-[600px] w-full text-sm">
+                    <thead>
+                        <tr className="bg-gray-100 text-left">
+                            <th className="p-2">Image</th>
+                            <th className="p-2">Product</th>
+                            <th className="p-2">Market</th>
+                            <th className="p-2">Date</th>
+                            <th className="p-2">Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {watchlist.map((item) => (
+                            <tr
+                                key={item._id}
+                                className="border-b hover:bg-gray-50"
+                            >
+                                <td className="p-2">
+                                    <img
+                                        className="w-10 h-10 rounded object-cover"
+                                        src={item.image}
+                                        alt="Product"
+                                    />
+                                </td>
+                                <td className="p-2 font-medium">
+                                    {item.items.name}
+                                </td>
+                                <td className="p-2">{item.market}</td>
+                                <td className="p-2">{item.date}</td>
+                                <td className="p-2">
+                                    <div className="flex gap-2">
+                                        <Link
+                                            to="/allProducts"
+                                            className="px-2 btn btn-xs py-1 bg-primary text-white rounded text-xs text-center"
+                                        >
+                                            ➕ Add More
+                                        </Link>
+                                        <button
+                                            onClick={() =>
+                                                removeMutation.mutate(item._id)
+                                            }
+                                            className="px-2 btn btn-xs py-1 bg-red-500 text-white rounded text-xs"
+                                        >
+                                            ❌ Remove
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

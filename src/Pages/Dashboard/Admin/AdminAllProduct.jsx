@@ -97,44 +97,49 @@ const AdminAllProduct = () => {
                                 <td>{p.status}</td>
                                 <td>
                                     <Link to={`/market/${p._id}`}>
-                                        <button className="btn btn-sm bg-gray-400 border-primary">
+                                        <button className="btn btn-xs md:btn-sm bg-gray-400 border-primary">
                                             Details
                                         </button>
                                     </Link>
                                 </td>
-                                <td className="space-x-2">
-                                    {p.status === 'pending' && (
-                                        <>
-                                            <button
-                                                onClick={() =>
-                                                    handleApproval(
-                                                        p._id,
-                                                        'approved',
-                                                    )
-                                                }
-                                                className="btn btn-sm btn-success"
-                                            >
-                                                Approve
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    setCurrentRejectId(p._id);
-                                                    setShowModal(true);
-                                                }}
-                                                className="btn btn-sm btn-error"
-                                            >
-                                                Reject
-                                            </button>
-                                        </>
-                                    )}
+                                <td>
+                                    <div className="flex flex-col sm:flex-row flex-wrap gap-2 items-start sm:items-center">
+                                        {/* Conditional Buttons */}
+                                        {p.status === 'pending' && (
+                                            <div className="flex flex-col sm:flex-row gap-2">
+                                                <button
+                                                    onClick={() =>
+                                                        handleApproval(
+                                                            p._id,
+                                                            'approved',
+                                                        )
+                                                    }
+                                                    className="btn btn-sm btn-success"
+                                                >
+                                                    Approve
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setCurrentRejectId(
+                                                            p._id,
+                                                        );
+                                                        setShowModal(true);
+                                                    }}
+                                                    className="btn btn-sm btn-error"
+                                                >
+                                                    Reject
+                                                </button>
+                                            </div>
+                                        )}
 
-                                    <button
-                                        onClick={() => handleDelete(p._id)}
-                                        className="px-3 py-1 text-xs rounded cursor-pointer  text-red-600 border border-red-200 hover:bg-red-50 transition"
-                                        title="Delete Product"
-                                    >
-                                        🗑️ Delete
-                                    </button>
+                                        <button
+                                            onClick={() => handleDelete(p._id)}
+                                            className="btn-xs md:btn-sm px-2 py-1 text-xs rounded cursor-pointer text-red-600 border border-red-200 hover:bg-red-50 transition"
+                                            title="Delete Product"
+                                        >
+                                            🗑️ Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -146,7 +151,6 @@ const AdminAllProduct = () => {
                 onClose={() => setShowModal(false)}
                 onSubmit={handleRejection}
             />
-            ;
         </div>
     );
 };

@@ -9,58 +9,62 @@ const MyOrders = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [selectedOrder, setSelectedOrder] = useState(null);
-
-    const {
-        data: orders = [],
-        isLoading,
-        refetch,
-    } = useQuery({
-        queryKey: ['my-orders', user?.email],
-        enabled: !!user?.email, 
+    const [page, setPage] = useState(1);
+    const limit = 8;
+    const { data, isLoading, refetch } = useQuery({
+        queryKey: ['my-orders', user?.email, page],
+        enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/my-orders?email=${user.email}`);
-            return res.data;
+            const res = await axiosSecure.get(
+                `/my-orders?email=${user.email}&page=${page}&limit=${limit}`,
+            );
+            return res.data; // { total, orders }
         },
     });
 
     if (isLoading) return <Loading />;
 
+    const totalOrders = data.total;
+    const totalPages = Math.ceil(totalOrders / limit);
+
     return (
         <div className="container mx-auto px-4 sm:px-8">
-            <h2 className="text-2xl font-bold text-center py-6 text-lime-600">
+            <h2 className="text-2xl font-bold text-center py-6 text-primary">
                 🧾 My Orders
             </h2>
 
-            {orders.length === 0 ? (
+            {data.orders.length === 0 ? (
                 <p className="text-center text-gray-500">No orders found.</p>
             ) : (
                 <div className="overflow-x-auto">
-                    <table className="min-w-full text-sm bg-white rounded shadow">
+                    <table className="relative min-w-[800px] w-full text-sm sm:text-base bg-white rounded shadow">
                         <thead>
-                            <tr>
-                                <th className="px-4 py-3 text-left">
+                            <tr className="bg-gray-100">
+                                <th className="px-4 py-3 text-left whitespace-nowrap">
                                     🏪 Market
                                 </th>
-                                <th className="px-4 py-3 text-left">
+                                <th className="px-4 py-3 text-left whitespace-nowrap">
                                     🧺 Items
                                 </th>
-                                <th className="px-4 py-3 text-left">
+                                <th className="px-4 py-3 text-left whitespace-nowrap">
                                     💰 Total
                                 </th>
-                                <th className="px-4 py-3 text-left">
+                                <th className="px-4 py-3 text-left whitespace-nowrap">
                                     🧑‍💼 Seller
                                 </th>
-                                <th className="px-4 py-3 text-left">📅 Date</th>
-                                <th className="px-4 py-3 text-left">
+                                <th className="px-4 py-3 text-left whitespace-nowrap">
+                                    📅 Date
+                                </th>
+                                <th className="px-4 py-3 text-left whitespace-nowrap">
                                     🟡 Status
                                 </th>
-                                <th className="px-4 py-3 text-left">
+                                <th className="px-4 py-3 text-left whitespace-nowrap">
                                     ⚙️ Action
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {orders.map((order) => (
+                            {data.orders.map((order) => (
                                 <tr
                                     key={order._id}
                                     className="border-t border-gray-200 hover:bg-gray-50"
@@ -95,7 +99,7 @@ const MyOrders = () => {
                                     </td>
 
                                     {/* 💰 Total */}
-                                    <td className="px-4 py-3 font-semibold">
+                                    <td className="px-4 py-3 font-semibold whitespace-nowrap">
                                         ৳{order.totalPrice?.toFixed(2)}
                                     </td>
 
@@ -105,14 +109,16 @@ const MyOrders = () => {
                                             <img
                                                 src={order?.seller?.photo}
                                                 alt="seller"
-                                                className="w-8 h-8 rounded-full"
+                                                className="w-8 h-8 rounded-full object-cover"
                                             />
-                                            <span>{order.seller?.name}</span>
+                                            <span className="text-sm">
+                                                {order.seller?.name}
+                                            </span>
                                         </div>
                                     </td>
 
-                                    {/* 📅 Created At */}
-                                    <td className="px-4 py-3">
+                                    {/* 📅 Date */}
+                                    <td className="px-4 py-3 whitespace-nowrap">
                                         {new Date(
                                             order.date,
                                         ).toLocaleDateString()}
@@ -142,7 +148,7 @@ const MyOrders = () => {
                                             </button>
                                         ) : (
                                             <button
-                                                className="px-3 cursor-pointer py-1  bg-primary text-xs rounded"
+                                                className="px-3 py-1 bg-primary text-white text-xs rounded hover:bg-green-600 transition"
                                                 onClick={() =>
                                                     setSelectedOrder(order)
                                                 }
@@ -156,16 +162,44 @@ const MyOrders = () => {
                         </tbody>
                     </table>
 
+                    {/* ✅ Pay Now Modal */}
                     {selectedOrder && (
                         <PayNowModal
                             isOpen={!!selectedOrder}
                             order={selectedOrder}
                             onClose={() => setSelectedOrder(null)}
-                            onPaymentUpdate={(updatedOrderId) => {
-                                refetch(); 
-                            }}
+                            onPaymentUpdate={() => refetch()}
                         />
                     )}
+
+                    {/* ✅ Pagination Controls */}
+                    <div className=" absolute flex left-1/2 transform -translate-x-1/2 z-40 gap-2 mt-6">
+                        <button
+                            disabled={page === 1}
+                            onClick={() => setPage((p) => p - 1)}
+                            className="btn btn-sm"
+                        >
+                            Prev
+                        </button>
+                        {[...Array(totalPages).keys()].map((i) => (
+                            <button
+                                key={i}
+                                onClick={() => setPage(i + 1)}
+                                className={`btn btn-sm ${
+                                    page === i + 1 ? 'btn-primary' : ''
+                                }`}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
+                        <button
+                            disabled={page === totalPages}
+                            onClick={() => setPage((p) => p + 1)}
+                            className="btn btn-sm"
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             )}
         </div>
