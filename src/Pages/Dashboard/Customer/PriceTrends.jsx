@@ -55,7 +55,8 @@ const TrackedPriceTrends = () => {
             </div>
             {selectedItem && (
                 <div className="bg-white p-4 shadow rounded">
-                    <h2 className="text-xl font-bold mb-5">
+                    <h2 className="text-xl font-medium mb-5">
+                            <p className='font-semibold'>{ selectedItem.market}</p>
                         {selectedItem.items.name}:{' '}
                         <p className='mt-4'>
                             <img
@@ -64,6 +65,7 @@ const TrackedPriceTrends = () => {
                                 alt="Product image"
                             />
                         </p>
+                        
                     </h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={selectedItem.items.priceHistory}>

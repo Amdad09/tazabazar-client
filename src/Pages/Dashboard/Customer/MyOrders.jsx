@@ -28,7 +28,7 @@ const MyOrders = () => {
     const totalPages = Math.ceil(totalOrders / limit);
 
     return (
-        <div className="container mx-auto px-4 sm:px-8">
+        <div className="container mx-auto px-4 min-h-[500px] sm:px-8">
             <h2 className="text-2xl font-bold text-center py-6 text-primary">
                 🧾 My Orders
             </h2>
@@ -173,33 +173,35 @@ const MyOrders = () => {
                     )}
 
                     {/* ✅ Pagination Controls */}
-                    <div className=" absolute flex left-1/2 transform -translate-x-1/2 z-40 gap-2 mt-6">
-                        <button
-                            disabled={page === 1}
-                            onClick={() => setPage((p) => p - 1)}
-                            className="btn btn-sm"
-                        >
-                            Prev
-                        </button>
-                        {[...Array(totalPages).keys()].map((i) => (
+                    {totalPages > 1 && (
+                        <div className=" absolute flex left-1/2 transform -translate-x-1/2 z-40 gap-2 mt-6">
                             <button
-                                key={i}
-                                onClick={() => setPage(i + 1)}
-                                className={`btn btn-sm ${
-                                    page === i + 1 ? 'btn-primary' : ''
-                                }`}
+                                disabled={page === 1}
+                                onClick={() => setPage((p) => p - 1)}
+                                className="btn btn-sm"
                             >
-                                {i + 1}
+                                Prev
                             </button>
-                        ))}
-                        <button
-                            disabled={page === totalPages}
-                            onClick={() => setPage((p) => p + 1)}
-                            className="btn btn-sm"
-                        >
-                            Next
-                        </button>
-                    </div>
+                            {[...Array(totalPages).keys()].map((i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setPage(i + 1)}
+                                    className={`btn btn-sm ${
+                                        page === i + 1 ? 'btn-primary' : ''
+                                    }`}
+                                >
+                                    {i + 1}
+                                </button>
+                            ))}
+                            <button
+                                disabled={page === totalPages}
+                                onClick={() => setPage((p) => p + 1)}
+                                className="btn btn-sm"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

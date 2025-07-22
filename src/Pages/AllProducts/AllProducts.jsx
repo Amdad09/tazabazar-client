@@ -28,12 +28,12 @@ const AllProducts = () => {
 
         fetchProducts();
     }, [page]);
-    
-    const price = products.map(product => {
+
+    const price = products.map((product) => {
         const updatePrice = product?.items?.priceHistory;
         const priceLength = updatePrice.length - 1;
         return Number(updatePrice[priceLength].price);
-    })
+    });
     console.log(price);
 
     const totalPages = Math.ceil(totalCount / limit);
@@ -101,11 +101,7 @@ const AllProducts = () => {
                                         <span className="font-medium">
                                             💰 Price:
                                         </span>
-                                        <span>
-                                            {price[index] ||
-                                                'N/A'}{' '}
-                                            ৳
-                                        </span>
+                                        <span>{price[index] || 'N/A'} ৳</span>
                                     </div>
                                     <div className="flex justify-between text-sm text-gray-600">
                                         <span className="font-medium">

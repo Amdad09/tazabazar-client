@@ -34,7 +34,7 @@ const Navbar = () => {
     );
 
     return (
-        <div className="navbar bg-base-100/85 shadow-sm px-4 fixed top-0 left-0 w-full z-50">
+        <div className="navbar bg-gray-50  px-4 fixed top-0 left-0 w-full z-50">
             {/* Left: Logo */}
             <div className="navbar-start">
                 <div className="dropdown">

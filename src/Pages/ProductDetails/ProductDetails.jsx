@@ -75,7 +75,7 @@ const ProductDetails = () => {
             userImage: user?.photoURL,
             rating,
             comment,
-            createdAt: new Date().toISOString(),
+            createdAt: new Date().toISOString().split('T')[0],
         };
 
         const res = await axiosSecure.post(
@@ -92,7 +92,7 @@ const ProductDetails = () => {
     // console.log(product.items.priceHistory);
     return (
         <div className="max-w-5xl mx-auto px-4 py-10 space-y-8">
-            <div className='text-center'>
+            <div className="text-center">
                 {product.status === 'rejected' && product.feedback && (
                     <p className="text-red-600 mt-2 font-medium">
                         ⚠️ Rejection Feedback: {product.feedback}
@@ -209,21 +209,41 @@ const ProductDetails = () => {
                     </p>
                 ) : (
                     reviews.map((r, i) => (
-                        <div key={i} className="bg-gray-100 p-3 rounded-lg">
-                            <div className="flex items-center space-x-3">
+                        <div
+                            key={i}
+                            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4"
+                        >
+                            <div className="flex items-start space-x-4">
                                 <img
                                     src={r.userImage}
-                                    className="w-8 h-8 rounded-full"
                                     alt="user"
+                                    className="w-10 h-10 rounded-full object-cover border border-gray-300"
                                 />
-                                <div>
-                                    <p className="font-medium">{r.userName}</p>
-                                    <p className="text-sm text-gray-500">
-                                        {'⭐'.repeat(r.rating)} ({r.rating}/5)
+                                <div className="flex-1">
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-semibold text-gray-800">
+                                                {r.userName}
+                                            </p>
+                                            <p className="text-sm text-gray-400">
+                                                {r.userEmail}
+                                            </p>
+                                            <p className="text-sm text-gray-400">
+                                                {r.createdAt}
+                                            </p>
+                                        </div>
+                                        <div className="text-yellow-500 text-sm">
+                                            {'⭐'.repeat(r.rating)}
+                                            <span className="ml-1 text-gray-500">
+                                                ({r.rating}/5)
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p className="mt-3 text-gray-700 leading-relaxed">
+                                        {r.comment}
                                     </p>
                                 </div>
                             </div>
-                            <p className="mt-2 text-gray-700">{r.comment}</p>
                         </div>
                     ))
                 )}
