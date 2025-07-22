@@ -12,7 +12,7 @@ const DashLayout = () => {
 
             <div className="drawer-content flex flex-col">
                 {/* ✅ Mobile Top Navbar */}
-                <div className="w-full fixed top-0 z-30 navbar bg-base-200 lg:hidden">
+                <div className="w-full fixed top-0 z-30 navbar bg-green-100 lg:hidden">
                     <label
                         htmlFor="my-drawer-2"
                         className="btn btn-square btn-ghost"
