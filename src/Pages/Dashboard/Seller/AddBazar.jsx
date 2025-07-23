@@ -1,10 +1,8 @@
-import axios from 'axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import AddBazarForm from '../../../Component/Form/AddBazarForm';
+import AddMarketForm from '../../../Component/Form/AddMarketForm';
 import { imageUpload } from '../../../assets/api/utils';
 import useAuth from '../../../hooks/useAuth';
-import AddMarketForm from '../../../Component/Form/AddMarketForm';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AddBazar = () => {
@@ -18,7 +16,7 @@ const AddBazar = () => {
         try {
             setIsUploading(true);
 
-           const res = await axiosSecure.post('/add-market', data);
+            const res = await axiosSecure.post('/add-market', data);
             toast.success('✅ Bazar data added successfully!');
             // form.reset();
             setUploadedImage(null);
@@ -31,8 +29,8 @@ const AddBazar = () => {
         }
     };
 
-    // for check 
-    // fetch('http://localhost:3000/jwt', {
+    // for check
+    // fetch('https://kachabazar-360-server.vercel.app/jwt', {
     //     method: 'POST',
     //     headers: {
     //         'Content-Type': 'application/json',

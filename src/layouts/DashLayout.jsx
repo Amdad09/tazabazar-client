@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router'; // Correct router import
 import Sidebar from '../Component/Dashboard/Sidebar/Sidebar';
 import Logo from '../shared/Logo/Logo';
 import Footer from '../shared/Footer/Footer';
 
 const DashLayout = () => {
+    
+  const [outletHeight, setOutletHeight] = useState('100vh');
+
+  useEffect(() => {
+    const updateHeight = () => {
+      const height = window.innerHeight;
+      setOutletHeight(`${height}px`);
+    };
+
+    updateHeight(); // set on mount
+    window.addEventListener('resize', updateHeight); // update on resize
+
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
+
     return (
         <div className="drawer lg:drawer-open">
             {/* ✅ Drawer Toggle Checkbox */}
@@ -38,10 +53,12 @@ const DashLayout = () => {
 
                 {/* ✅ Main Page Content */}
                 <div>
-                    <div className="p-1 mb-12 pt-16 lg:pt-3">
+                    <div
+                        className="p-1 mb-12 pt-16 lg:pt-3"
+                        style={{ minHeight: outletHeight }}
+                    >
                         <Outlet />
                     </div>
-                    
                     <Footer />
                 </div>
             </div>

@@ -1,15 +1,14 @@
-import { useLoaderData } from 'react-router';
-import { FaStar, FaShoppingCart } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
-import useAuth from '../../hooks/useAuth';
-import BuyProductModal from '../../Component/Modal/BuyProductModal';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import useRole from '../../hooks/useRole';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import PriceComparisonChart from './PriceComparisonChart';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { FaShoppingCart, FaStar } from 'react-icons/fa';
+import { useLoaderData } from 'react-router';
+import BuyProductModal from '../../Component/Modal/BuyProductModal';
 import PayNowModal from '../../Component/Modal/PayNowModal';
+import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useRole from '../../hooks/useRole';
+import PriceComparisonChart from './PriceComparisonChart';
 
 const ProductDetails = () => {
     const product = useLoaderData();
@@ -23,10 +22,10 @@ const ProductDetails = () => {
     const [reviews, setReviews] = useState([]);
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState(5);
-    
+
     const updatePrice = product.items.priceHistory;
     const priceLength = updatePrice.length - 1;
-    console.log(updatePrice.length, Number(updatePrice[priceLength].price))
+    console.log(updatePrice.length, Number(updatePrice[priceLength].price));
     const price = Number(updatePrice[priceLength].price);
 
     const isVendorOrAdmin =
@@ -42,27 +41,25 @@ const ProductDetails = () => {
             .then((res) => setReviews(res.data));
     }, [product._id, axiosSecure]);
 
-
     // ✅ Watchlist Mutation
-   const { mutate: addToWatchlist } = useMutation({
-       mutationFn: async (watch) => {
-           const { data } = await axiosSecure.post('/watchlist', watch);
-           return data;
-       },
-       onSuccess: (data) => {
-           if (data.insertedId) {
-               toast.success('✅ Added to Watchlist');
-               queryClient.invalidateQueries(['watchlist', user.email]);
-               setIsWatchlisted(true);
-           } else {
-               toast.error('⚠️ Already in Watchlist');
-           }
-       },
-       onError: () => {
-           toast.error('❌ Failed to add to watchlist');
-       },
-   });
-
+    const { mutate: addToWatchlist } = useMutation({
+        mutationFn: async (watch) => {
+            const { data } = await axiosSecure.post('/watchlist', watch);
+            return data;
+        },
+        onSuccess: (data) => {
+            if (data.insertedId) {
+                toast.success('✅ Added to Watchlist');
+                queryClient.invalidateQueries(['watchlist', user.email]);
+                setIsWatchlisted(true);
+            } else {
+                toast.error('⚠️ Already in Watchlist');
+            }
+        },
+        onError: () => {
+            toast.error('❌ Failed to add to watchlist');
+        },
+    });
 
     // ✅ Review Submit
     const handleReviewSubmit = async (e) => {
@@ -79,7 +76,7 @@ const ProductDetails = () => {
         };
 
         const res = await axiosSecure.post(
-            'http://localhost:3000/reviews',
+            'https://kachabazar-360-server.vercel.app/reviews',
             newReview,
         );
         if (res.data.insertedId) {

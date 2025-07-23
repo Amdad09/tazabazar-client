@@ -54,13 +54,13 @@ const TrackedPriceTrends = () => {
                 ))}
             </div>
             {selectedItem && (
-                <div className="bg-white p-4 shadow rounded">
+                <div className="bg-white pr-3 md:p-4 rounded">
                     <h2 className="text-xl font-medium mb-5">
                             <p className='font-semibold'>{ selectedItem.market}</p>
                         {selectedItem.items.name}:{' '}
                         <p className='mt-4'>
                             <img
-                                className="w-40 h-40 ml-12"
+                                className="w-28 h-28 md:w-40 md:h-40 ml-12"
                                 src={selectedItem.image}
                                 alt="Product image"
                             />

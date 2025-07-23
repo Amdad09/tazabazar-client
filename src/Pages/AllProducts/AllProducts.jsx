@@ -72,7 +72,7 @@ const AllProducts = () => {
                     updated with the latest rates for your favorite groceries.
                 </p>
             </div>
-            <div className='flex justify-around items-center'>
+            <div className="flex justify-around items-center">
                 <div className="text-center mb-6">
                     <label className="mr-2 font-medium text-gray-700">
                         🧭 Sort by:
@@ -113,17 +113,13 @@ const AllProducts = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {products.map((product, index) => (
-                        <motion.div
+                        <div
                             key={product._id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4 }}
+                            data-aos="zoom-in"
+                            // data-aos-delay={index * 100}
                             className="bg-white rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
                         >
-                            <motion.img
-                                whileHover={{ scale: 0.9 }}
-                                whileTap={{ scale: 0.8 }}
-                                transition={{ duration: 0.7 }}
+                            <img
                                 src={product.image}
                                 alt={product.market}
                                 className="w-full h-48 object-cover rounded-t-2xl"
@@ -172,7 +168,7 @@ const AllProducts = () => {
                                     View Details 🔍
                                 </button>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             )}

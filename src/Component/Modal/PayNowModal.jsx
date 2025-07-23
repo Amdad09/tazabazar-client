@@ -1,9 +1,8 @@
-
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import StripeProvider from '../../context/StripeProvider';
-import PaymentForm from '../Form/PaymentForm ';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import PaymentForm from '../Form/PaymentForm ';
 
 const PayNowModal = ({ isOpen, onClose, order, onPaymentUpdate }) => {
     const axiosSecure = useAxiosSecure();
@@ -13,7 +12,7 @@ const PayNowModal = ({ isOpen, onClose, order, onPaymentUpdate }) => {
     const handlePaymentSuccess = async (paymentIntent) => {
         try {
             const res = await axios.patch(
-                `http://localhost:3000/orders/${order._id}`,
+                `https://kachabazar-360-server.vercel.app/orders/${order._id}`,
                 {
                     transactionId: paymentIntent.id,
                 },
