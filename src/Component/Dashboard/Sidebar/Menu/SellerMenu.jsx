@@ -1,5 +1,8 @@
 import { BsFillHouseAddFill } from 'react-icons/bs';
-import { MdHomeWork, MdOutlineManageHistory } from 'react-icons/md';
+import { MdHomeWork } from 'react-icons/md';
+import { MdOutlineProductionQuantityLimits } from 'react-icons/md';
+import { BiSolidOffer } from 'react-icons/bi';
+import { RiAdvertisementFill } from 'react-icons/ri';
 import MenuItem from './MenuItem';
 const SellerMenu = () => {
     return (
@@ -11,17 +14,17 @@ const SellerMenu = () => {
             />
 
             <MenuItem
-                icon={MdHomeWork}
+                icon={MdOutlineProductionQuantityLimits}
                 label="My Products"
                 address="my-products"
             />
             <MenuItem
-                icon={MdHomeWork}
+                icon={RiAdvertisementFill}
                 label="Add Advertisement"
                 address="add-advertisement"
             />
             <MenuItem
-                icon={MdHomeWork}
+                icon={BiSolidOffer}
                 label="My Advertisement"
                 address="my-advertisement"
             />

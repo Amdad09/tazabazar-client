@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import Loading from '../../../shared/Loading';
 import RejectionModal from '../../../Component/Modal/RejectionModal';
 import { Link } from 'react-router';
+import toast from 'react-hot-toast';
 
 const AdminAllProduct = () => {
     const [products, setProducts] = useState([]);
@@ -25,6 +26,7 @@ const AdminAllProduct = () => {
             const updated = products.map((p) =>
                 p._id === id ? { ...p, status } : p,
             );
+            toast.success('Product approved!');
             setProducts(updated);
         });
     };

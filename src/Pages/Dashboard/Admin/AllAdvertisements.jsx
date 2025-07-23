@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
 
 const AllAdvertisements = () => {
     const [ads, setAds] = useState([]);
@@ -20,6 +21,7 @@ const AllAdvertisements = () => {
                         ad._id === id ? { ...ad, status: newStatus } : ad,
                     ),
                 );
+                toast.success('Advertisement product added!');
             })
             .catch((error) => {
                 console.error('Status update failed:', error);
