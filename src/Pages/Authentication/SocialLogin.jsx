@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { saveUserInDb } from '../../assets/api/utils';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
 
 const SocialLogin = () => {
     const { socialLogin } = useAuth();
@@ -28,10 +29,8 @@ const SocialLogin = () => {
                     { email: result?.user?.email },
                 );
 
-                // ✅ Store token
                 localStorage.setItem('access-token', res.data.token);
-
-                // ✅ Redirect
+                toast.success('Login successfully!');
                 navigate(from, { replace: true });
             })
             .catch((error) => {

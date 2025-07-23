@@ -27,7 +27,7 @@ const AuthLayout = () => {
             <div className="hero bg-base-200 min-h-screen">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <motion.div
-                        className="text-center lg:text-left w-[500px]"
+                        className="text-center hidden lg:block lg:text-left w-[300px] md:w-[500px]"
                         initial="hidden"
                         animate={{
                             opacity: [1, 2, 1],
@@ -46,7 +46,7 @@ const AuthLayout = () => {
                             className="drop-shadow-lg rounded-lg"
                         />
                     </motion.div>
-                    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl pt-10 border-green-300">
                         <Outlet />
                     </div>
                 </div>

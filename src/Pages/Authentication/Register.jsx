@@ -63,7 +63,7 @@ const Register = () => {
 
     return (
         <div
-            className=" bg-white shadow-lg rounded-xl p-8 mt-12"
+            className="bg-white shadow-lg rounded-xl p-6 sm:p-8 md:p-10 max-w-md w-full mx-auto mt-12"
             data-aos="fade-up"
         >
             <h2 className="text-2xl font-bold text-center text-green-700 mb-6">
