@@ -21,7 +21,7 @@ const MyAdvertisements = () => {
       queryKey: ['my-advertisement', user?.email],
       enabled: !!user?.email,
       queryFn: async () => {
-          const res = await axiosSecure.get(`/advertisements?email=${user.email}`);
+          const res = await axiosSecure.get(`/advertisements/myads?email=${user.email}`);
           return res.data;
       },
   });
@@ -93,7 +93,7 @@ const MyAdvertisements = () => {
                                         Market
                                     </th>
                                     <th className="px-4 py-2 border-b">
-                                        Ad Date
+                                        Ad Title
                                     </th>
                                     <th className="px-4 py-2 border-b">
                                         Details

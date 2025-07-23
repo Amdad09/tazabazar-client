@@ -153,25 +153,31 @@ const MyProducts = () => {
                                                 </button>
                                             </Link>
                                         </td>
-                                        <td className="">
-                                            <button
-                                                onClick={() =>
-                                                    handleUpdate(product._id)
-                                                }
-                                                className="px-3 py-1 mr-3 text-xs rounded text-primary border cursor-pointer border-blue-200 hover:bg-blue-50 transition"
-                                                title="Edit Product"
-                                            >
-                                                ✏️ Edit
-                                            </button>
-                                            <button
-                                                onClick={() =>
-                                                    handleDelete(product._id)
-                                                }
-                                                className="px-3 py-1 text-xs rounded cursor-pointer text-red-600 border border-red-200 hover:bg-red-50 transition"
-                                                title="Delete Product"
-                                            >
-                                                🗑️ Delete
-                                            </button>
+                                        <td>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() =>
+                                                        handleUpdate(
+                                                            product._id,
+                                                        )
+                                                    }
+                                                    className="px-3 py-1 mr-3 text-xs rounded text-primary border cursor-pointer border-blue-200 hover:bg-blue-50 transition"
+                                                    title="Edit Product"
+                                                >
+                                                    ✏️ Edit
+                                                </button>
+                                                <button
+                                                    onClick={() =>
+                                                        handleDelete(
+                                                            product._id,
+                                                        )
+                                                    }
+                                                    className="px-3 py-1 text-xs rounded cursor-pointer text-red-600 border border-red-200 hover:bg-red-50 transition"
+                                                    title="Delete Product"
+                                                >
+                                                    🗑️ Delete
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 );

@@ -1,8 +1,9 @@
-import { useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import AddAdvertisement from './AddAdvertisement';
+import Loading from '../../../shared/Loading';
 
 const UpdateAdvertisement = () => {
     const { id } = useParams();
@@ -18,12 +19,13 @@ const UpdateAdvertisement = () => {
     const handleUpdate = async (updatedAd) => {
         try {
             await axiosSecure.put(`/advertisements/${id}`, updatedAd);
+            Navigate('/dashboard/my-advertisement');
         } catch (err) {
             toast.error('Update failed.');
         }
     };
 
-    if (!adData) return <p>Loading...</p>;
+    if (!adData) return <Loading/>;
 
     return (
         <AddAdvertisement

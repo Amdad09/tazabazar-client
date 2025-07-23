@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
-import { useForm } from 'react-hook-form';
 
 const AddMarketForm = ({
     handleFormSubmit,
@@ -10,7 +9,7 @@ const AddMarketForm = ({
     handleImageUpload,
     imageUploadError,
     initialData = {},
-    onSubmit
+    onSubmit,
 }) => {
     const { user } = useAuth();
     const [itemName, setItemName] = useState(initialData?.items?.name || '');
@@ -31,8 +30,6 @@ const AddMarketForm = ({
         priceHistory: Array(7).fill({ date: '', price: '' }),
     });
 
-   
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const updatedProduct = {
@@ -46,8 +43,6 @@ const AddMarketForm = ({
         };
         onSubmit(updatedProduct);
     };
-
-   
 
     // const addProduct = () => {
     //     setProducts([

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import AddMarketForm from './AddMarketForm';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
+import Loading from '../../shared/Loading';
 
 const UpdateProductForm = () => {
     const [productData, setProductData] = useState(null);
@@ -27,7 +28,7 @@ const UpdateProductForm = () => {
         }
     };
 
-    if (!productData) return <p>Loading...</p>;
+    if (!productData) return <Loading/>;
 
     return (
         <AddMarketForm
