@@ -1,6 +1,6 @@
 ## 🛒 Daily Price Tracker for Local Markets (কাঁচাবাজার)
 
-### 🔗 Live Site: [https://your-deployed-site-link.com](https://your-deployed-site-link.com)
+### 🔗 Live Site: https://tazabazara-360.web.app
 
 > *Track today’s bazaar prices, compare trends, and make smart purchases.*
 
