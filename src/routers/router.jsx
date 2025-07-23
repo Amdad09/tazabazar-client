@@ -30,11 +30,13 @@ import AdminRoute from '../routes/AdminRoute';
 import PrivateRoute from '../routes/PrivateRoute';
 import SellerRoute from '../routes/SellerRoute';
 import DashLayout from '../layouts/DashLayout';
+import ErrorPage from '../shared/ErrorPage/ErrorPage';
 
 export const router = createBrowserRouter([
     {
         path: '/',
         Component: MainLayouts,
+        errorElement: <ErrorPage/>,
         children: [
             {
                 path: '/',

@@ -72,36 +72,37 @@ const AllProducts = () => {
                     updated with the latest rates for your favorite groceries.
                 </p>
             </div>
+            <div className='flex justify-around items-center'>
+                <div className="text-center mb-6">
+                    <label className="mr-2 font-medium text-gray-700">
+                        🧭 Sort by:
+                    </label>
+                    <select
+                        value={sortOrder || ''}
+                        onChange={(e) => setSortOrder(e.target.value || null)}
+                        className="px-4 py-2 border rounded-md"
+                    >
+                        <option value="">Default</option>
+                        <option value="asc">🔼 Price Low to High</option>
+                        <option value="desc">🔽 Price High to Low</option>
+                    </select>
+                </div>
 
-            <div className="text-center mb-6">
-                <label className="mr-2 font-medium text-gray-700">
-                    🧭 Sort by:
-                </label>
-                <select
-                    value={sortOrder || ''}
-                    onChange={(e) => setSortOrder(e.target.value || null)}
-                    className="px-4 py-2 border rounded-md"
-                >
-                    <option value="">Default</option>
-                    <option value="asc">🔼 Price Low to High</option>
-                    <option value="desc">🔽 Price High to Low</option>
-                </select>
-            </div>
-
-            {/* 📅 Date Filter */}
-            <div className="mb-6 text-center">
-                <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    placeholderText="Filter by Date"
-                    className="px-4 py-2 border rounded-md"
-                />
-                <button
-                    className="ml-3 px-3 py-2 bg-gray-200 rounded"
-                    onClick={() => setSelectedDate(null)}
-                >
-                    Clear
-                </button>
+                {/* 📅 Date Filter */}
+                <div className="mb-6 text-center">
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        placeholderText="Filter by Date"
+                        className="px-4 py-2 border rounded-md"
+                    />
+                    <button
+                        className="ml-3 px-3 py-2 hover:bg-green-300 cursor-pointer bg-green-200 rounded"
+                        onClick={() => setSelectedDate(null)}
+                    >
+                        Clear
+                    </button>
+                </div>
             </div>
 
             {/* 📦 Product Grid */}
