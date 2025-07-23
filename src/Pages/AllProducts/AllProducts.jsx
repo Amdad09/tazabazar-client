@@ -2,42 +2,61 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalCount, setTotalCount] = useState(0);
-    const limit = 9;
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [sortOrder, setSortOrder] = useState(null); 
 
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                const queryParams = {};
+
+                if (selectedDate) {
+                    queryParams.date = selectedDate.toLocaleDateString('en-CA');
+                }
+
                 const res = await axios.get(
-                    `${
-                        import.meta.env.VITE_API_URL
-                    }/markets/approved?page=${page}&limit=${limit}`,
+                    `${import.meta.env.VITE_API_URL}/markets/approved`,
+                    { params: queryParams },
                 );
-                setProducts(res.data.products);
-                setTotalCount(res.data.totalCount);
+
+                let fetchedProducts = res.data.products || [];
+
+                if (sortOrder) {
+                    fetchedProducts.sort((a, b) => {
+                        const priceA = Number(
+                            a?.items?.priceHistory?.slice(-1)[0]?.price || 0,
+                        );
+                        const priceB = Number(
+                            b?.items?.priceHistory?.slice(-1)[0]?.price || 0,
+                        );
+                        return sortOrder === 'asc'
+                            ? priceA - priceB
+                            : priceB - priceA;
+                    });
+                }
+
+                setProducts(res.data.products || []);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
 
         fetchProducts();
-    }, [page]);
+    }, [selectedDate, sortOrder]);
 
     const price = products.map((product) => {
-        const updatePrice = product?.items?.priceHistory;
+        const updatePrice = product?.items?.priceHistory || [];
         const priceLength = updatePrice.length - 1;
-        return Number(updatePrice[priceLength].price);
+        return Number(updatePrice[priceLength]?.price || 0);
     });
-    console.log(price);
 
-    const totalPages = Math.ceil(totalCount / limit);
-    console.log(totalPages);
     const handleDetailsClick = (productId) => {
         navigate(`/market/${productId}`);
     };
@@ -54,6 +73,38 @@ const AllProducts = () => {
                 </p>
             </div>
 
+            <div className="text-center mb-6">
+                <label className="mr-2 font-medium text-gray-700">
+                    🧭 Sort by:
+                </label>
+                <select
+                    value={sortOrder || ''}
+                    onChange={(e) => setSortOrder(e.target.value || null)}
+                    className="px-4 py-2 border rounded-md"
+                >
+                    <option value="">Default</option>
+                    <option value="asc">🔼 Price Low to High</option>
+                    <option value="desc">🔽 Price High to Low</option>
+                </select>
+            </div>
+
+            {/* 📅 Date Filter */}
+            <div className="mb-6 text-center">
+                <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => setSelectedDate(date)}
+                    placeholderText="Filter by Date"
+                    className="px-4 py-2 border rounded-md"
+                />
+                <button
+                    className="ml-3 px-3 py-2 bg-gray-200 rounded"
+                    onClick={() => setSelectedDate(null)}
+                >
+                    Clear
+                </button>
+            </div>
+
+            {/* 📦 Product Grid */}
             {products.length === 0 ? (
                 <p className="text-center text-gray-500 text-lg">
                     No market data found.
@@ -76,7 +127,6 @@ const AllProducts = () => {
                                 alt={product.market}
                                 className="w-full h-48 object-cover rounded-t-2xl"
                             />
-
                             <div className="p-4 space-y-2">
                                 <h3 className="text-xl font-semibold text-lime-600">
                                     🛒 {product.market}
@@ -84,7 +134,6 @@ const AllProducts = () => {
                                 <p className="text-sm text-gray-500">
                                     📅 {product.date}
                                 </p>
-
                                 <div className="border-t pt-3 space-y-2">
                                     <h4 className="text-lg font-semibold text-gray-700">
                                         📋 Product Info
@@ -113,7 +162,6 @@ const AllProducts = () => {
                                         </span>
                                     </div>
                                 </div>
-
                                 <button
                                     onClick={() =>
                                         handleDetailsClick(product._id)
@@ -124,25 +172,6 @@ const AllProducts = () => {
                                 </button>
                             </div>
                         </motion.div>
-                    ))}
-                </div>
-            )}
-
-            {/* 🔢 Pagination Buttons */}
-            {totalPages > 1 && (
-                <div className="flex justify-center mt-10 space-x-2">
-                    {[...Array(totalPages).keys()].map((num) => (
-                        <button
-                            key={num + 1}
-                            onClick={() => setPage(num + 1)}
-                            className={`px-4 py-2 rounded-full ${
-                                page === num + 1
-                                    ? 'bg-primary text-white'
-                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                            }`}
-                        >
-                            {num + 1}
-                        </button>
                     ))}
                 </div>
             )}
