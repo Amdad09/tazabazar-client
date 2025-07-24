@@ -40,11 +40,11 @@ const Advertisement = () => {
             <Swiper
                 modules={[Pagination, Autoplay]}
                 pagination={{ clickable: true }}
-                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                autoplay={{ delay: 2000, disableOnInteraction: false }}
                 spaceBetween={10}
                 centeredSlides={true}
                 slidesPerView={1.5}
-                loop={true}
+                loop={false}
                 breakpoints={{
                     768: {
                         slidesPerView: 2.5,

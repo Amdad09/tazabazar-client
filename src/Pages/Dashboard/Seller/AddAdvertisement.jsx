@@ -24,12 +24,13 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
     useEffect(() => {
         if (user?.email) {
             axiosSecure
-                .get(`/my-products`)
-                .then((res) => setMyProducts(res.data.products))
+                .get(`/my-products/all`)
+                .then((res) => setMyProducts(res.data))
                 .catch((err) => console.error(err));
         }
     }, [user, axiosSecure]);
 
+    console.log(myProducts)
 
     useEffect(() => {
         if (isUpdate && defaultValues) {
@@ -46,46 +47,7 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
     }, [isUpdate, defaultValues]);
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-
-        const newAd = {
-            ...formData,
-            image: imageUrl,
-            vendorName: user.displayName,
-            vendorEmail: user.email,
-            status: 'pending',
-            createdAt: new Date(),
-        };
-
-        try {
-            if (isUpdate && onSubmit) {
-                await onSubmit(newAd); // For update mode
-                toast.success(' Advertisement updated successfully!');
-            } else {
-                const res = await axiosSecure.post('/advertisements', newAd); // For add mode
-                if (res.data.insertedId) {
-                    toast.success(' Advertisement submitted successfully!');
-                    setFormData({
-                        adTitle: '',
-                        shortDescription: '',
-                        productId: '',
-                        productTitle: '',
-                        productMarket: '',
-                        productName: '',
-                    });
-                    setImageUrl('');
-                }
-            }
-        } catch (err) {
-            console.error(err);
-            toast.error('❌ Submission failed.');
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
+   
 
 
     // ✅ Input change handler
@@ -123,6 +85,45 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
             console.error(err);
         }
     };
+
+     const handleSubmit = async (e) => {
+         e.preventDefault();
+         setIsSubmitting(true);
+
+         const newAd = {
+             ...formData,
+             image: imageUrl,
+             vendorName: user.displayName,
+             vendorEmail: user.email,
+             status: 'pending',
+             createdAt: new Date(),
+         };
+
+         try {
+             if (isUpdate && onSubmit) {
+                 await onSubmit(newAd);
+             } else {
+                 const res = await axiosSecure.post('/advertisements', newAd);
+                 if (res.data.insertedId) {
+                     
+                     toast.success('Advertisement submitted successfully!');
+                     setFormData({
+                         adTitle: '',
+                         shortDescription: '',
+                         productId: '',
+                         productTitle: '',
+                         productMarket: '',
+                         productName: '',
+                     });
+                     setImageUrl('');
+                 }
+             }
+         } catch (err) {
+             console.error(err);
+         } finally {
+             setIsSubmitting(false);
+         }
+     };
 
 
     return (

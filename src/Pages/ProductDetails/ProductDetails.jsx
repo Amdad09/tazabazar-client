@@ -1,37 +1,40 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaShoppingCart, FaStar } from 'react-icons/fa';
-import { useLoaderData } from 'react-router';
+import { useParams } from 'react-router';
 import BuyProductModal from '../../Component/Modal/BuyProductModal';
 import PayNowModal from '../../Component/Modal/PayNowModal';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useRole from '../../hooks/useRole';
+import Loading from '../../shared/Loading';
 import PriceComparisonChart from './PriceComparisonChart';
 
 const ProductDetails = () => {
-    const product = useLoaderData();
-    console.log(product);
+    // const product = useLoaderData();
+    // console.log(product)
     const { user } = useAuth();
     const [role] = useRole();
+    const axiosSecure = useAxiosSecure();
     const [isWatchlisted, setIsWatchlisted] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
-
     const [openModal, setOpenModal] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState(5);
+    const { id } = useParams();
 
-    const updatePrice = product.items.priceHistory;
-    const priceLength = updatePrice.length - 1;
-    console.log(updatePrice.length, Number(updatePrice[priceLength].price));
-    const price = Number(updatePrice[priceLength].price);
+    const { data: product = {}, isLoading } = useQuery({
+        queryKey: ['market', id],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/market/${id}`);
+            console.log(res.data);
+            return res.data;
+        },
+    });
+    console.log(product);
 
-    const isVendorOrAdmin =
-        user?.email === product?.seller?.email || role === 'admin';
-    const isNormalUser = role === 'customer';
-    const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
 
     // ✅ Load Reviews
@@ -60,6 +63,17 @@ const ProductDetails = () => {
             toast.error('❌ Failed to add to watchlist');
         },
     });
+
+    if (isLoading) return <Loading />;
+
+    const updatePrice = product.items.priceHistory;
+    const priceLength = updatePrice.length - 1;
+    console.log(updatePrice.length, Number(updatePrice[priceLength].price));
+    const price = Number(updatePrice[priceLength].price);
+
+    const isVendorOrAdmin =
+        user?.email === product?.seller?.email || role === 'admin';
+    const isNormalUser = role === 'customer';
 
     // ✅ Review Submit
     const handleReviewSubmit = async (e) => {

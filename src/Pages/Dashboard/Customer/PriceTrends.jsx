@@ -33,6 +33,14 @@ const TrackedPriceTrends = () => {
 
     if (isLoading) return <p>Loading...</p>;
 
+    if (!isLoading && data.length === 0) {
+        return (
+            <div className="text-center py-12 text-gray-500 text-lg">
+                No tracked items found.
+            </div>
+        );
+    }
+
     console.log('Selected:', selectedItem?._id);
     // console.log('Item:', item.items._id);
 

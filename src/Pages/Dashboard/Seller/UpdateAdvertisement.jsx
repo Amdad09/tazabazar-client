@@ -1,4 +1,4 @@
-import { Navigate, useParams } from 'react-router';
+import { Navigate, useNavigate, useParams } from 'react-router';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -9,7 +9,7 @@ const UpdateAdvertisement = () => {
     const { id } = useParams();
     const axiosSecure = useAxiosSecure();
     const [adData, setAdData] = useState(null);
-
+    const navigate = useNavigate()
     useEffect(() => {
         axiosSecure.get(`/advertisements/${id}`).then((res) => {
             setAdData(res.data);
@@ -17,9 +17,11 @@ const UpdateAdvertisement = () => {
     }, [id, axiosSecure]);
 
     const handleUpdate = async (updatedAd) => {
+        
         try {
             await axiosSecure.put(`/advertisements/${id}`, updatedAd);
-            Navigate('/dashboard/my-advertisement');
+            toast.success('Updated successfully!')
+            navigate('/dashboard/my-advertisement');
         } catch (err) {
             toast.error('Update failed.');
         }

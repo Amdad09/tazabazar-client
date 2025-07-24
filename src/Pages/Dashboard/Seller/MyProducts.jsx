@@ -31,6 +31,7 @@ const MyProducts = () => {
     const totalCount = data?.totalCount || 0;
     const totalPages = Math.ceil(totalCount / limit);
     const products = data?.products || [];
+    console.log(products);
 
     const deleteMutation = useMutation({
         mutationFn: async (id) => axiosSecure.delete(`/markets/${id}`),

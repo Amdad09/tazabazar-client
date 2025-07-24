@@ -1,8 +1,6 @@
 import { createBrowserRouter } from 'react-router';
 import UpdateProductForm from '../Component/Form/UpdateProductForm';
 import AuthLayout from '../layouts/AuthLayout';
-import DashboardLayout from '../layouts/DashboardLayout';
-import Lay from '../layouts/DashLayout';
 import MainLayouts from '../layouts/MainLayouts';
 import AllProducts from '../Pages/AllProducts/AllProducts';
 import Login from '../Pages/Authentication/Login';
@@ -31,12 +29,13 @@ import PrivateRoute from '../routes/PrivateRoute';
 import SellerRoute from '../routes/SellerRoute';
 import DashLayout from '../layouts/DashLayout';
 import ErrorPage from '../shared/ErrorPage/ErrorPage';
+import { axiosSecure } from '../hooks/useAxiosSecure';
 
 export const router = createBrowserRouter([
     {
         path: '/',
         Component: MainLayouts,
-        errorElement: <ErrorPage/>,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: '/',
@@ -55,10 +54,10 @@ export const router = createBrowserRouter([
                         <ProductDetails />
                     </PrivateRoute>
                 ),
-                loader: ({ params }) =>
-                    fetch(
-                        `${import.meta.env.VITE_API_URL}/market/${params.id}`,
-                    ),
+                // loader: async ({ params }) => {
+                //     const res = await axiosSecure.get(`/market/${params.id}`);
+                //     return res.data;
+                // },
             },
             {
                 path: '/allProducts',
@@ -90,7 +89,7 @@ export const router = createBrowserRouter([
         path: '/dashboard',
         element: (
             <PrivateRoute>
-                <DashLayout/>
+                <DashLayout />
             </PrivateRoute>
         ),
         children: [
