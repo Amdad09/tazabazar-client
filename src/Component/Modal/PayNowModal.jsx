@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import StripeProvider from '../../context/StripeProvider';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
@@ -8,10 +7,9 @@ const PayNowModal = ({ isOpen, onClose, order, onPaymentUpdate }) => {
     const axiosSecure = useAxiosSecure();
     if (!isOpen) return null;
 
-    // Payment success হলে order.status update
     const handlePaymentSuccess = async (paymentIntent) => {
         try {
-            const res = await axios.patch(
+            const res = await axiosSecure.patch(
                 `https://kachabazar-360-server.vercel.app/orders/${order._id}`,
                 {
                     transactionId: paymentIntent.id,
@@ -27,17 +25,16 @@ const PayNowModal = ({ isOpen, onClose, order, onPaymentUpdate }) => {
             console.error('Error updating order status:', error);
             toast.error('Failed to update order status.');
         } finally {
-            onClose(); // modal close করো
+            onClose();
         }
     };
 
-    // payment success হলে:
     // const handlePaymentSuccess = async () => {
     //     try {
     //         const res = await axiosSecure.post('/orders', order);
     //         if (res.data.insertedId) {
     //             toast.success('✅ Order placed & paid successfully!');
-    //             onClose(); // modal বন্ধ করো
+    //             onClose();
     //         } else {
     //             toast.error('❌ Order saving failed after payment!');
     //         }
@@ -45,7 +42,7 @@ const PayNowModal = ({ isOpen, onClose, order, onPaymentUpdate }) => {
     //         console.error(error);
     //         toast.error('❌ Error saving order after payment!');
     //     } finally {
-    //         onClose(); // modal close করো
+    //         onClose();
     //     }
     // };
 
