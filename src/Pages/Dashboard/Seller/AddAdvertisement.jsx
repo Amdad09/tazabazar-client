@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import useAuth from '../../../hooks/useAuth';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { imageUpload } from '../../../assets/api/utils';
+import useAuth from '../../../hooks/useAuth';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
-const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
+const AddAdvertisementForm = ({ isUpdate, defaultValues = {}, onSubmit }) => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
@@ -30,7 +30,7 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
         }
     }, [user, axiosSecure]);
 
-    console.log(myProducts)
+    console.log(myProducts);
 
     useEffect(() => {
         if (isUpdate && defaultValues) {
@@ -45,10 +45,6 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
             setImageUrl(defaultValues.image || '');
         }
     }, [isUpdate, defaultValues]);
-
-
-   
-
 
     // ✅ Input change handler
     const handleChange = (e) => {
@@ -86,48 +82,46 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
         }
     };
 
-     const handleSubmit = async (e) => {
-         e.preventDefault();
-         setIsSubmitting(true);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
 
-         const newAd = {
-             ...formData,
-             image: imageUrl,
-             vendorName: user.displayName,
-             vendorEmail: user.email,
-             status: 'pending',
-             createdAt: new Date(),
-         };
+        const newAd = {
+            ...formData,
+            image: imageUrl,
+            vendorName: user.displayName,
+            vendorEmail: user.email,
+            status: 'pending',
+            createdAt: new Date(),
+        };
 
-         try {
-             if (isUpdate && onSubmit) {
-                 await onSubmit(newAd);
-             } else {
-                 const res = await axiosSecure.post('/advertisements', newAd);
-                 if (res.data.insertedId) {
-                     
-                     toast.success('Advertisement submitted successfully!');
-                     setFormData({
-                         adTitle: '',
-                         shortDescription: '',
-                         productId: '',
-                         productTitle: '',
-                         productMarket: '',
-                         productName: '',
-                     });
-                     setImageUrl('');
-                 }
-             }
-         } catch (err) {
-             console.error(err);
-         } finally {
-             setIsSubmitting(false);
-         }
-     };
-
+        try {
+            if (isUpdate && onSubmit) {
+                await onSubmit(newAd);
+            } else {
+                const res = await axiosSecure.post('/advertisements', newAd);
+                if (res.data.insertedId) {
+                    toast.success('Advertisement submitted successfully!');
+                    setFormData({
+                        adTitle: '',
+                        shortDescription: '',
+                        productId: '',
+                        productTitle: '',
+                        productMarket: '',
+                        productName: '',
+                    });
+                    setImageUrl('');
+                }
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
-        <div className="max-w-2xl mx-auto p-2 md:p-4 lg:p-6 bg-white rounded-xl mt-6">
+        <div className="max-w-2xl mx-auto p-2 md:p-4 lg:p-6   rounded-xl mt-6">
             <h2 className="text-2xl font-bold text-center py-6 text-primary">
                 {isUpdate ? '📢 Update Advertisement' : '📢 Add Advertisement'}
             </h2>
@@ -154,10 +148,10 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
 
                 {/* Image Upload */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium   mb-1">
                         🖼️ Upload Image <span className="text-red-500">*</span>
                     </label>
-                    <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-lime-400 rounded-lg cursor-pointer bg-white hover:bg-lime-50 transition duration-300 relative">
+                    <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-lime-400 rounded-lg cursor-pointer   hover:bg-lime-50 transition duration-300 relative">
                         <input
                             type="file"
                             accept="image/*"
@@ -165,7 +159,7 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
                             className="absolute w-full h-full opacity-0 cursor-pointer"
                         />
                         {!imageUrl ? (
-                            <div className="text-gray-500 text-sm">
+                            <div className=" 0 text-sm">
                                 Click or drag & drop to upload image
                             </div>
                         ) : (
@@ -202,7 +196,7 @@ const AddAdvertisementForm = ({isUpdate, defaultValues ={}, onSubmit }) => {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn btn-success w-full"
+                    className="btn btn-primary w-full"
                 >
                     {isSubmitting
                         ? isUpdate

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import toast from 'react-hot-toast';
 
 const AllAdvertisements = () => {
     const [ads, setAds] = useState([]);
@@ -26,7 +26,6 @@ const AllAdvertisements = () => {
             .catch((error) => {
                 console.error('Status update failed:', error);
             });
-
     };
 
     const handleDelete = (id) => {
@@ -52,7 +51,7 @@ const AllAdvertisements = () => {
             <h2 className="text-2xl font-bold mb-4">All Advertisements</h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
-                    <thead className="bg-gray-100">
+                    <thead className=" ">
                         <tr>
                             <th>#</th>
                             <th>Title</th>
@@ -78,7 +77,7 @@ const AllAdvertisements = () => {
                                                         ad.status,
                                                     )
                                                 }
-                                                className="btn btn-xs md:btn-sm btn-success mr-2"
+                                                className="btn btn-xs md:btn-sm btn-primary mr-2"
                                             >
                                                 Approve
                                             </button>

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import Swal from 'sweetalert2';
-import Loading from '../../../shared/Loading';
-import RejectionModal from '../../../Component/Modal/RejectionModal';
-import { Link } from 'react-router';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router';
+import Swal from 'sweetalert2';
+import RejectionModal from '../../../Component/Modal/RejectionModal';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Loading from '../../../shared/Loading';
 
 const AdminAllProduct = () => {
     const [products, setProducts] = useState([]);
@@ -15,11 +15,13 @@ const AdminAllProduct = () => {
     const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        axiosSecure.get('/markets').then((res) => setProducts(res.data))
-            .finally(() => setLoading(false))
+        axiosSecure
+            .get('/markets')
+            .then((res) => setProducts(res.data))
+            .finally(() => setLoading(false));
     }, [axiosSecure]);
 
-    console.log(products)
+    console.log(products);
 
     const handleApproval = (id, status) => {
         axiosSecure.patch(`/markets/status/${id}`, { status }).then(() => {
@@ -48,7 +50,6 @@ const AdminAllProduct = () => {
             });
     };
 
-
     const handleDelete = (id) => {
         Swal.fire({
             title: 'Are you sure?',
@@ -73,14 +74,14 @@ const AdminAllProduct = () => {
         });
     };
 
-    if(loading) return <Loading/>
+    if (loading) return <Loading />;
 
     return (
         <div className="p-4">
             <h2 className="text-2xl font-bold mb-4">All Products</h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
-                    <thead className="bg-gray-100">
+                    <thead className=" ">
                         <tr>
                             <th>#</th>
                             <th>Name</th>
@@ -116,7 +117,7 @@ const AdminAllProduct = () => {
                                                             'approved',
                                                         )
                                                     }
-                                                    className="btn btn-sm btn-success"
+                                                    className="btn btn-sm btn-primary"
                                                 >
                                                     Approve
                                                 </button>

@@ -7,9 +7,9 @@ const RejectionModal = ({ isOpen, onClose, onSubmit }) => {
 
     const handleSubmit = () => {
         if (!reason) return;
-        onSubmit(reason); 
+        onSubmit(reason);
         setReason('');
-        onClose(); 
+        onClose();
         toast.success('Rejected feedback successfully');
     };
 
@@ -17,7 +17,7 @@ const RejectionModal = ({ isOpen, onClose, onSubmit }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded w-96 space-y-4">
+            <div className="  p-6 rounded w-96 space-y-4">
                 <h3 className="text-lg font-bold">Rejection Reason</h3>
                 <textarea
                     className="textarea textarea-bordered w-full"

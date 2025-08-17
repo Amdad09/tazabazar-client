@@ -138,7 +138,7 @@ const AddMarketForm = ({
     };
 
     return (
-        <div className="w-full min-h-screen flex flex-col justify-center items-center bg-gray-50 p-6">
+        <div className="w-full min-h-screen flex flex-col justify-center items-center bg-gray-50 dark:bg-[#93B1A6] p-6">
             <form
                 onSubmit={handleFinalSubmit}
                 className="w-full max-w-5xl space-y-8"
@@ -194,7 +194,7 @@ const AddMarketForm = ({
                     <h3 className="text-xl font-semibold">
                         {isEditMode ? '🛒 Update Product' : '🛒 Add Product'}
                     </h3>
-                    <div className="border p-4 rounded-md space-y-4 bg-white shadow-sm">
+                    <div className="border p-4 rounded-md space-y-4   shadow-sm">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <input
                                 type="text"
@@ -247,11 +247,11 @@ const AddMarketForm = ({
 
                         {/* Image Upload */}
                         <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium   mb-1">
                                 🖼️ Upload Product Image{' '}
                                 <span className="text-red-500">*</span>
                             </label>
-                            <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-lime-400 rounded-lg cursor-pointer bg-white hover:bg-lime-50 transition duration-300 relative">
+                            <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-lime-400 rounded-lg cursor-pointer   hover:bg-lime-50 transition duration-300 relative">
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -259,7 +259,7 @@ const AddMarketForm = ({
                                     className="absolute w-full h-full opacity-0 cursor-pointer"
                                 />
                                 {!uploadedImage && !image ? (
-                                    <div className="flex flex-col items-center text-gray-500">
+                                    <div className="flex flex-col items-center  0">
                                         {/* SVG icon */}
                                         <p className="text-sm">
                                             Click or drag & drop to upload image
@@ -286,7 +286,7 @@ const AddMarketForm = ({
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {product.priceHistory.map((entry, dayIndex) => (
                                 <div key={dayIndex} className="space-y-1">
-                                    <label className="text-sm font-medium text-gray-600">
+                                    <label className="text-sm font-medium  ">
                                         📅 Day {dayIndex + 1} Price
                                     </label>
                                     <input
@@ -326,7 +326,7 @@ const AddMarketForm = ({
                 <button
                     type="submit"
                     disabled={isUploading}
-                    className="btn btn-success w-full"
+                    className="btn bg-primary text-secondary w-full"
                 >
                     {isUploading
                         ? isEditMode

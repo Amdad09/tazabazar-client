@@ -1,16 +1,15 @@
-
-import React from 'react';
-import logoImage from '../../assets/logo.png'
 import { motion } from 'framer-motion';
 import { Link } from 'react-router';
+import logoImage from '../../assets/logo.png';
 const Logo = () => {
     return (
-        <Link to='/'>
+        <Link to="/">
             <motion.div
                 className="manufact flex items-center gap-3 cursor-pointer"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}>
+                transition={{ duration: 0.6 }}
+            >
                 <img
                     src={logoImage}
                     alt="TazaBazar 360 Logo"

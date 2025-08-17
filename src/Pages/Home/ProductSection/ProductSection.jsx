@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useLoaderData, useNavigate } from 'react-router';
 
 const ProductSection = () => {
-    const products = useLoaderData(); 
+    const products = useLoaderData();
     const navigate = useNavigate();
 
     const handleDetailsClick = (productId) => {
@@ -17,14 +17,12 @@ const ProductSection = () => {
 
     return (
         <div className="max-w-screen-xl mx-auto px-4 py-10">
-            <h2 className="text-3xl font-bold text-center mb-10 text-lime-600">
+            <h2 className="text-3xl font-bold text-center mb-10 text-lime-600 dark:text-white">
                 🛍️ Latest 6 Market Updates
             </h2>
 
             {products?.length === 0 ? (
-                <p className="text-center text-gray-500 text-lg">
-                    No market data found.
-                </p>
+                <p className="text-center  0 text-lg">No market data found.</p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {products.map((product, index) => (
@@ -33,7 +31,7 @@ const ProductSection = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4 }}
-                            className="bg-white rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
+                            className="  dark:bg-[#93B1A6]   dark:text-gray-900 rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
                         >
                             {/* 🖼️ Image */}
                             <motion.img
@@ -46,33 +44,29 @@ const ProductSection = () => {
                             />
 
                             <div className="p-4 space-y-2">
-                                <h3 className="text-xl font-semibold text-lime-600">
+                                <h3 className="text-xl font-semibold text-lime-600 dark:text-black">
                                     🛒 {product.market}
                                 </h3>
-                                <p className="text-sm text-gray-500">
-                                    📅 {product.date}
-                                </p>
+                                <p className="text-sm ">📅 {product.date}</p>
 
                                 {/* 📋 Items */}
                                 <div className="border-t pt-3 space-y-2">
-                                    <h4 className="text-lg font-semibold text-gray-700">
+                                    <h4 className="text-lg font-semibold">
                                         📋 Product Info
                                     </h4>
-                                    <div className="flex justify-between text-sm text-gray-600">
+                                    <div className="flex justify-between text-sm ">
                                         <span className="font-medium">
                                             🧅 Name:
                                         </span>
                                         <span>{product.items?.name}</span>
                                     </div>
-                                    <div className="flex justify-between text-sm text-gray-600">
+                                    <div className="flex justify-between text-sm ">
                                         <span className="font-medium">
                                             💰 Price:
                                         </span>
-                                        <span>
-                                            {price[index]} ৳
-                                        </span>
+                                        <span>{price[index]} ৳</span>
                                     </div>
-                                    <div className="flex justify-between text-sm text-gray-600">
+                                    <div className="flex justify-between text-sm ">
                                         <span className="font-medium">
                                             ⚖️ Quantity Type:
                                         </span>
@@ -87,7 +81,7 @@ const ProductSection = () => {
                                     onClick={() =>
                                         handleDetailsClick(product._id)
                                     }
-                                    className="mt-4 w-full py-2 px-4 bg-primary cursor-pointer text-secondary rounded-lg font-medium hover:bg-green-600 transition"
+                                    className="mt-4 w-full py-2 px-4 bg-primary cursor-pointer text-secondary rounded-lg font-medium hover:bg-green-600 dark:hover:bg-teal-900 transition"
                                 >
                                     View Details 🔍
                                 </button>

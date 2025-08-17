@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import Logo from '../Logo/Logo';
 import './Navbar.css'
+import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 const Navbar = () => {
     const { user, logOut } = useAuth();
     const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Navbar = () => {
     );
 
     return (
-        <div className="navbar bg-gray-50  px-4 fixed top-0 left-0 w-full z-50">
+        <div className="navbar bg-gray-50 dark:bg-[#93B1A6]  px-4 fixed top-0 left-0 w-full z-50">
             {/* Left: Logo */}
             <div className="navbar-start">
                 <div className="dropdown">
@@ -55,7 +56,7 @@ const Navbar = () => {
                     </label>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-[999]"
+                        className="menu menu-sm dropdown-content mt-3 p-2 font-bold shadow bg-base-100 rounded-box w-52 dark:text-black z-[999]"
                     >
                         {links}
                         {!user && (
@@ -148,6 +149,7 @@ const Navbar = () => {
                     </>
                 )}
             </div>
+            <ThemeToggle />
         </div>
     );
 };

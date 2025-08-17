@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-import PayNowModal from './PayNowModal'; // path ঠিক করো তোমার মতো
 
 const BuyProductModal = ({ isOpen, onClose, product, setSelectedOrder }) => {
     const [quantities, setQuantities] = useState([]);
@@ -11,7 +10,7 @@ const BuyProductModal = ({ isOpen, onClose, product, setSelectedOrder }) => {
     const axiosSecure = useAxiosSecure();
 
     // For payment modal
-    
+
     // Always ensure items is an array
     const itemsArray = Array.isArray(product?.items)
         ? product.items
@@ -38,62 +37,60 @@ const BuyProductModal = ({ isOpen, onClose, product, setSelectedOrder }) => {
         return acc + latestPrice * qty;
     }, 0);
 
-   const handleConfirm = async () => {
-       const orderItems = itemsArray.map((item, idx) => {
-           const latestPrice = item.priceHistory?.slice(-1)[0]?.price || 0;
-           const qty = quantities[idx] || 1;
-           return {
-               name: item.name,
-               quantity: qty,
-               pricePerUnit: latestPrice,
-               subtotal: latestPrice * qty,
-           };
-       });
+    const handleConfirm = async () => {
+        const orderItems = itemsArray.map((item, idx) => {
+            const latestPrice = item.priceHistory?.slice(-1)[0]?.price || 0;
+            const qty = quantities[idx] || 1;
+            return {
+                name: item.name,
+                quantity: qty,
+                pricePerUnit: latestPrice,
+                subtotal: latestPrice * qty,
+            };
+        });
 
-       const orderData = {
-           market: product.market,
-           date: product.date,
-           image: product.image,
-           seller: product.seller,
-           customer: {
-               name: user?.displayName || 'Unknown',
-               email: user?.email || 'No email',
-               photo: user?.photoURL || '',
-           },
-           items: orderItems,
-           totalPrice: totalCost,
-           status: 'pending',
-           createdAt: new Date(),
-       };
+        const orderData = {
+            market: product.market,
+            date: product.date,
+            image: product.image,
+            seller: product.seller,
+            customer: {
+                name: user?.displayName || 'Unknown',
+                email: user?.email || 'No email',
+                photo: user?.photoURL || '',
+            },
+            items: orderItems,
+            totalPrice: totalCost,
+            status: 'pending',
+            createdAt: new Date(),
+        };
 
-       try {
-           const res = await axiosSecure.post('/orders', orderData);
-           if (res.data?.insertedId) {
-            //    toast.success('✅ Order placed successfully!');
-               onClose();
+        try {
+            const res = await axiosSecure.post('/orders', orderData);
+            if (res.data?.insertedId) {
+                //    toast.success('✅ Order placed successfully!');
+                onClose();
 
-               // ✅ এখন ID সহ order পাঠাও PayNowModal এ
-               setSelectedOrder({
-                   ...orderData,
-                   _id: res.data.insertedId,
-               });
-           } else {
-               toast.error('❌ Order failed to save!');
-           }
-       } catch (err) {
-           console.error(err);
-           toast.error('❌ Something went wrong!');
-       }
-   };
-
-
+                // ✅ এখন ID সহ order পাঠাও PayNowModal এ
+                setSelectedOrder({
+                    ...orderData,
+                    _id: res.data.insertedId,
+                });
+            } else {
+                toast.error('❌ Order failed to save!');
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error('❌ Something went wrong!');
+        }
+    };
 
     return (
         <>
             <Dialog open={isOpen} onClose={onClose} className="relative z-50">
                 <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <DialogPanel className="w-full max-w-2xl rounded-xl bg-white p-6 space-y-6 shadow-lg">
+                    <DialogPanel className="w-full max-w-2xl rounded-xl   p-6 space-y-6 shadow-lg">
                         <DialogTitle className="text-2xl font-bold text-lime-600">
                             🛍️ Confirm Purchase from {product.market}
                         </DialogTitle>
@@ -109,7 +106,7 @@ const BuyProductModal = ({ isOpen, onClose, product, setSelectedOrder }) => {
                                         key={index}
                                         className="border rounded-lg p-4 bg-gray-50 space-y-2"
                                     >
-                                        <p className="font-semibold text-gray-700">
+                                        <p className="font-semibold  ">
                                             🥕 {item.name} — ৳{latestPrice}/kg
                                         </p>
                                         <input
@@ -126,7 +123,7 @@ const BuyProductModal = ({ isOpen, onClose, product, setSelectedOrder }) => {
                                             }
                                             className="input input-bordered w-32"
                                         />
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-sm  0">
                                             Available: {maxQty} kg
                                         </p>
                                     </div>
@@ -151,7 +148,7 @@ const BuyProductModal = ({ isOpen, onClose, product, setSelectedOrder }) => {
                             </button>
                             <button
                                 onClick={handleConfirm}
-                                className="btn btn-success"
+                                className="btn btn-primary"
                             >
                                 ✅ Confirm Purchase
                             </button>
@@ -161,8 +158,6 @@ const BuyProductModal = ({ isOpen, onClose, product, setSelectedOrder }) => {
             </Dialog>
 
             {/* Payment Modal আলাদা করে */}
-            
-            
         </>
     );
 };

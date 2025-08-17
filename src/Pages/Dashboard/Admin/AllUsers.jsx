@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import UserDataRow from '../../../Component/Dashboard/TableRows/UserDataRow';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
-import { useState } from 'react';
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
@@ -21,7 +21,7 @@ const AllUsers = () => {
 
     const handleSearch = async (e) => {
         const value = e.target.value;
-        console.log(value)
+        console.log(value);
         setSearchTerm(value);
 
         if (!value) return;
@@ -37,7 +37,6 @@ const AllUsers = () => {
         }
     };
     const displayedUsers = searchTerm && user.length > 0 ? user : users;
-
 
     if (isLoading) return <Loading />;
 
@@ -62,38 +61,38 @@ const AllUsers = () => {
                                     <tr>
                                         <th
                                             scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
+                                            className="px-5 py-3    border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
                                         >
                                             #
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
+                                            className="px-5 py-3    border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
                                         >
                                             Name
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
+                                            className="px-5 py-3    border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
                                         >
                                             Email
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
+                                            className="px-5 py-3    border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
                                         >
                                             Role
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
+                                            className="px-5 py-3    border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
                                         >
                                             Status
                                         </th>
 
                                         <th
                                             scope="col"
-                                            className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
+                                            className="px-5 py-3    border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-semibold"
                                         >
                                             Action
                                         </th>

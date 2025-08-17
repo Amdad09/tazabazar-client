@@ -37,12 +37,12 @@ const WatchlistManager = () => {
             </h2>
 
             {watchlist.length === 0 ? (
-                <p className="text-center text-gray-500">No Watchlist found.</p>
+                <p className="text-center  0">No Watchlist found.</p>
             ) : (
                 <div className="overflow-x-auto">
                     <table className="min-w-[600px] w-full text-sm">
                         <thead>
-                            <tr className="bg-gray-100 text-left">
+                            <tr className="  text-left">
                                 <th className="p-2">Image</th>
                                 <th className="p-2">Product</th>
                                 <th className="p-2">Market</th>

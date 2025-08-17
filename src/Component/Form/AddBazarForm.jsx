@@ -126,7 +126,7 @@ const AddBazarForm = ({
                     {products.map((product, index) => (
                         <div
                             key={index}
-                            className="border p-4 rounded-md space-y-4 bg-white shadow-sm"
+                            className="border p-4 rounded-md space-y-4   shadow-sm"
                         >
                             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                                 <input
@@ -184,7 +184,7 @@ const AddBazarForm = ({
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 {[1, 2, 3].map((day) => (
                                     <div key={day} className="space-y-1">
-                                        <label className="text-sm font-medium text-gray-600">
+                                        <label className="text-sm font-medium  ">
                                             📅 Day {day} Price
                                         </label>
                                         <input
@@ -235,11 +235,11 @@ const AddBazarForm = ({
 
                 {/* 🖼️ Image Upload */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium   mb-1">
                         🖼️ Upload Banner Image{' '}
                         <span className="text-red-500">*</span>
                     </label>
-                    <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-lime-400 rounded-lg cursor-pointer bg-white hover:bg-lime-50 transition duration-300 relative">
+                    <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-lime-400 rounded-lg cursor-pointer   hover:bg-lime-50 transition duration-300 relative">
                         <input
                             type="file"
                             accept="image/*"
@@ -247,7 +247,7 @@ const AddBazarForm = ({
                             className="absolute w-full h-full opacity-0 cursor-pointer"
                         />
                         {!uploadedImage ? (
-                            <div className="flex flex-col items-center text-gray-500">
+                            <div className="flex flex-col items-center  0">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="w-10 h-10 mb-2 text-lime-400"
@@ -287,7 +287,7 @@ const AddBazarForm = ({
                 <button
                     type="submit"
                     disabled={isUploading}
-                    className="btn btn-success w-full"
+                    className="btn btn-primary w-full"
                 >
                     {isUploading ? 'Saving...' : '✅ Save Bazar Info'}
                 </button>

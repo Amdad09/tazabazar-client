@@ -35,7 +35,7 @@ const TrackedPriceTrends = () => {
 
     if (!isLoading && data.length === 0) {
         return (
-            <div className="text-center py-12 text-gray-500 text-lg">
+            <div className="text-center py-12  0 text-lg">
                 No tracked items found.
             </div>
         );
@@ -62,18 +62,17 @@ const TrackedPriceTrends = () => {
                 ))}
             </div>
             {selectedItem && (
-                <div className="bg-white pr-3 md:p-4 rounded">
+                <div className="  pr-3 md:p-4 rounded">
                     <h2 className="text-xl font-medium mb-5">
-                            <p className='font-semibold'>{ selectedItem.market}</p>
+                        <p className="font-semibold">{selectedItem.market}</p>
                         {selectedItem.items.name}:{' '}
-                        <p className='mt-4'>
+                        <p className="mt-4">
                             <img
                                 className="w-28 h-28 md:w-40 md:h-40 ml-12"
                                 src={selectedItem.image}
                                 alt="Product image"
                             />
                         </p>
-                        
                     </h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={selectedItem.items.priceHistory}>

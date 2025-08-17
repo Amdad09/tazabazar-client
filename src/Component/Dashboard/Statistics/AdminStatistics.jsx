@@ -1,10 +1,10 @@
+import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import { BsFillCartPlusFill, BsFillHouseDoorFill } from 'react-icons/bs';
 import { FaDollarSign, FaUserAlt } from 'react-icons/fa';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../shared/Loading';
 import OrderChart from '../../Chart/OrderChart';
-import { motion } from 'framer-motion';
 
 const AdminStatistics = () => {
     const axiosSecure = useAxiosSecure();
@@ -56,7 +56,7 @@ const AdminStatistics = () => {
                         <div className="flex items-center justify-between">
                             {item.icon}
                             <div className="text-right">
-                                <h4 className="text-sm text-gray-500 font-medium">
+                                <h4 className="text-sm  0 font-medium">
                                     {item.title}
                                 </h4>
                                 <p className="text-2xl font-semibold text-gray-800">
@@ -71,7 +71,7 @@ const AdminStatistics = () => {
             {/* Dashboard Charts & Updates */}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 <motion.div
-                    className="xl:col-span-2 bg-white rounded-xl shadow-md p-6"
+                    className="xl:col-span-2   rounded-xl shadow-md p-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.4 }}
@@ -80,14 +80,14 @@ const AdminStatistics = () => {
                         <h2 className="text-xl font-semibold text-gray-800">
                             📊 Weekly Overview
                         </h2>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm  0">
                             Updated: {new Date().toLocaleDateString()}
                         </span>
                     </div>
                     <OrderChart barChartData={data?.barChartData} />
                 </motion.div>
                 <motion.div
-                    className="bg-white rounded-xl shadow-md p-6"
+                    className="  rounded-xl shadow-md p-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -95,14 +95,14 @@ const AdminStatistics = () => {
                     <h2 className="text-lg font-semibold mb-3 text-gray-800">
                         🧠 Market Insight
                     </h2>
-                    <ul className="space-y-2 text-sm text-gray-600">
+                    <ul className="space-y-2 text-sm  ">
                         <li>
                             📈 Weekly growth:{' '}
                             <span className="text-green-600 font-medium">
                                 +12%
                             </span>
                         </li>
-                        
+
                         <li>
                             👥 Active Users:{' '}
                             <span className="text-blue-600 font-medium">
@@ -111,7 +111,7 @@ const AdminStatistics = () => {
                         </li>
                         <li>
                             🕐 Last update:{' '}
-                            <span className="text-gray-500">
+                            <span className=" 0">
                                 {new Date().toLocaleTimeString()}
                             </span>
                         </li>

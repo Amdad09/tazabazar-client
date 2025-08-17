@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -5,7 +6,6 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { saveUserInDb } from '../../assets/api/utils';
 import useAuth from '../../hooks/useAuth';
 import SocialLogin from './SocialLogin';
-import axios from 'axios';
 
 const Login = () => {
     const { logInUser } = useAuth();
@@ -31,9 +31,8 @@ const Login = () => {
                     photo: user.photoURL,
                 };
 
-                await saveUserInDb(userData); 
+                await saveUserInDb(userData);
 
-                
                 const res = await axios.post(
                     `${import.meta.env.VITE_API_URL}/jwt`,
                     {
@@ -42,11 +41,10 @@ const Login = () => {
                 );
 
                 const token = res.data.token;
-                console.log(token)
+                console.log(token);
                 localStorage.setItem('access-token', token);
                 console.log(localStorage.getItem('access-token'));
 
-                
                 navigate(from, { replace: true });
                 toast.success('Login successfully!');
             })
@@ -56,10 +54,9 @@ const Login = () => {
             });
     };
 
-
     return (
         <div
-            className="bg-white shadow-lg rounded-xl p-6 sm:p-8 md:p-10 max-w-md w-full mx-auto mt-12"
+            className="  shadow-lg rounded-xl p-6 sm:p-8 md:p-10 max-w-md w-full mx-auto mt-12"
             data-aos="fade-up"
         >
             <h2 className="text-2xl font-bold text-center text-green-700 mb-6">
@@ -96,7 +93,7 @@ const Login = () => {
                     />
                     <span
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-3 cursor-pointer text-sm text-gray-500"
+                        className="absolute right-3 top-3 cursor-pointer text-sm  0"
                     >
                         {showPassword ? 'Hide' : 'Show'}
                     </span>

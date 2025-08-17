@@ -15,7 +15,7 @@ const MarketDataRow = () => {
 
     return (
         <tr>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <td className="px-5 py-5 border-b border-gray-200   text-sm">
                 <div className="flex items-center">
                     <div className="flex-shrink-0">
                         <div className="block relative">
@@ -28,20 +28,20 @@ const MarketDataRow = () => {
                     </div>
                 </div>
             </td>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <td className="px-5 py-5 border-b border-gray-200   text-sm">
                 <p className="text-gray-900 whitespace-no-wrap">Money Market</p>
             </td>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <td className="px-5 py-5 border-b border-gray-200   text-sm">
                 <p className="text-gray-900 whitespace-no-wrap">Indoor</p>
             </td>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <td className="px-5 py-5 border-b border-gray-200   text-sm">
                 <p className="text-gray-900 whitespace-no-wrap">$120</p>
             </td>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <td className="px-5 py-5 border-b border-gray-200   text-sm">
                 <p className="text-gray-900 whitespace-no-wrap">5</p>
             </td>
 
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <td className="px-5 py-5 border-b border-gray-200   text-sm">
                 <span
                     onClick={openModal}
                     className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
@@ -54,7 +54,7 @@ const MarketDataRow = () => {
                 </span>
                 <DeleteModal isOpen={isOpen} closeModal={closeModal} />
             </td>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <td className="px-5 py-5 border-b border-gray-200   text-sm">
                 <span
                     onClick={() => setIsEditModalOpen(true)}
                     className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight"

@@ -1,14 +1,13 @@
 import axios from 'axios';
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from 'react-router';
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [sortOrder, setSortOrder] = useState(null); 
+    const [sortOrder, setSortOrder] = useState(null);
 
     const navigate = useNavigate();
 
@@ -67,16 +66,14 @@ const AllProducts = () => {
                 <h2 className="text-4xl font-bold text-lime-600 mb-2">
                     🛍️ All Market Products
                 </h2>
-                <p className="text-gray-600 text-lg">
+                <p className="  text-lg">
                     Browse daily price entries from different markets. Stay
                     updated with the latest rates for your favorite groceries.
                 </p>
             </div>
             <div className="flex justify-around items-center">
                 <div className="text-center mb-6">
-                    <label className="mr-2 font-medium text-gray-700">
-                        🧭 Sort by:
-                    </label>
+                    <label className="mr-2 font-medium  ">🧭 Sort by:</label>
                     <select
                         value={sortOrder || ''}
                         onChange={(e) => setSortOrder(e.target.value || null)}
@@ -107,9 +104,7 @@ const AllProducts = () => {
 
             {/* 📦 Product Grid */}
             {products.length === 0 ? (
-                <p className="text-center text-gray-500 text-lg">
-                    No market data found.
-                </p>
+                <p className="text-center  0 text-lg">No market data found.</p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {products.map((product, index) => (
@@ -117,7 +112,7 @@ const AllProducts = () => {
                             key={product._id}
                             data-aos="zoom-in"
                             // data-aos-delay={index * 100}
-                            className="bg-white rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
+                            className="  rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
                         >
                             <img
                                 src={product.image}
@@ -128,14 +123,12 @@ const AllProducts = () => {
                                 <h3 className="text-xl font-semibold text-lime-600">
                                     🛒 {product.market}
                                 </h3>
-                                <p className="text-sm text-gray-500">
-                                    📅 {product.date}
-                                </p>
+                                <p className="text-sm  0">📅 {product.date}</p>
                                 <div className="border-t pt-3 space-y-2">
-                                    <h4 className="text-lg font-semibold text-gray-700">
+                                    <h4 className="text-lg font-semibold  ">
                                         📋 Product Info
                                     </h4>
-                                    <div className="flex justify-between text-sm text-gray-600">
+                                    <div className="flex justify-between text-sm  ">
                                         <span className="font-medium">
                                             🧅 Name:
                                         </span>
@@ -143,13 +136,13 @@ const AllProducts = () => {
                                             {product.items?.name || 'N/A'}
                                         </span>
                                     </div>
-                                    <div className="flex justify-between text-sm text-gray-600">
+                                    <div className="flex justify-between text-sm  ">
                                         <span className="font-medium">
                                             💰 Price:
                                         </span>
                                         <span>{price[index] || 'N/A'} ৳</span>
                                     </div>
-                                    <div className="flex justify-between text-sm text-gray-600">
+                                    <div className="flex justify-between text-sm  ">
                                         <span className="font-medium">
                                             ⚖️ Quantity Type:
                                         </span>

@@ -1,21 +1,17 @@
 import {
-    BarChart,
     Bar,
+    BarChart,
+    CartesianGrid,
+    Legend,
+    ResponsiveContainer,
+    Tooltip,
     XAxis,
     YAxis,
-    Tooltip,
-    CartesianGrid,
-    ResponsiveContainer,
-    Legend,
 } from 'recharts';
 
 const PriceComparisonChart = ({ item }) => {
     if (!item || !item.priceHistory || !Array.isArray(item.priceHistory)) {
-        return (
-            <p className="text-center text-gray-500">
-                No price data available.
-            </p>
-        );
+        return <p className="text-center  0">No price data available.</p>;
     }
 
     // Prepare data with price changes

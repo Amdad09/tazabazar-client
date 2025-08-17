@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import useAuth from '../../../hooks/useAuth';
-import Loading from '../../../shared/Loading';
-import { Link, Navigate, useNavigate } from 'react-router';
-import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router';
+import Swal from 'sweetalert2';
+import useAuth from '../../../hooks/useAuth';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Loading from '../../../shared/Loading';
 
 const MyAdvertisements = () => {
     const { user } = useAuth();
@@ -13,32 +12,33 @@ const MyAdvertisements = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
-  const {
-      data: ads = [],
-      isLoading,
-      refetch,
-  } = useQuery({
-      queryKey: ['my-advertisement', user?.email],
-      enabled: !!user?.email,
-      queryFn: async () => {
-          const res = await axiosSecure.get(`/advertisements/myads?email=${user.email}`);
-          return res.data;
-      },
-  });
-    
-   const deleteMutation = useMutation({
-       mutationFn: async (id) => axiosSecure.delete(`/advertisements/${id}`),
-       onSuccess: () => {
-           toast.success('Product deleted successfully');
-           queryClient.invalidateQueries({
-               queryKey: ['my-advertisement', user?.email],
-           });
-       },
-       onError: () => {
-           toast.error('Failed to delete product');
-       },
-   });
+    const {
+        data: ads = [],
+        isLoading,
+        refetch,
+    } = useQuery({
+        queryKey: ['my-advertisement', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(
+                `/advertisements/myads?email=${user.email}`,
+            );
+            return res.data;
+        },
+    });
 
+    const deleteMutation = useMutation({
+        mutationFn: async (id) => axiosSecure.delete(`/advertisements/${id}`),
+        onSuccess: () => {
+            toast.success('Product deleted successfully');
+            queryClient.invalidateQueries({
+                queryKey: ['my-advertisement', user?.email],
+            });
+        },
+        onError: () => {
+            toast.error('Failed to delete product');
+        },
+    });
 
     const handleDelete = (id) => {
         Swal.fire({
@@ -55,21 +55,16 @@ const MyAdvertisements = () => {
             }
         });
     };
-    
 
-    const handleUpdate = id => {
-         navigate(`/dashboard/update-ad/${id}`);
-    }
-   
-    
+    const handleUpdate = (id) => {
+        navigate(`/dashboard/update-ad/${id}`);
+    };
 
     if (isLoading) return <Loading />;
 
-    
-    
     // const totalCount = data?.totalCount || 0;
     // const totalPages = Math.ceil(totalCount / limit);
-    console.log(ads)
+    console.log(ads);
     return (
         <div className="max-w-6xl mx-auto p-6  rounded">
             <h2 className="text-2xl text-center font-semibold md:font-bold mb-6 text-primary">
@@ -77,9 +72,7 @@ const MyAdvertisements = () => {
             </h2>
 
             {ads.length === 0 ? (
-                <p className="text-center text-gray-500">
-                    No advertisements found.
-                </p>
+                <p className="text-center  0">No advertisements found.</p>
             ) : (
                 <>
                     <div className="overflow-x-auto">
@@ -179,7 +172,7 @@ const MyAdvertisements = () => {
                                     className={`px-4 py-2 rounded ${
                                         page === num + 1
                                             ? 'bg-lime-600 text-white'
-                                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                            : 'bg-gray-200   hover:bg-gray-300'
                                     }`}
                                 >
                                     {num + 1}

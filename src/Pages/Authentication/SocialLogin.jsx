@@ -1,8 +1,8 @@
+import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router';
 import { saveUserInDb } from '../../assets/api/utils';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-import toast from 'react-hot-toast';
 
 const SocialLogin = () => {
     const { socialLogin } = useAuth();
@@ -43,7 +43,7 @@ const SocialLogin = () => {
             <div className="divider">OR</div>
             <button
                 onClick={handleSocialLogin}
-                className="btn bg-white text-black w-full border-[#e5e5e5]"
+                className="btn   text-black w-full border-[#e5e5e5]"
             >
                 <svg
                     aria-label="Google logo"

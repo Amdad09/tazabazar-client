@@ -48,7 +48,7 @@ const PayNowModal = ({ isOpen, onClose, order, onPaymentUpdate }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <div className="  rounded-lg p-6 w-full max-w-md">
                 <h2 className="text-xl font-bold mb-4">
                     Pay for {order.market}
                 </h2>

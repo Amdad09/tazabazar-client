@@ -14,7 +14,7 @@ const UpdateMarketModal = ({ setIsEditModalOpen, isOpen }) => {
                 <div className="flex min-h-full items-center justify-center p-4">
                     <DialogPanel
                         transition
-                        className="w-full max-w-md bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-xl rounded-2xl"
+                        className="w-full max-w-md   p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-xl rounded-2xl"
                     >
                         <DialogTitle
                             as="h3"

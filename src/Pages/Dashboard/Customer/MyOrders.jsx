@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import PayNowModal from '../../../Component/Modal/PayNowModal';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
-import PayNowModal from '../../../Component/Modal/PayNowModal';
 
 const MyOrders = () => {
     const { user } = useAuth();
@@ -34,12 +34,12 @@ const MyOrders = () => {
             </h2>
 
             {data.orders.length === 0 ? (
-                <p className="text-center text-gray-500">No orders found.</p>
+                <p className="text-center  0">No orders found.</p>
             ) : (
                 <div className="overflow-x-auto">
-                    <table className="relative min-w-[800px] w-full text-sm sm:text-base bg-white rounded shadow">
+                    <table className="relative min-w-[800px] w-full text-sm sm:text-base   rounded shadow">
                         <thead>
-                            <tr className="bg-gray-100">
+                            <tr className=" ">
                                 <th className="px-4 py-3 text-left whitespace-nowrap">
                                     🏪 Market
                                 </th>
@@ -74,7 +74,7 @@ const MyOrders = () => {
                                         <div className="font-medium">
                                             {order.market}
                                         </div>
-                                        <div className="text-xs text-gray-500">
+                                        <div className="text-xs  0">
                                             {order.date}
                                         </div>
                                     </td>
@@ -141,7 +141,7 @@ const MyOrders = () => {
                                     <td className="px-4 py-3">
                                         {order.status === 'paid' ? (
                                             <button
-                                                className="text-gray-500 text-sm px-3 py-1 bg-gray-200 rounded cursor-not-allowed"
+                                                className=" 0 text-sm px-3 py-1 bg-gray-200 rounded cursor-not-allowed"
                                                 disabled
                                             >
                                                 ✅ Paid

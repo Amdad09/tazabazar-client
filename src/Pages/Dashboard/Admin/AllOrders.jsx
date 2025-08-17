@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
-import { useState } from 'react';
 
 const AllOrders = () => {
     const axiosSecure = useAxiosSecure();
@@ -28,7 +28,7 @@ const AllOrders = () => {
             <h2 className="text-2xl font-bold mb-4">All Orders</h2>
             <div className="overflow-x-auto">
                 <table className="table w-full border border-green-100">
-                    <thead className="bg-gray-100">
+                    <thead className=" ">
                         <tr>
                             <th>#</th>
                             <th>Buyer</th>
@@ -61,7 +61,7 @@ const AllOrders = () => {
                                     </p>
                                 </td>
                                 <td>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs  0">
                                         {new Date(
                                             order.createdAt,
                                         ).toLocaleString()}

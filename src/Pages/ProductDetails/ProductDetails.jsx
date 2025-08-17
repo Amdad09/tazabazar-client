@@ -115,7 +115,7 @@ const ProductDetails = () => {
                 <h2 className="text-3xl font-bold text-lime-600">
                     🏪 {product.market}
                 </h2>
-                <p className="text-gray-500">📅 {product.date}</p>
+                <p className=" 0">📅 {product.date}</p>
             </div>
 
             {/* 🖼️ Image */}
@@ -132,13 +132,13 @@ const ProductDetails = () => {
                 <h3 className="text-lg font-bold text-lime-700">
                     🥬 {product.items.name}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm  ">
                     📦 Description: {product.items.description}
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm  ">
                     📏 Quantity: {product.items.quantity} kg
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm  ">
                     💰 Item & Price:{' '}
                     <span className="font-semibold text-black">
                         {product.items.name} -৳{price} /kg
@@ -186,9 +186,7 @@ const ProductDetails = () => {
 
             {/* 👨‍🌾 Seller */}
             <div className="border p-4 rounded-lg bg-gray-50">
-                <h4 className="font-medium text-gray-700 mb-1">
-                    👨‍🌾 Submitted By:
-                </h4>
+                <h4 className="font-medium   mb-1">👨‍🌾 Submitted By:</h4>
                 <div className="">
                     <div className="flex items-center space-x-4">
                         <img
@@ -200,7 +198,7 @@ const ProductDetails = () => {
                             <p className="font-semibold">
                                 {product.seller?.name}
                             </p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm  0">
                                 {product.seller?.email}
                             </p>
                         </div>
@@ -215,14 +213,14 @@ const ProductDetails = () => {
                 </h4>
 
                 {reviews.length === 0 ? (
-                    <p className="text-gray-500 italic">
+                    <p className=" 0 italic">
                         No reviews yet. Be the first to review!
                     </p>
                 ) : (
                     reviews.map((r, i) => (
                         <div
                             key={i}
-                            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4"
+                            className="  p-4 rounded-lg shadow-sm border border-gray-200 mb-4"
                         >
                             <div className="flex items-start space-x-4">
                                 <img
@@ -245,12 +243,12 @@ const ProductDetails = () => {
                                         </div>
                                         <div className="text-yellow-500 text-sm">
                                             {'⭐'.repeat(r.rating)}
-                                            <span className="ml-1 text-gray-500">
+                                            <span className="ml-1  0">
                                                 ({r.rating}/5)
                                             </span>
                                         </div>
                                     </div>
-                                    <p className="mt-3 text-gray-700 leading-relaxed">
+                                    <p className="mt-3   leading-relaxed">
                                         {r.comment}
                                     </p>
                                 </div>
@@ -330,7 +328,7 @@ const ProductDetails = () => {
 
                 <button
                     onClick={() => setOpenModal(true)}
-                    className="btn btn-success flex-1"
+                    className="btn btn-primary flex-1"
                     disabled={!isNormalUser || isVendorOrAdmin}
                 >
                     <FaShoppingCart className="mr-2" />

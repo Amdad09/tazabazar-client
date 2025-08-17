@@ -1,21 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
+import 'swiper/css';
+import 'swiper/css/effect-cards';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/effect-creative';
+import 'swiper/css/effect-cube';
+import 'swiper/css/effect-fade';
+import 'swiper/css/effect-flip';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../shared/Loading';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/effect-fade';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-creative';
-import 'swiper/css/effect-cards';
-import 'swiper/css/effect-flip';
-import 'swiper/css/effect-cube';
 // import 'swiper/css/effect-zoom';
+import { Link } from 'react-router';
 import 'swiper/css/effect-fade';
 import 'swiper/css/effect-flip';
-import { Link } from 'react-router';
 
 const Advertisement = () => {
     const axiosSecure = useAxiosSecure();
@@ -24,11 +24,11 @@ const Advertisement = () => {
         queryKey: ['all-advertisements'],
         queryFn: async () => {
             const res = await axiosSecure.get('/advertisements/active');
-            console.log(res.data)
+            console.log(res.data);
             return res.data;
         },
     });
-    
+
     if (isLoading) return <Loading />;
 
     return (
@@ -65,16 +65,16 @@ const Advertisement = () => {
                     >
                         {({ isActive }) => (
                             <div
-                                className={`rounded-2xl my-5 md:my-12 border border-green-300 shadow-lg px-2 p-2 md:p-4 bg-green-100 text-secondary h-full flex flex-col justify-between items-center transition-all duration-500 ${
+                                className={`rounded-2xl my-5 md:my-12 border border-green-300 shadow-lg px-2 p-2 md:p-4 bg-green-100 dark:bg-[#93B1A6] text-secondary h-full flex flex-col justify-between items-center transition-all duration-500 ${
                                     isActive
                                         ? 'scale-105 blur-0'
                                         : 'scale-90 blur-sm opacity-70'
                                 }`}
                             >
-                                <h3 className="text-lg font-semibold text-green-700 text-center">
+                                <h3 className="text-lg font-semibold text-green-700 dark:text-primary text-center">
                                     {ad.adTitle}
                                 </h3>
-                                <p className="text-sm text-gray-600 mt-0 md:mt-2 text-center">
+                                <p className="text-sm   mt-0 md:mt-2 text-center">
                                     {ad.shortDescription}
                                 </p>
                                 {ad.image && (
@@ -86,7 +86,7 @@ const Advertisement = () => {
                                 )}
                                 <Link
                                     to={`/market/${ad.productId}`}
-                                    className="mt-4 mb-2 btn btn-xs lg:btn-md bg-green-600 text-secondary hover:bg-green-700 border-none transition"
+                                    className="mt-4 mb-2 btn btn-xs lg:btn-md bg-green-600 dark:bg-primary text-secondary hover:bg-green-700 dark:hover:bg-teal-800 border-none transition"
                                 >
                                     View Details
                                 </Link>

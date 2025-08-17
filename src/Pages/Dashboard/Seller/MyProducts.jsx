@@ -69,13 +69,13 @@ const MyProducts = () => {
     if (error) return <p className="text-red-500">Error loading products</p>;
 
     return (
-        <div className="p-2 md:p-4 lg:p-6 bg-white shadow rounded-lg">
-            <h2 className="text-2xl font-bold text-center py-6 text-primary">
+        <div className="p-2 md:p-4 lg:p-6 shadow rounded-lg">
+            <h2 className="text-2xl font-bold text-center py-6 text-primary dark:text-white">
                 📦 My Products
             </h2>
             <div className="overflow-x-auto">
-                <table className="min-w-full text-sm text-left text-gray-700">
-                    <thead className="bg-gray-100 text-xs font-semibold uppercase tracking-wider border-b border-gray-200">
+                <table className="min-w-full text-sm text-left  ">
+                    <thead className="  text-xs font-semibold uppercase tracking-wider border-b border-gray-200">
                         <tr>
                             <th className="px-4 py-3">Image</th>
                             <th className="px-4 py-3">Item</th>
@@ -90,10 +90,7 @@ const MyProducts = () => {
                     <tbody className="divide-gray-100">
                         {products.length === 0 ? (
                             <tr>
-                                <td
-                                    colSpan={8}
-                                    className="text-center py-6 text-gray-500"
-                                >
+                                <td colSpan={8} className="text-center py-6  0">
                                     ❌ No products found.
                                 </td>
                             </tr>

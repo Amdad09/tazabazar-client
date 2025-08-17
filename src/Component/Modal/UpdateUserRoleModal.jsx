@@ -1,8 +1,8 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-import { useState } from 'react';
 
 const UpdateUserRoleModal = ({ isOpen, setIsOpen, role, userEmail }) => {
     const axiosSecure = useAxiosSecure();
@@ -50,7 +50,7 @@ const UpdateUserRoleModal = ({ isOpen, setIsOpen, role, userEmail }) => {
                     <div className="flex min-h-full items-center justify-center p-4">
                         <DialogPanel
                             transition
-                            className="w-full max-w-md rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-xl"
+                            className="w-full max-w-md rounded-xl  /5 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-xl"
                         >
                             <DialogTitle
                                 as="h3"
@@ -79,14 +79,14 @@ const UpdateUserRoleModal = ({ isOpen, setIsOpen, role, userEmail }) => {
                                 <div className="flex justify-between mt-5">
                                     <button
                                         type="submit"
-                                        className="bg-green-400 py-2 px-3 cursor-pointer text-gray-700 rounded-xl "
+                                        className="bg-green-400 py-2 px-3 cursor-pointer   rounded-xl "
                                     >
                                         Update
                                     </button>
                                     <button
                                         onClick={close}
                                         type="button"
-                                        className="bg-red-400 py-2 px-3 cursor-pointer text-gray-700 rounded-xl"
+                                        className="bg-red-400 py-2 px-3 cursor-pointer   rounded-xl"
                                     >
                                         Cancel
                                     </button>
