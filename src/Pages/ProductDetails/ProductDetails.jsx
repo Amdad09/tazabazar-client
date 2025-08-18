@@ -112,7 +112,7 @@ const ProductDetails = () => {
             </div>
             {/* 🏪 Market Name & Date */}
             <div className="text-center space-y-2">
-                <h2 className="text-3xl font-bold text-lime-600">
+                <h2 className="text-3xl font-bold">
                     🏪 {product.market}
                 </h2>
                 <p className=" 0">📅 {product.date}</p>
@@ -129,7 +129,7 @@ const ProductDetails = () => {
 
             {/* 🥕 Items */}
             <div className="space-y-2">
-                <h3 className="text-lg font-bold text-lime-700">
+                <h3 className="text-lg font-bold">
                     🥬 {product.items.name}
                 </h3>
                 <p className="text-sm  ">
@@ -140,52 +140,19 @@ const ProductDetails = () => {
                 </p>
                 <p className="text-sm  ">
                     💰 Item & Price:{' '}
-                    <span className="font-semibold text-black">
+                    <span className="font-semibold">
                         {product.items.name} -৳{price} /kg
                     </span>
                 </p>
 
-                {/* 📈 Price History */}
-                {/* <div className="bg-gray-50 p-4 rounded-xl border mt-5 border-gray-200 shadow-sm">
-                    <p className="font-semibold text-gray-800 text-base mb-3 flex items-center gap-2">
-                        <span className="text-lg">📊</span> Price History
-                    </p>
-
-                    <ResponsiveContainer
-                        className="pr-5"
-                        width="100%"
-                        height={300}
-                    >
-                        <LineChart
-                            data={product.items?.priceHistory?.map((entry) => ({
-                                ...entry,
-                                price: Number(entry.price), // Ensure it's number
-                            }))}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip
-                                formatter={(value) => [`৳${value}`, 'Price']}
-                            />
-                            <Legend />
-                            <Line
-                                type="monotone"
-                                dataKey="price"
-                                stroke="#10B981"
-                                strokeWidth={2}
-                                activeDot={{ r: 6 }}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
-                </div> */}
+               
                 <div className="my-5 py-12">
                     <PriceComparisonChart item={product.items} />
                 </div>
             </div>
 
             {/* 👨‍🌾 Seller */}
-            <div className="border p-4 rounded-lg bg-gray-50">
+            <div className="border p-4 rounded-lg bg-card text-gray-800">
                 <h4 className="font-medium   mb-1">👨‍🌾 Submitted By:</h4>
                 <div className="">
                     <div className="flex items-center space-x-4">
@@ -282,7 +249,7 @@ const ProductDetails = () => {
                                 onChange={(e) =>
                                     setRating(parseInt(e.target.value))
                                 }
-                                className="border border-info p-1 rounded"
+                                className="border border-primary p-1 rounded"
                             >
                                 {[5, 4, 3, 2, 1].map((r) => (
                                     <option key={r} value={r}>
@@ -292,7 +259,7 @@ const ProductDetails = () => {
                             </select>
                             <button
                                 type="submit"
-                                className="ml-auto btn-sm btn btn-info text-white"
+                                className="ml-auto btn-sm btn btn-primary text-white"
                             >
                                 Submit Review
                             </button>
@@ -316,14 +283,14 @@ const ProductDetails = () => {
                         addToWatchlist(watch);
                     }}
                     disabled={!isNormalUser || isWatchlisted || isVendorOrAdmin}
-                    className={`btn btn-outline flex-1 ${
-                        isWatchlisted ? 'btn-disabled' : 'btn-info'
+                    className={`btn  flex-1 ${
+                        isWatchlisted ? 'btn-disabled' : ' bg-card text-black'
                     }`}
                 >
                     <FaStar className="mr-2" />
                     {isWatchlisted
                         ? 'Already in Watchlist'
-                        : '⭐ Add to Watchlist'}
+                        : 'Add to Watchlist'}
                 </button>
 
                 <button
@@ -332,7 +299,7 @@ const ProductDetails = () => {
                     disabled={!isNormalUser || isVendorOrAdmin}
                 >
                     <FaShoppingCart className="mr-2" />
-                    🛒 Buy Product
+                    Buy Product
                 </button>
             </div>
 

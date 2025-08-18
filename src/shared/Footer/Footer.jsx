@@ -2,9 +2,9 @@ import Logo from '../Logo/Logo';
 
 const Footer = () => {
     return (
-        <div className="bg-card text-gray-800">
+        <div className="bg-card text-gray-800 w-full">
             {/* Bottom Footer */}
-            <footer className="footer footer-horizontal footer-center text-base-content p-10">
+            <footer className="footer footer-horizontal footer-center w-full text-base-content p-10">
                 <aside className="items-center text-center text-gray-800">
                     <Logo />
                     <p className="font-bold ">

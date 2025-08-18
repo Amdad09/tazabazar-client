@@ -1,7 +1,6 @@
-import React from 'react';
 import { Outlet } from 'react-router';
-import Navbar from '../shared/Navbar/Navbar';
 import Footer from '../shared/Footer/Footer';
+import Navbar from '../shared/Navbar/Navbar';
 
 const MainLayouts = () => {
     return (
@@ -10,6 +9,7 @@ const MainLayouts = () => {
             <div className="pt-16">
                 <Outlet />
             </div>
+
             <Footer />
         </div>
     );

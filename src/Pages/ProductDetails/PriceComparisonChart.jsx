@@ -53,8 +53,8 @@ const PriceComparisonChart = ({ item }) => {
                         }}
                     />
                     <Legend />
-                    <Bar dataKey="price" fill="#4ade80" name="Price (৳)" />
-                    <Bar dataKey="change" fill="#60a5fa" name="Change (৳)" />
+                    <Bar dataKey="price" fill="#183D3D" name="Price (৳)" />
+                    <Bar dataKey="change" fill="#22c55e" name="Change (৳)" />
                 </BarChart>
             </ResponsiveContainer>
         </div>

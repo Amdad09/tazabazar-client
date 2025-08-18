@@ -4,6 +4,9 @@ import ProductSection from '../ProductSection/ProductSection';
 import MarketInsights from '../MarketInsights/MarketInsights';
 import FAQ from '../Faq/Faq';
 import Advertisement from '../Advertisement/Advertisement';
+import MarketDetails from '../MarketDetails/MarketDetails';
+import VendorFeatures from '../VendorFeatures/VendorFeatures';
+import UserReviews from '../UserReviews/UserReviews';
 
 const Home = () => {
     return (
@@ -12,7 +15,10 @@ const Home = () => {
             <ProductSection />
             <Advertisement/>
             <MarketInsights />
-            <FAQ/>
+            <MarketDetails />
+            <VendorFeatures/>
+            <FAQ />
+            <UserReviews/>
         </div>
     );
 };

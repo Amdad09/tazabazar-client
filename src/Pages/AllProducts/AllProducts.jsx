@@ -121,7 +121,7 @@ const AllProducts = () => {
                                     key={product._id}
                                     data-aos="zoom-in"
                                     // data-aos-delay={index * 100}
-                                    className="bg-card rounded-2xl text-gray-800 shadow-md border border-primary hover:shadow-xl transition duration-300"
+                                    className="bg-card rounded-2xl text-gray-800 shadow-md border-primary hover:shadow-xl transition duration-300"
                                 >
                                     <img
                                         src={product.image}

@@ -31,7 +31,7 @@ const ProductSection = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4 }}
-                            className="bg-card rounded-2xl text-gray-800 shadow-md border border-primary hover:shadow-xl transition duration-300"
+                            className="bg-card rounded-2xl text-gray-800 shadow-md border-primary hover:shadow-xl transition duration-300"
                         >
                             {/* 🖼️ Image */}
                             <motion.img
