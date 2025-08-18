@@ -13,10 +13,10 @@ const UserDataRow = ({ user, index }) => {
                 {name}
             </td>
             <td className="px-5 py-5 border-b border-gray-200   text-sm">
-                <p className="text-gray-900 whitespace-no-wrap">{email}</p>
+                <p className=" whitespace-no-wrap">{email}</p>
             </td>
             <td className="px-5 py-5 border-b border-gray-200   text-sm">
-                <p className="text-gray-900 whitespace-no-wrap">{role}</p>
+                <p className=" whitespace-no-wrap">{role}</p>
             </td>
             <td className="px-5 py-5 border-b border-gray-200   text-sm">
                 <p

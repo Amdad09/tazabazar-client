@@ -31,7 +31,7 @@ const ProductSection = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4 }}
-                            className="  dark:bg-[#93B1A6]   dark:text-gray-900 rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
+                            className="bg-card rounded-2xl text-gray-800 shadow-md border border-primary hover:shadow-xl transition duration-300"
                         >
                             {/* 🖼️ Image */}
                             <motion.img
@@ -44,7 +44,7 @@ const ProductSection = () => {
                             />
 
                             <div className="p-4 space-y-2">
-                                <h3 className="text-xl font-semibold text-lime-600 dark:text-black">
+                                <h3 className="text-xl font-semibold ">
                                     🛒 {product.market}
                                 </h3>
                                 <p className="text-sm ">📅 {product.date}</p>
@@ -81,7 +81,7 @@ const ProductSection = () => {
                                     onClick={() =>
                                         handleDetailsClick(product._id)
                                     }
-                                    className="mt-4 w-full py-2 px-4 bg-primary cursor-pointer text-secondary rounded-lg font-medium hover:bg-green-600 dark:hover:bg-teal-900 transition"
+                                    className="mt-4 w-full py-2 px-4 bg-primary cursor-pointer text-secondary rounded-lg font-medium teal transition"
                                 >
                                     View Details 🔍
                                 </button>

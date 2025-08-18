@@ -16,9 +16,9 @@ const MarketInsights = () => {
             initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-screen-xl mx-auto py-24 p-6 bg-green-50 dark:bg-[#93B1A6] rounded-xl shadow-md"
+            className="max-w-screen-xl mx-auto py-24 p-6 bg-card rounded-xl shadow-md"
         >
-            <h2 className="text-3xl font-bold text-green-600 mb-4 text-center">
+            <h2 className="text-3xl font-bold text-primary mb-4 text-center">
                 🧠 Market Insights & Tips
             </h2>
 

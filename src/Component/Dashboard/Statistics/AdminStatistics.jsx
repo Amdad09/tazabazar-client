@@ -48,7 +48,7 @@ const AdminStatistics = () => {
                 {stats.map((item, index) => (
                     <motion.div
                         key={index}
-                        className="rounded-xl border border-gray-100 shadow-sm bg-green-300/20 p-6 hover:shadow-md transition-all"
+                        className="rounded-xl border border-gray-100 shadow-sm bg-card p-6 hover:shadow-md transition-all"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
@@ -56,7 +56,7 @@ const AdminStatistics = () => {
                         <div className="flex items-center justify-between">
                             {item.icon}
                             <div className="text-right">
-                                <h4 className="text-sm  0 font-medium">
+                                <h4 className="text-sm text-black 0 font-medium">
                                     {item.title}
                                 </h4>
                                 <p className="text-2xl font-semibold text-gray-800">
@@ -71,13 +71,13 @@ const AdminStatistics = () => {
             {/* Dashboard Charts & Updates */}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 <motion.div
-                    className="xl:col-span-2   rounded-xl shadow-md p-6"
+                    className="xl:col-span-2 rounded-xl shadow-md p-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.4 }}
                 >
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-semibold text-gray-800">
+                        <h2 className="text-xl font-semibold">
                             📊 Weekly Overview
                         </h2>
                         <span className="text-sm  0">
@@ -92,13 +92,13 @@ const AdminStatistics = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                 >
-                    <h2 className="text-lg font-semibold mb-3 text-gray-800">
+                    <h2 className="text-lg font-semibold mb-3 ">
                         🧠 Market Insight
                     </h2>
                     <ul className="space-y-2 text-sm  ">
                         <li>
                             📈 Weekly growth:{' '}
-                            <span className="text-green-600 font-medium">
+                            <span className="text-primary font-medium">
                                 +12%
                             </span>
                         </li>

@@ -27,7 +27,7 @@ const AllOrders = () => {
         <div className="p-4 relative">
             <h2 className="text-2xl font-bold mb-4">All Orders</h2>
             <div className="overflow-x-auto">
-                <table className="table w-full border border-green-100">
+                <table className="table w-full ">
                     <thead className=" ">
                         <tr>
                             <th>#</th>
@@ -42,7 +42,7 @@ const AllOrders = () => {
                     </thead>
                     <tbody>
                         {orders.map((order, i) => (
-                            <tr key={order._id} className="hover:bg-gray-50">
+                            <tr key={order._id} className="teal">
                                 <td>{(page - 1) * limit + i + 1}</td>
                                 <td>{order.customer?.name || 'N/A'}</td>
                                 <td>

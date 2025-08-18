@@ -2,39 +2,50 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Manufacturing+Consent&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark, cupcake
+    themes: light --default, dark --prefersdark, cupcake;
 }
 
- /* @plugin "daisyui/theme" {
-  name: "light";
-   default: true;
+@plugin "daisyui/theme" {
+    name: 'light';
+    default: true;
+    /* --color-primary: '#183D3D';
+    --color-secondary: '#FAF0E6'; */
     --color-primary: '#22c55e';
     --color-secondary: '#374151';
-} */
+    --color-card: '#5C8374';
+    --color-accent: oklch(65% 0.25 160);
+}
 
-    
-  @plugin "daisyui/theme" {
-    name: "light";
-    default: true;
-     --color-primary: '#183D3D';
-    --color-secondary: '#FAF0E6';
-    /* --color-primary: '#22c55e';
-    --color-secondary: '#374151'; */
-  }
-  @plugin "daisyui/theme" {
-    name: "dark";
-    default: true;
+@plugin "daisyui/theme" {
+    name: 'dark';
+    default: false;
     --color-primary: '#183D3D';
     --color-secondary: '#FAF0E6';
-  }
-
-  
-.poppins {
-    font-family: "Poppins", sans-serif;
-  }
-.manufact{
-    font-family: "Manufacturing Consent", system-ui;
+    --color-accent: oklch(65% 0.25 140);
 }
-  
+
+[data-theme='light'] {
+    .bg-card {
+        background-color: #f0fdf4;
+    }
+    .teal:hover {
+      background-color: rgb(6, 202, 6);
+    }
+}
+[data-theme='dark'] {
+    .bg-card {
+      background-color: #93b1a6;
+    }
+    .teal:hover {
+      background-color: teal;
+    }
+}
+
+.poppins {
+    font-family: 'Poppins', sans-serif;
+}
+.manufact {
+    font-family: 'Manufacturing Consent', system-ui;
+}

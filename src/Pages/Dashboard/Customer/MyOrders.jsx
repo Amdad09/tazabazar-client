@@ -29,7 +29,7 @@ const MyOrders = () => {
 
     return (
         <div className="container mx-auto px-4 min-h-[500px] sm:px-8">
-            <h2 className="text-2xl font-bold text-center py-6 text-primary">
+            <h2 className="text-2xl font-bold text-center py-6">
                 🧾 My Orders
             </h2>
 
@@ -37,7 +37,7 @@ const MyOrders = () => {
                 <p className="text-center  0">No orders found.</p>
             ) : (
                 <div className="overflow-x-auto">
-                    <table className="relative min-w-[800px] w-full text-sm sm:text-base   rounded shadow">
+                    <table className="relative min-w-[800px] w-full text-sm sm:text-base rounded shadow">
                         <thead>
                             <tr className=" ">
                                 <th className="px-4 py-3 text-left whitespace-nowrap">
@@ -67,7 +67,7 @@ const MyOrders = () => {
                             {data.orders.map((order) => (
                                 <tr
                                     key={order._id}
-                                    className="border-t border-gray-200 hover:bg-gray-50"
+                                    className="border-t border-gray-200"
                                 >
                                     {/* 🏪 Market */}
                                     <td className="px-4 py-3">
@@ -141,7 +141,7 @@ const MyOrders = () => {
                                     <td className="px-4 py-3">
                                         {order.status === 'paid' ? (
                                             <button
-                                                className=" 0 text-sm px-3 py-1 bg-gray-200 rounded cursor-not-allowed"
+                                                className=" 0 text-sm px-3 py-1 bg-card rounded cursor-not-allowed"
                                                 disabled
                                             >
                                                 ✅ Paid

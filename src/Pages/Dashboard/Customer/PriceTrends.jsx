@@ -54,7 +54,7 @@ const TrackedPriceTrends = () => {
                         className={`px-4 py-2 rounded cursor-pointer ${
                             selectedItem?._id === item._id
                                 ? 'bg-primary text-secondary'
-                                : 'bg-gray-200'
+                                : 'bg-gray-200 text-primary'
                         }`}
                     >
                         {item.items.name}
@@ -84,7 +84,7 @@ const TrackedPriceTrends = () => {
                             <Line
                                 type="monotone"
                                 dataKey="price"
-                                stroke="#8884d8"
+                                stroke="teal"
                             />
                         </LineChart>
                     </ResponsiveContainer>

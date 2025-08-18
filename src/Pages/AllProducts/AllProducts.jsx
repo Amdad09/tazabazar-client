@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router';
+import useAuth from '../../hooks/useAuth';
+import Loading from '../../shared/Loading';
 
 const AllProducts = () => {
+    const { loading } = useAuth();
     const [products, setProducts] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
@@ -63,7 +66,7 @@ const AllProducts = () => {
     return (
         <div className="max-w-screen-xl mx-auto px-4 py-10">
             <div className="text-center max-w-2xl mx-auto mb-10">
-                <h2 className="text-4xl font-bold text-lime-600 mb-2">
+                <h2 className="text-4xl font-bold mb-2">
                     🛍️ All Market Products
                 </h2>
                 <p className="  text-lg">
@@ -94,7 +97,7 @@ const AllProducts = () => {
                         className="px-4 py-2 border rounded-md"
                     />
                     <button
-                        className="ml-3 px-3 py-2 hover:bg-green-300 cursor-pointer bg-green-200 rounded"
+                        className="ml-3 px-3 py-2 hover:bg-green-300 cursor-pointer bg-primary rounded"
                         onClick={() => setSelectedDate(null)}
                     >
                         Clear
@@ -103,66 +106,79 @@ const AllProducts = () => {
             </div>
 
             {/* 📦 Product Grid */}
-            {products.length === 0 ? (
-                <p className="text-center  0 text-lg">No market data found.</p>
+            {loading ? (
+                <Loading />
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {products.map((product, index) => (
-                        <div
-                            key={product._id}
-                            data-aos="zoom-in"
-                            // data-aos-delay={index * 100}
-                            className="  rounded-2xl shadow-md border border-primary hover:shadow-xl transition duration-300"
-                        >
-                            <img
-                                src={product.image}
-                                alt={product.market}
-                                className="w-full h-48 object-cover rounded-t-2xl"
-                            />
-                            <div className="p-4 space-y-2">
-                                <h3 className="text-xl font-semibold text-lime-600">
-                                    🛒 {product.market}
-                                </h3>
-                                <p className="text-sm  0">📅 {product.date}</p>
-                                <div className="border-t pt-3 space-y-2">
-                                    <h4 className="text-lg font-semibold  ">
-                                        📋 Product Info
-                                    </h4>
-                                    <div className="flex justify-between text-sm  ">
-                                        <span className="font-medium">
-                                            🧅 Name:
-                                        </span>
-                                        <span>
-                                            {product.items?.name || 'N/A'}
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between text-sm  ">
-                                        <span className="font-medium">
-                                            💰 Price:
-                                        </span>
-                                        <span>{price[index] || 'N/A'} ৳</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm  ">
-                                        <span className="font-medium">
-                                            ⚖️ Quantity Type:
-                                        </span>
-                                        <span>
-                                            {product.items?.[0]?.quantityType ||
-                                                'kg'}
-                                        </span>
+                <div>
+                    {products.length === 0 ? (
+                        <p className="text-center  0 text-lg">
+                            No market data found.
+                        </p>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {products.map((product, index) => (
+                                <div
+                                    key={product._id}
+                                    data-aos="zoom-in"
+                                    // data-aos-delay={index * 100}
+                                    className="bg-card rounded-2xl text-gray-800 shadow-md border border-primary hover:shadow-xl transition duration-300"
+                                >
+                                    <img
+                                        src={product.image}
+                                        alt={product.market}
+                                        className="w-full h-48 object-cover rounded-t-2xl"
+                                    />
+                                    <div className="p-4 space-y-2">
+                                        <h3 className="text-xl font-semibold text-primary">
+                                            🛒 {product.market}
+                                        </h3>
+                                        <p className="text-sm  0">
+                                            📅 {product.date}
+                                        </p>
+                                        <div className="border-t pt-3 space-y-2">
+                                            <h4 className="text-lg font-semibold  ">
+                                                📋 Product Info
+                                            </h4>
+                                            <div className="flex justify-between text-sm  ">
+                                                <span className="font-medium">
+                                                    🧅 Name:
+                                                </span>
+                                                <span>
+                                                    {product.items?.name ||
+                                                        'N/A'}
+                                                </span>
+                                            </div>
+                                            <div className="flex justify-between text-sm  ">
+                                                <span className="font-medium">
+                                                    💰 Price:
+                                                </span>
+                                                <span>
+                                                    {price[index] || 'N/A'} ৳
+                                                </span>
+                                            </div>
+                                            <div className="flex justify-between text-sm  ">
+                                                <span className="font-medium">
+                                                    ⚖️ Quantity Type:
+                                                </span>
+                                                <span>
+                                                    {product.items?.[0]
+                                                        ?.quantityType || 'kg'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() =>
+                                                handleDetailsClick(product._id)
+                                            }
+                                            className="mt-4 w-full cursor-pointer py-2 px-4 bg-primary text-secondary rounded-lg font-medium teal transition"
+                                        >
+                                            View Details 🔍
+                                        </button>
                                     </div>
                                 </div>
-                                <button
-                                    onClick={() =>
-                                        handleDetailsClick(product._id)
-                                    }
-                                    className="mt-4 w-full cursor-pointer py-2 px-4 bg-primary text-secondary rounded-lg font-medium hover:bg-green-600 transition"
-                                >
-                                    View Details 🔍
-                                </button>
-                            </div>
+                            ))}
                         </div>
-                    ))}
+                    )}
                 </div>
             )}
         </div>

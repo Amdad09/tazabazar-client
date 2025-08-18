@@ -34,7 +34,7 @@ const Sidebar = () => {
 
             {/* ✅ Sidebar for All Screens */}
             <div
-                className={`fixed top-0 left-0 h-full w-64   shadow-lg z-40 min-h-screen
+                className={`fixed top-0 left-0 h-full w-64   shadow-lg z-40 min-h-screen bg-card text-black
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? 'translate-x-0' : '-translate-x-full'}
                 md:translate-x-0 md:static md:block`}
@@ -43,7 +43,7 @@ const Sidebar = () => {
                     {/* Top Section */}
                     <div>
                         {/* ✅ Logo */}
-                        <div className="border-b pb-2 border-green-400">
+                        <div className="border-b pb-2 border-primary">
                             <Logo />
                         </div>
 
@@ -64,7 +64,7 @@ const Sidebar = () => {
                         />
                         <button
                             onClick={logOut}
-                            className="flex items-center w-full gap-3 px-4 py-2   hover:bg-gray-200 rounded transition mt-2"
+                            className="flex items-center w-full gap-3 px-4 py-2 hover:bg-gray-200 rounded transition mt-2"
                         >
                             <GrLogout className="text-lg" />
                             <span>Logout</span>

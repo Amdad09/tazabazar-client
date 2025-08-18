@@ -65,7 +65,7 @@ const Advertisement = () => {
                     >
                         {({ isActive }) => (
                             <div
-                                className={`rounded-2xl my-5 md:my-12 border border-green-300 shadow-lg px-2 p-2 md:p-4 bg-green-100 dark:bg-[#93B1A6] text-secondary h-full flex flex-col justify-between items-center transition-all duration-500 ${
+                                className={`rounded-2xl my-5 md:my-12 border border-green-300 shadow-lg px-2 p-2 md:p-4 bg-card text-secondary h-full flex flex-col justify-between items-center transition-all duration-500 ${
                                     isActive
                                         ? 'scale-105 blur-0'
                                         : 'scale-90 blur-sm opacity-70'

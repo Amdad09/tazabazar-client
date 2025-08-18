@@ -32,7 +32,7 @@ const WatchlistManager = () => {
 
     return (
         <div className="container mx-auto px-4 sm:px-8">
-            <h2 className="text-2xl font-bold text-center py-12 text-primary">
+            <h2 className="text-2xl font-bold text-center py-12">
                 🛠️ Manage Watchlist
             </h2>
 
@@ -54,7 +54,7 @@ const WatchlistManager = () => {
                             {watchlist.map((item) => (
                                 <tr
                                     key={item._id}
-                                    className="border-b hover:bg-gray-50"
+                                    className="border-b"
                                 >
                                     <td className="p-2">
                                         <img
