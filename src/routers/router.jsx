@@ -30,6 +30,7 @@ import SellerRoute from '../routes/SellerRoute';
 import DashLayout from '../layouts/DashLayout';
 import ErrorPage from '../shared/ErrorPage/ErrorPage';
 import { axiosSecure } from '../hooks/useAxiosSecure';
+import Helps from '../Pages/Helps/Helps';
 
 export const router = createBrowserRouter([
     {
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
             {
                 path: '/offers',
                 Component: Offers,
+            },
+            {
+                path: '/helps',
+                Component: Helps,
             },
         ],
     },

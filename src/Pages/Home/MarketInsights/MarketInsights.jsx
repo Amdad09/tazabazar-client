@@ -1,6 +1,7 @@
 // components/MarketInsights.jsx
 
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
 const data = [
@@ -9,7 +10,9 @@ const data = [
     { date: 'Tue', price: 32 },
 ];
 
-const MarketInsights = () => {
+const MarketInsights = ({theme}) => {
+    
+    const barColor = theme === 'dark' ? '#183D3D' : '#22c55e';
     return (
         <motion.section
             // data-aos="zoom-in-up"
@@ -43,7 +46,7 @@ const MarketInsights = () => {
                         <BarChart data={data}>
                             <XAxis dataKey="date" />
                             <Tooltip />
-                            <Bar dataKey="price" fill="#22c55e" />
+                            <Bar dataKey="price" fill={barColor} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>

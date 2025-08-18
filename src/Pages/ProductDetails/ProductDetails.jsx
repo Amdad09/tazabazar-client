@@ -259,7 +259,7 @@ const ProductDetails = () => {
                             </select>
                             <button
                                 type="submit"
-                                className="ml-auto btn-sm btn btn-primary text-white"
+                                className="ml-auto btn-sm btn btn-primary text-secondary"
                             >
                                 Submit Review
                             </button>
@@ -295,7 +295,7 @@ const ProductDetails = () => {
 
                 <button
                     onClick={() => setOpenModal(true)}
-                    className="btn btn-primary flex-1"
+                    className="btn btn-primary text-secondary flex-1"
                     disabled={!isNormalUser || isVendorOrAdmin}
                 >
                     <FaShoppingCart className="mr-2" />
