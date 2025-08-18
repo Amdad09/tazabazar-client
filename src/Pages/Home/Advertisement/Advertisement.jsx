@@ -28,6 +28,7 @@ const Advertisement = () => {
             return res.data;
         },
     });
+    console.log(ads)
 
     if (isLoading) return <Loading />;
 
